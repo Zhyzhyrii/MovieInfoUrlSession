@@ -28,7 +28,7 @@ class DetailMovieInfoViewController: UIViewController {
     
     private func displayBackImage(for movie: Movie) {
         
-        guard let backImagePath = movie.backDropPath else { return }
+        guard let backImagePath = movie.backdropPath else { return }
         guard let imageUrl = URL(string: "https://image.tmdb.org/t/p/w500\(backImagePath)") else { return }
         guard let imageData = try? Data(contentsOf: imageUrl) else { return }
         

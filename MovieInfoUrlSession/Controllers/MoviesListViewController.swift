@@ -18,9 +18,27 @@ class MoviesListViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        fetchMovies(from: movieType.request)
+        APIMovieManager.fetchMovies(from: movieType) { (movies, result) in
+            switch result {
+            case .Success:
+                guard let movies = movies else { return }
+                self.movies = movies
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                }
+            case .Failure:
+                let alert = UIHelpers.showAlert(withTitle: "Ошибка",
+                                                message: "Данные не были получены из сети",
+                                                buttonTitle: "Вернуться назад",
+                                                handler: { action in self.navigationController?.popViewController(animated: true)
+                })
+                
+                self.present(alert, animated: true, completion: nil)
+                
+            }
+        }
     }
-
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return movies.count
     }
@@ -39,24 +57,10 @@ class MoviesListViewController: UITableViewController {
         performSegue(withIdentifier: "GoToDetailViewController", sender: nil)
     }
     
-    func fetchMovies(from url: URLRequest) {
-        
-        request(url).validate().responseJSON { dataResponse in
-            
-            switch dataResponse.result {
-            case .success(let value):
-                self.movies = Movie.getMovies(from: value)
-                DispatchQueue.main.async {
-                    self.tableView.reloadData()
-                }
-            case .failure(let error):
-                print(error)
-            }
-        }
-    }
-    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let destinationVC = segue.destination as! DetailMovieInfoViewController
-        destinationVC.movie = selectedMovie
+        if segue.identifier == "GoToDetailViewController" {
+            let destinationVC = segue.destination as! DetailMovieInfoViewController
+            destinationVC.movie = selectedMovie
+        }
     }
 }

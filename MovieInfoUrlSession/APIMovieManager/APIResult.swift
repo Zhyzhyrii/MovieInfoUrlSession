@@ -6,7 +6,7 @@
 //  Copyright © 2019 Igor Zhyzhyrii. All rights reserved.
 //
 
-enum APIResult<T> {
-    case Success(T)
-    case Failure(Error)
+enum APIResult {
+    case Success
+    case Failure
 }

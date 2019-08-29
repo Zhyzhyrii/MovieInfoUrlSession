@@ -1,32 +1,30 @@
 //
 //  Movie.swift
-//  MovieInfoApp
+//  MovieInfoUrlSession
 //
-//  Created by Игорь on 8/23/19.
+//  Created by Игорь on 8/29/19.
 //  Copyright © 2019 Igor Zhyzhyrii. All rights reserved.
 //
 
-struct Movie {
+struct Movie: Decodable {
+    let posterPath: String?
     let id: Int?
+    let backdropPath: String?
     let title: String?
     let voteAverage: Double?
-    let posterPath: String?
-    let backDropPath: String?
     let overview: String?
     
-    init(dictMovie: [String: Any]) {
-        id = dictMovie["id"] as? Int
-        title = dictMovie["title"] as? String
-        voteAverage = dictMovie["vote_average"] as? Double
-        posterPath = dictMovie["poster_path"] as? String
-        backDropPath = dictMovie["backdrop_path"] as? String
-        overview = dictMovie["overview"] as? String
+    enum CodingKeys: String, CodingKey {
+        case posterPath = "poster_path"
+        case id
+        case backdropPath = "backdrop_path"
+        case title
+        case voteAverage = "vote_average"
+        case overview
     }
     
-    static func getMovies(from jsonData: Any) -> [Movie] {
-        guard let jsonData = jsonData as? [String: Any] else { return [] }
-        guard let jsonResults = jsonData["results"] as? Array<[String: Any]> else { return [] }
-        
-        return jsonResults.compactMap{ Movie(dictMovie: $0)}
+    static func getMovies(from movieList: MovieList) -> [Movie]? {
+        guard let movies = movieList.results else { return nil }
+        return movies
     }
 }

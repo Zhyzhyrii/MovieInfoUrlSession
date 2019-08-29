@@ -1,5 +1,5 @@
 //
-//  CategoryViewControllerCollectionViewController.swift
+//  CategoryCollectionViewController.swift
 //  MovieInfoApp
 //
 //  Created by Игорь on 8/22/19.
@@ -58,4 +58,5 @@ class CategoryCollectionViewController: UICollectionViewController {
         userAction = userActions[indexPath.item]
         performSegue(withIdentifier: "ShowMovies", sender: nil)
     }
+
 }

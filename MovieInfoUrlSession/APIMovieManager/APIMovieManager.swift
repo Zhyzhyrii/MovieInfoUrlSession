@@ -8,25 +8,34 @@
 
 import Foundation
 
-final class APIMovieManager: APIManager {
+final class APIMovieManager {
     
-    var sessionConfiguration: URLSessionConfiguration
-    var session: URLSession
-    let apiKey: String
+    let apiKey = "10c9d0f7d2e89b09263bafaaf8c69a6a"
     
-    init(sessionConfiguration: URLSessionConfiguration, apiKey: String) {
-        self.sessionConfiguration = sessionConfiguration
-        self.apiKey = apiKey
+    static func fetchMovies(from movieType: MovieType, completionHandler: @escaping ([Movie]?, APIResult) -> Void) {
+        
+        URLSession.shared.dataTask(with: movieType.request) { (data, response, error) in
+            
+            guard let data = data, error == nil else {
+                completionHandler(nil, .Failure)
+                return
+            }
+            
+            do {
+                let movieList = try JSONDecoder().decode(MovieList.self, from: data)
+                let movies = Movie.getMovies(from: movieList)
+               
+                guard movies != nil else {
+                    completionHandler(nil, .Failure)
+                    return
+                }
+                
+                completionHandler(movies, .Success)
+            } catch let error {
+                completionHandler(nil, .Failure)
+                print(error)
+            }
+            
+        }.resume()
     }
-    
-    convenience init(apiKey: String) {
-        self.init(sessionConfiguration: .default, apiKey: apiKey)
-    }
-    
-    func fetchTopRatedMovies(completionHandler: @escaping (APIResult<Movie>)) {
-        let request = MovieType.topRated(apiKey: self.apiKey)
-        fetch(request: request, parse: <#T##([String : AnyObject]) -> T?#>, completionHandler: <#T##(APIResult<T>) -> Void#>)
-    }
-    
-    
 }

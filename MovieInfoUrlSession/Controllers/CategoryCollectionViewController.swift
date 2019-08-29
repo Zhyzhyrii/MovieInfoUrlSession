@@ -22,6 +22,10 @@ class CategoryCollectionViewController: UICollectionViewController {
     private let userActions = UserAction.allCases
     private let reuseIdentifier = "CategoryCell"
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+    }
+    
     // MARK: - Navigation
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

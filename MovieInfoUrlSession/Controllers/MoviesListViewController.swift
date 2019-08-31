@@ -23,14 +23,15 @@ class MoviesListViewController: UITableViewController {
             case .Success:
                 guard let movies = movies else { return }
                 self.movies = movies
-                DispatchQueue.main.async {
+                DispatchQueue.main.async { //todo remove this main queue (try)
                     self.tableView.reloadData()
                 }
             case .Failure:
                 let alert = UIHelpers.showAlert(withTitle: "Ошибка",
                                                 message: "Данные не были получены из сети",
                                                 buttonTitle: "Вернуться назад",
-                                                handler: { action in self.navigationController?.popViewController(animated: true)
+                                                handler: { action in
+                                                self.navigationController?.popViewController(animated: true)
                 })
                 
                 self.present(alert, animated: true, completion: nil)

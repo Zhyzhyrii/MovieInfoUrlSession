@@ -12,6 +12,10 @@
 		7844977A23186598009082F6 /* launch.gif in Resources */ = {isa = PBXBuildFile; fileRef = 7844977923186598009082F6 /* launch.gif */; };
 		7844977C23186A22009082F6 /* GifViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7844977B23186A22009082F6 /* GifViewController.swift */; };
 		7844977E23187248009082F6 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7844977D23187247009082F6 /* WebKit.framework */; };
+		78449782231924E1009082F6 /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78449781231924E1009082F6 /* WelcomeViewController.swift */; };
+		784497842319686E009082F6 /* SignInUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 784497832319686D009082F6 /* SignInUpViewController.swift */; };
+		78449786231AD9C9009082F6 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78449785231AD9C9009082F6 /* User.swift */; };
+		78449788231ADBDA009082F6 /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78449787231ADBDA009082F6 /* StorageManager.swift */; };
 		786CF6E02317FE9D008CBB10 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786CF6DF2317FE9D008CBB10 /* AppDelegate.swift */; };
 		786CF6E72317FE9F008CBB10 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 786CF6E62317FE9F008CBB10 /* Assets.xcassets */; };
 		786CF6EA2317FE9F008CBB10 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 786CF6E82317FE9F008CBB10 /* LaunchScreen.storyboard */; };
@@ -33,6 +37,10 @@
 		7844977923186598009082F6 /* launch.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = launch.gif; sourceTree = "<group>"; };
 		7844977B23186A22009082F6 /* GifViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GifViewController.swift; sourceTree = "<group>"; };
 		7844977D23187247009082F6 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
+		78449781231924E1009082F6 /* WelcomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeViewController.swift; sourceTree = "<group>"; };
+		784497832319686D009082F6 /* SignInUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInUpViewController.swift; sourceTree = "<group>"; };
+		78449785231AD9C9009082F6 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		78449787231ADBDA009082F6 /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
 		786CF6DC2317FE9D008CBB10 /* MovieInfoUrlSession.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MovieInfoUrlSession.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		786CF6DF2317FE9D008CBB10 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		786CF6E62317FE9F008CBB10 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -83,6 +91,7 @@
 			isa = PBXGroup;
 			children = (
 				7844977423184407009082F6 /* UIHelpers.swift */,
+				78449787231ADBDA009082F6 /* StorageManager.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -145,6 +154,7 @@
 			children = (
 				786CF7022317FF83008CBB10 /* MovieList.swift */,
 				7844977023183A47009082F6 /* Movie.swift */,
+				78449785231AD9C9009082F6 /* User.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -152,10 +162,12 @@
 		786CF7052317FFB6008CBB10 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				786CF6F72317FF10008CBB10 /* CategoryCollectionViewController.swift */,
-				786CF6F12317FF10008CBB10 /* DetailMovieInfoViewController.swift */,
-				786CF6F42317FF10008CBB10 /* MoviesListViewController.swift */,
 				7844977B23186A22009082F6 /* GifViewController.swift */,
+				78449781231924E1009082F6 /* WelcomeViewController.swift */,
+				784497832319686D009082F6 /* SignInUpViewController.swift */,
+				786CF6F72317FF10008CBB10 /* CategoryCollectionViewController.swift */,
+				786CF6F42317FF10008CBB10 /* MoviesListViewController.swift */,
+				786CF6F12317FF10008CBB10 /* DetailMovieInfoViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -232,10 +244,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				78449788231ADBDA009082F6 /* StorageManager.swift in Sources */,
 				786CF6F82317FF10008CBB10 /* DetailMovieInfoViewController.swift in Sources */,
 				7844977C23186A22009082F6 /* GifViewController.swift in Sources */,
 				786CF70F231802D5008CBB10 /* APIResult.swift in Sources */,
 				786CF7032317FF83008CBB10 /* MovieList.swift in Sources */,
+				78449786231AD9C9009082F6 /* User.swift in Sources */,
+				78449782231924E1009082F6 /* WelcomeViewController.swift in Sources */,
 				7844977523184407009082F6 /* UIHelpers.swift in Sources */,
 				786CF6FB2317FF10008CBB10 /* MoviesListViewController.swift in Sources */,
 				786CF6FA2317FF10008CBB10 /* MovieCell.swift in Sources */,
@@ -243,6 +258,7 @@
 				786CF7012317FF70008CBB10 /* MovieType.swift in Sources */,
 				786CF6E02317FE9D008CBB10 /* AppDelegate.swift in Sources */,
 				786CF6FC2317FF10008CBB10 /* CategoryCell.swift in Sources */,
+				784497842319686E009082F6 /* SignInUpViewController.swift in Sources */,
 				7844977123183A47009082F6 /* Movie.swift in Sources */,
 				786CF6FE2317FF10008CBB10 /* CategoryCollectionViewController.swift in Sources */,
 			);

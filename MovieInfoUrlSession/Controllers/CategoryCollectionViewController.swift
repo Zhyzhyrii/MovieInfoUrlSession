@@ -26,19 +26,23 @@ class CategoryCollectionViewController: UICollectionViewController {
         super.viewDidLoad()
     }
     
+    @IBAction func logOutPressed(_ sender: UIBarButtonItem) {
+        performSegue(withIdentifier: "UnwindToWelcomeVC", sender: self)
+    }
+    
     // MARK: - Navigation
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let moviesListVC = segue.destination as! MoviesListViewController
-        switch userAction! {
-        case .topRatedMovies:
-            moviesListVC.movieType = .topRated
-        case .popularMovies:
-            moviesListVC.movieType = .popular
-        case .upcomingMovies:
-            moviesListVC.movieType = .upComing
-        case .nowPlayingMovies:
-            moviesListVC.movieType = .nowPlaying
+            let moviesListVC = segue.destination as! MoviesListViewController
+            switch userAction! {
+            case .topRatedMovies:
+                moviesListVC.movieType = .topRated
+            case .popularMovies:
+                moviesListVC.movieType = .popular
+            case .upcomingMovies:
+                moviesListVC.movieType = .upComing
+            case .nowPlayingMovies:
+                moviesListVC.movieType = .nowPlaying
         }
     }
     

@@ -12,7 +12,7 @@ class MoviesListViewController: UITableViewController {
     
     var movieType: MovieType!
     
-    private var selectedMovie: Movie!
+    private var selectedMovieId: Int!
     private var movies: [Movie] = []
     
     override func viewDidLoad() {
@@ -54,14 +54,14 @@ class MoviesListViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        selectedMovie = movies[indexPath.row]
+        selectedMovieId = movies[indexPath.row].id
         performSegue(withIdentifier: "GoToDetailViewController", sender: nil)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "GoToDetailViewController" {
-            let destinationVC = segue.destination as! DetailMovieInfoViewController
-            destinationVC.movie = selectedMovie
+            let destinationVC = segue.destination as! DetailMovieViewController
+            destinationVC.movieId = selectedMovieId
         }
     }
 }

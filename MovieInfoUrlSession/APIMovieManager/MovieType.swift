@@ -15,14 +15,6 @@ enum MovieType {
     case upComing
     case nowPlaying
     
-    var baseURL: String {
-        return "https://api.themoviedb.org/3/movie"
-    }
-    
-    var apiKey: String {
-        return "?api_key=10c9d0f7d2e89b09263bafaaf8c69a6a"
-    }
-    
     var otherParameters: String {
         return "&language=ru&page=1"
     }
@@ -41,10 +33,9 @@ enum MovieType {
     }
     
     var request: URLRequest {
-        guard let url = URL(string: baseURL + path + apiKey + otherParameters) else {
+        guard let url = URL(string: BaseApiData.baseURL + path + BaseApiData.apiKey + otherParameters) else {
             fatalError("URL was not created")
         }
         return URLRequest(url: url)
     }
-    
 }

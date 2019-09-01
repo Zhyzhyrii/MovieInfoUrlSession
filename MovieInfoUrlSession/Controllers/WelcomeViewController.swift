@@ -28,7 +28,11 @@ class WelcomeViewController: UIViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let destinationVC = segue.destination as! SignInUpViewController
-        destinationVC.isSignInClicked = isSignInClicked
+        if segue.identifier == "ShowSignInUpVC" {
+            let destinationVC = segue.destination as! SignInUpViewController
+            destinationVC.isSignInClicked = isSignInClicked
+        }
     }
+    
+    @IBAction func unwindToWelcomeVC(segue:UIStoryboardSegue) { }
 }

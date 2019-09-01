@@ -10,7 +10,7 @@ import UIKit
 
 class SignInUpViewController: UIViewController {
     
-    private var user: User? //todo ??
+    private var user: User!
     
     var isSignInClicked: Bool!
     
@@ -73,7 +73,7 @@ class SignInUpViewController: UIViewController {
         passwordTextField.text = nil
         
         user = User(login: login, password: password)
-        StorageManager.storageManager.saveUser(user!)
+        StorageManager.storageManager.saveUser(user)
         
         performSegue(withIdentifier: "ShowCategories", sender: self)
         
@@ -119,14 +119,10 @@ class SignInUpViewController: UIViewController {
     
     
     @IBAction func signInUpButtonPressed() {
-        
-        switch isSignInClicked {
-        case true:
+        if isSignInClicked {
             signIn()
-        case false:
+        } else {
             signUp()
-        default:
-            fatalError()
         }
     }
 }

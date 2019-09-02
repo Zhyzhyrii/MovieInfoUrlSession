@@ -66,7 +66,7 @@
             </objects>
             <point key="canvasLocation" x="1155" y="280"/>
         </scene>
-        <!--Category Collection View Controller-->
+        <!--Item-->
         <scene sceneID="sF4-Hj-4G4">
             <objects>
                 <collectionViewController id="umf-sN-5Nm" customClass="CategoryCollectionViewController" customModule="MovieInfoUrlSession" customModuleProvider="target" sceneMemberID="viewController">
@@ -114,6 +114,7 @@
                             <outlet property="delegate" destination="umf-sN-5Nm" id="J4t-cw-eqO"/>
                         </connections>
                     </collectionView>
+                    <tabBarItem key="tabBarItem" title="Item" image="homeTabImage" id="Foj-BV-9oE"/>
                     <navigationItem key="navigationItem" id="yQN-ti-DFC">
                         <barButtonItem key="rightBarButtonItem" title="Выйти" id="5ma-9A-27w">
                             <connections>
@@ -127,7 +128,7 @@
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2w8-zs-ZHI" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3746.376811594203" y="279.91071428571428"/>
+            <point key="canvasLocation" x="4687.1999999999998" y="279.31034482758622"/>
         </scene>
         <!--Movies List View Controller-->
         <scene sceneID="EUJ-A1-vvr">
@@ -199,7 +200,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ZLE-d4-bMC" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4591.304347826087" y="279.91071428571428"/>
+            <point key="canvasLocation" x="5533.6000000000004" y="279.31034482758622"/>
         </scene>
         <!--Detail Movie View Controller-->
         <scene sceneID="gi4-ro-QzB">
@@ -381,7 +382,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2PY-mb-ghD" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5501.6000000000004" y="279.31034482758622"/>
+            <point key="canvasLocation" x="6444" y="279.31034482758622"/>
         </scene>
         <!--Sign In Up View Controller-->
         <scene sceneID="dXj-6Q-80s">
@@ -492,18 +493,37 @@
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="umf-sN-5Nm" kind="relationship" relationship="rootViewController" id="fBG-fb-XPd"/>
+                        <segue destination="4jS-ib-mZk" kind="relationship" relationship="rootViewController" id="fBG-fb-XPd"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dPG-Fp-6LK" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2836.2318840579715" y="279.91071428571428"/>
         </scene>
+        <!--Tab Bar Controller-->
+        <scene sceneID="E9H-Ga-y9B">
+            <objects>
+                <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="4jS-ib-mZk" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationItem key="navigationItem" id="bED-zc-CnQ"/>
+                    <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="WmQ-Vr-tMW">
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </tabBar>
+                    <connections>
+                        <segue destination="umf-sN-5Nm" kind="relationship" relationship="viewControllers" id="iYn-b4-1aq"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="TNs-9n-Ds9" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3744.8000000000002" y="279.31034482758622"/>
+        </scene>
     </scenes>
     <resources>
         <image name="bookmark" width="15" height="15"/>
         <image name="buttonBack" width="382.5" height="93"/>
         <image name="heart" width="15" height="15"/>
+        <image name="homeTabImage" width="15" height="15"/>
         <image name="input" width="751" height="3"/>
         <image name="runtime" width="15" height="15"/>
         <image name="sign in" width="382.5" height="93"/>

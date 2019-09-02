@@ -119,21 +119,21 @@ class DetailMovieViewController: UIViewController {
     @IBAction func addToFavoritePressed() {
         if addedToFavorite {
             addtoFavoriteButton.setImage(UIImage(named: "heart"), for: .normal)
-            addtoFavoriteButton.setTitle("Добавить в избранное", for: .normal)
+            addtoFavoriteButton.setTitle(" Добавить в избранное", for: .normal)
         } else {
             addtoFavoriteButton.setImage(UIImage(named: "heartColored"), for: .normal)
-            addtoFavoriteButton.setTitle("В избранном", for: .normal)
+            addtoFavoriteButton.setTitle(" В избранном", for: .normal)
         }
         addedToFavorite = !addedToFavorite
     }
     
     @IBAction func watchLaterPressed() {
         if addedToWatchLater {
-//            watchLaterButton.setImage(UIImage(named: "heart"), for: .normal)
-            watchLaterButton.setTitle("Смотреть позже", for: .normal)
+            watchLaterButton.setImage(UIImage(named: "bookmark"), for: .normal)
+            watchLaterButton.setTitle(" Смотреть позже", for: .normal)
         } else {
-//            watchLaterButton.setImage(UIImage(named: "heartColored"), for: .normal)
-            watchLaterButton.setTitle("Посмотрю позже", for: .normal)
+            watchLaterButton.setImage(UIImage(named: "bookmarkSelected"), for: .normal)
+            watchLaterButton.setTitle(" Посмотрю позже", for: .normal)
         }
         addedToWatchLater = !addedToWatchLater
     }

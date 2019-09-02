@@ -67,5 +67,4 @@ class CategoryCollectionViewController: UICollectionViewController {
         print("pressed")
         dismiss(animated: true, completion: nil)
     }
-    
 }

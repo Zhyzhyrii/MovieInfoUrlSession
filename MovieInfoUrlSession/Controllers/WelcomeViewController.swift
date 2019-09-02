@@ -11,9 +11,27 @@ import UIKit
 class WelcomeViewController: UIViewController {
     
     private var isSignInClicked = false
+    private var isLoggedOut: Bool!
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(true)
+        
+        if let isLoggedOut = UserDefaults.standard.value(forKey: "isLoggedOut") as? Bool {
+            self.isLoggedOut = isLoggedOut
+        } else {
+            isLoggedOut = false
+        }
+        
+        if let _ = StorageManager.storageManager.getUser(), !isLoggedOut {
+            performSegue(withIdentifier: "ShowCategories", sender: self)
+        }
+    }
+    
+    @IBAction func unwindToWelcomeVC(_ unwindSegue: UIStoryboardSegue) {
+        UserDefaults.standard.setValue(true, forKey: "isLoggedOut")
+    }
     
     @IBAction func signInUpButton(_ sender: UIButton) {
-    
         switch sender.tag {
         case 0:
             isSignInClicked = true

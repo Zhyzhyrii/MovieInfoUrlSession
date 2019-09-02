@@ -13,7 +13,7 @@ class MoviesListViewController: UITableViewController {
     var movieType: MovieType!
     
     private var selectedMovieId: Int!
-    private var movies: [Movie] = []
+    private var movies: [MovieJson] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()

@@ -12,7 +12,8 @@ import WebKit
 class DetailMovieViewController: UIViewController {
     
     var movieId: Int!
-    private var movie: DetailMovie!
+    private var movieJson: DetailMovieJson!
+    private var movie: Movie!
     private var reviewList: ReviewList!
     private var addedToFavorite = false
     private var addedToWatchLater = false
@@ -36,15 +37,15 @@ class DetailMovieViewController: UIViewController {
     }
     
     private func configureUI() {
-        titleLabel.text = movie.title ?? ""
-        releaseGenreLabel.text = (movie.releaseDate ?? "") + ", " + (movie.getGenresAsString() ?? "")
-        if let runTime = movie.runTime {
+        titleLabel.text = movieJson.title ?? ""
+        releaseGenreLabel.text = (movieJson.releaseDate ?? "") + ", " + (movieJson.getGenresAsString() ?? "")
+        if let runTime = movieJson.runTime {
             runTimeLabel.text = String(runTime) + " мин"
         } else {
             runTimeLabel.text = ""
         }
-        voteAverageLabel.text = "\(movie.voteAverage ?? 0)"
-        overviewReviewTextView.text = movie.overview ?? ""
+        voteAverageLabel.text = "\(movieJson.voteAverage ?? 0)"
+        overviewReviewTextView.text = movieJson.overview ?? ""
     }
     
     private func getMovieDetailedInfo() {
@@ -52,7 +53,8 @@ class DetailMovieViewController: UIViewController {
             switch result {
             case .Success:
                 guard let detailMovie = detailMovie else { return }
-                self.movie = detailMovie
+                self.movieJson = detailMovie
+                self.movie = Movie(from: self.movieJson)
                 DispatchQueue.main.async {
                     self.configureUI()
                 }
@@ -120,9 +122,11 @@ class DetailMovieViewController: UIViewController {
         if addedToFavorite {
             addtoFavoriteButton.setImage(UIImage(named: "heart"), for: .normal)
             addtoFavoriteButton.setTitle(" Добавить в избранное", for: .normal)
+            movie.isAddedToFavorite = false
         } else {
             addtoFavoriteButton.setImage(UIImage(named: "heartColored"), for: .normal)
             addtoFavoriteButton.setTitle(" В избранном", for: .normal)
+            movie.isAddedToFavorite = true
         }
         addedToFavorite = !addedToFavorite
     }
@@ -131,9 +135,11 @@ class DetailMovieViewController: UIViewController {
         if addedToWatchLater {
             watchLaterButton.setImage(UIImage(named: "bookmark"), for: .normal)
             watchLaterButton.setTitle(" Смотреть позже", for: .normal)
+            movie.isAddedToWatchLater = false
         } else {
             watchLaterButton.setImage(UIImage(named: "bookmarkSelected"), for: .normal)
             watchLaterButton.setTitle(" Посмотрю позже", for: .normal)
+            movie.isAddedToWatchLater = true
         }
         addedToWatchLater = !addedToWatchLater
     }
@@ -143,7 +149,7 @@ class DetailMovieViewController: UIViewController {
     
     @IBAction func segmentedValueChanged(_ sender: UISegmentedControl) {
         if sender.selectedSegmentIndex == 0 {
-            overviewReviewTextView.text = movie.overview
+            overviewReviewTextView.text = movieJson.overview
         } else {
             overviewReviewTextView.text = reviewList.getReviewAsString()
         }

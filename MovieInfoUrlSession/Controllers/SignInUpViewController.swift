@@ -76,7 +76,7 @@ class SignInUpViewController: UIViewController {
         StorageManager.storageManager.saveUser(user)
         
         performSegue(withIdentifier: "ShowCategories", sender: self)
-        
+        UserDefaults.standard.setValue(false, forKey: "isLoggedOut")
     }
     
     private func signIn() {
@@ -90,6 +90,7 @@ class SignInUpViewController: UIViewController {
             
             if login == expectedUser.login, password == expectedUser.password {
                 performSegue(withIdentifier: "ShowCategories", sender: self)
+                UserDefaults.standard.setValue(false, forKey: "isLoggedOut")
             }
             else {
                 showAlert(withTitle: "Ошибка",

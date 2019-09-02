@@ -6,7 +6,8 @@
 //  Copyright © 2019 Igor Zhyzhyrii. All rights reserved.
 //
 
-struct DetailMovie: Decodable {
+struct DetailMovieJson: Decodable {
+    let id: Int?
     let title: String?
     let releaseDate: String?
     let runTime: Int?
@@ -16,6 +17,7 @@ struct DetailMovie: Decodable {
     
     enum CodingKeys: String, CodingKey {
         case title
+        case id
         case releaseDate = "release_date"
         case runTime = "runtime"
         case voteAverage = "vote_average"

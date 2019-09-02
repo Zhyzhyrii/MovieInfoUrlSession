@@ -29,6 +29,7 @@ class CategoryCollectionViewController: UICollectionViewController {
     // MARK: - Navigation
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "ShowMovies" {
             let moviesListVC = segue.destination as! MoviesListViewController
             switch userAction! {
             case .topRatedMovies:
@@ -39,6 +40,10 @@ class CategoryCollectionViewController: UICollectionViewController {
                 moviesListVC.movieType = .upComing
             case .nowPlayingMovies:
                 moviesListVC.movieType = .nowPlaying
+            }
+        }
+        if segue.identifier == "" {
+            
         }
     }
     
@@ -60,10 +65,5 @@ class CategoryCollectionViewController: UICollectionViewController {
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         userAction = userActions[indexPath.item]
         performSegue(withIdentifier: "ShowMovies", sender: nil)
-    }
-    
-    @IBAction func logOutPressed(_ sender: UIBarButtonItem) {
-        print("pressed")
-        dismiss(animated: true, completion: nil)
     }
 }

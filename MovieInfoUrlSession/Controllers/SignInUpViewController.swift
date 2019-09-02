@@ -124,6 +124,9 @@ class SignInUpViewController: UIViewController {
         } else {
             signUp()
         }
+        
+        loginTextField.text = ""
+        passwordTextField.text = ""
     }
 }
 

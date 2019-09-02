@@ -117,8 +117,7 @@
                     <navigationItem key="navigationItem" id="yQN-ti-DFC">
                         <barButtonItem key="rightBarButtonItem" title="Выйти" id="5ma-9A-27w">
                             <connections>
-                                <action selector="logOutPressed:" destination="umf-sN-5Nm" id="cP3-Fo-Ck1"/>
-                                <segue destination="6pp-Af-7vZ" kind="unwind" identifier="UnwindToWelcomeVC" unwindAction="unwindToWelcomeVCWithSegue:" id="nwf-Yj-St5"/>
+                                <action selector="logOutPressed:" destination="umf-sN-5Nm" id="z0e-Rg-DhV"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -127,7 +126,6 @@
                     </connections>
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2w8-zs-ZHI" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <exit id="6pp-Af-7vZ" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="3746.376811594203" y="279.91071428571428"/>
         </scene>

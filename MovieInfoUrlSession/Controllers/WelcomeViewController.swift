@@ -32,7 +32,5 @@ class WelcomeViewController: UIViewController {
             let destinationVC = segue.destination as! SignInUpViewController
             destinationVC.isSignInClicked = isSignInClicked
         }
-    }
-    
-    @IBAction func unwindToWelcomeVC(segue:UIStoryboardSegue) { }
+    }    
 }

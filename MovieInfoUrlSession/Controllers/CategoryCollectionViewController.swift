@@ -26,10 +26,6 @@ class CategoryCollectionViewController: UICollectionViewController {
         super.viewDidLoad()
     }
     
-    @IBAction func logOutPressed(_ sender: UIBarButtonItem) {
-        performSegue(withIdentifier: "UnwindToWelcomeVC", sender: self)
-    }
-    
     // MARK: - Navigation
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -66,5 +62,10 @@ class CategoryCollectionViewController: UICollectionViewController {
         userAction = userActions[indexPath.item]
         performSegue(withIdentifier: "ShowMovies", sender: nil)
     }
-
+    
+    @IBAction func logOutPressed(_ sender: UIBarButtonItem) {
+        print("pressed")
+        dismiss(animated: true, completion: nil)
+    }
+    
 }

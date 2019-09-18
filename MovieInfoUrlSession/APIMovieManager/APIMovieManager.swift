@@ -90,7 +90,7 @@ final class APIMovieManager {
             }.resume()
     }
     
-    static func fetchDetailMovie(movieId: Int, completionHandler: @escaping (DetailMovieJson?, APIResult) -> Void) {
+    static func fetchDetailMovie(movieId: Int, completionHandler: @escaping (DetailMovie?, APIResult) -> Void) {
         
         guard let url = URL(string: BaseApiData.baseURL + "/\(movieId)" + BaseApiData.apiKey + "&language=ru") else { return }
         let urlrequest = URLRequest(url: url)
@@ -102,7 +102,7 @@ final class APIMovieManager {
                 return
             }
             do {
-                let detailMovie = try JSONDecoder().decode(DetailMovieJson.self, from: data)
+                let detailMovie = try JSONDecoder().decode(DetailMovie.self, from: data)
                 completionHandler(detailMovie, .Success)
             } catch let error {
                 completionHandler(nil, .Failure)

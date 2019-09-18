@@ -6,14 +6,21 @@
 //  Copyright © 2019 Igor Zhyzhyrii. All rights reserved.
 //
 
-struct DetailMovieJson: Decodable {
+struct DetailMovie: Decodable {
+    
+    //fields from json
     let id: Int?
     let title: String?
     let releaseDate: String?
     let runTime: Int?
     let voteAverage: Double?
     let overview: String?
+    let posterPath: String?
     let genres: [Genre]?
+    
+    //custom fields
+    var isAddedToFavorite = false
+    var isAddedToWatchLater = false
     
     enum CodingKeys: String, CodingKey {
         case title
@@ -23,6 +30,7 @@ struct DetailMovieJson: Decodable {
         case voteAverage = "vote_average"
         case overview
         case genres = "genres"
+        case posterPath = "poster_path"
     }
     
      func getGenresAsString() -> String? {
@@ -36,4 +44,12 @@ struct DetailMovieJson: Decodable {
         }
         return genresAsString
     }
+}
+
+extension DetailMovie: Equatable {
+    
+    static func == (lhs: DetailMovie, rhs: DetailMovie) -> Bool {
+        return lhs.id == rhs.id
+    }
+    
 }

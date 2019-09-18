@@ -12,11 +12,8 @@ import WebKit
 class DetailMovieViewController: UIViewController {
     
     var movieId: Int!
-    private var movieJson: DetailMovieJson!
-    private var movie: Movie!
+    private var detailMovie: DetailMovie!
     private var reviewList: ReviewList!
-    private var addedToFavorite = false
-    private var addedToWatchLater = false
     
     @IBOutlet var trailerPlayer: WKWebView!
     @IBOutlet var titleLabel: UILabel!
@@ -37,15 +34,18 @@ class DetailMovieViewController: UIViewController {
     }
     
     private func configureUI() {
-        titleLabel.text = movieJson.title ?? ""
-        releaseGenreLabel.text = (movieJson.releaseDate ?? "") + ", " + (movieJson.getGenresAsString() ?? "")
-        if let runTime = movieJson.runTime {
+        titleLabel.text = detailMovie.title ?? ""
+        releaseGenreLabel.text = (detailMovie.releaseDate ?? "") + ", " + (detailMovie.getGenresAsString() ?? "")
+        if let runTime = detailMovie.runTime {
             runTimeLabel.text = String(runTime) + " мин"
         } else {
             runTimeLabel.text = ""
         }
-        voteAverageLabel.text = "\(movieJson.voteAverage ?? 0)"
-        overviewReviewTextView.text = movieJson.overview ?? ""
+        voteAverageLabel.text = "\(detailMovie.voteAverage ?? 0)"
+        overviewReviewTextView.text = detailMovie.overview ?? ""
+        
+        let isMoviePresenInFavorite = ListManager.listManager.isPresent(movie: detailMovie, in: .favoriteList)
+        updateAddToFavoriteUISection(if: isMoviePresenInFavorite)
     }
     
     private func getMovieDetailedInfo() {
@@ -53,8 +53,7 @@ class DetailMovieViewController: UIViewController {
             switch result {
             case .Success:
                 guard let detailMovie = detailMovie else { return }
-                self.movieJson = detailMovie
-                self.movie = Movie(from: self.movieJson)
+                self.detailMovie = detailMovie
                 DispatchQueue.main.async {
                     self.configureUI()
                 }
@@ -118,30 +117,42 @@ class DetailMovieViewController: UIViewController {
         }
     }
     
-    @IBAction func addToFavoritePressed() {
-        if addedToFavorite {
+    private func updateAddToFavoriteUISection(if isPresentInFavorite: Bool) {
+        if !isPresentInFavorite {
             addtoFavoriteButton.setImage(UIImage(named: "heart"), for: .normal)
             addtoFavoriteButton.setTitle(" Добавить в избранное", for: .normal)
-            movie.isAddedToFavorite = false
         } else {
             addtoFavoriteButton.setImage(UIImage(named: "heartColored"), for: .normal)
             addtoFavoriteButton.setTitle(" В избранном", for: .normal)
-            movie.isAddedToFavorite = true
         }
-        addedToFavorite = !addedToFavorite
+    }
+    
+    @IBAction func addToFavoritePressed() {
+        if ListManager.listManager.isPresent(movie: detailMovie, in: .favoriteList) {
+            addtoFavoriteButton.setImage(UIImage(named: "heart"), for: .normal)
+            addtoFavoriteButton.setTitle(" Добавить в избранное", for: .normal)
+            detailMovie.isAddedToFavorite = false
+            ListManager.listManager.remove(movie: detailMovie, from: .favoriteList)
+        } else {
+            addtoFavoriteButton.setImage(UIImage(named: "heartColored"), for: .normal)
+            addtoFavoriteButton.setTitle(" В избранном", for: .normal)
+            detailMovie.isAddedToFavorite = true
+            ListManager.listManager.add(movie: detailMovie, to: .favoriteList)
+        }
     }
     
     @IBAction func watchLaterPressed() {
-        if addedToWatchLater {
+        if ListManager.listManager.isPresent(movie: detailMovie, in: .watchLaterList) {
             watchLaterButton.setImage(UIImage(named: "bookmark"), for: .normal)
             watchLaterButton.setTitle(" Смотреть позже", for: .normal)
-            movie.isAddedToWatchLater = false
+            detailMovie.isAddedToWatchLater = false
+            ListManager.listManager.remove(movie: detailMovie, from: .watchLaterList)
         } else {
             watchLaterButton.setImage(UIImage(named: "bookmarkSelected"), for: .normal)
             watchLaterButton.setTitle(" Посмотрю позже", for: .normal)
-            movie.isAddedToWatchLater = true
+            detailMovie.isAddedToWatchLater = true
+            ListManager.listManager.add(movie: detailMovie, to: .watchLaterList)
         }
-        addedToWatchLater = !addedToWatchLater
     }
     
     @IBAction func overviewReviewPressed() {
@@ -149,7 +160,7 @@ class DetailMovieViewController: UIViewController {
     
     @IBAction func segmentedValueChanged(_ sender: UISegmentedControl) {
         if sender.selectedSegmentIndex == 0 {
-            overviewReviewTextView.text = movieJson.overview
+            overviewReviewTextView.text = detailMovie.overview
         } else {
             overviewReviewTextView.text = reviewList.getReviewAsString()
         }

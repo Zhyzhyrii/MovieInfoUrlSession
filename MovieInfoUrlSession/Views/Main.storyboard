@@ -133,7 +133,7 @@
             </objects>
             <point key="canvasLocation" x="6486" y="-464"/>
         </scene>
-        <!--Favorite-->
+        <!--Избранное-->
         <scene sceneID="FsM-CZ-E0Q">
             <objects>
                 <tableViewController id="Kgr-4I-k2V" customClass="FavoriteTableViewController" customModule="MovieInfoUrlSession" customModuleProvider="target" sceneMemberID="viewController">
@@ -197,13 +197,13 @@
                             <outlet property="delegate" destination="Kgr-4I-k2V" id="8Sd-ke-shj"/>
                         </connections>
                     </tableView>
-                    <tabBarItem key="tabBarItem" title="Favorite" image="favorite" id="iDQ-YP-I3c"/>
+                    <tabBarItem key="tabBarItem" title="Избранное" image="favorite" id="iDQ-YP-I3c"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vnT-Ws-Reo" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="6485.6000000000004" y="277.83251231527095"/>
         </scene>
-        <!--Watch later-->
+        <!--Смотреть позже-->
         <scene sceneID="T3l-XM-MoO">
             <objects>
                 <tableViewController id="5qh-h2-9Be" customClass="WatchLaterViewController" customModule="MovieInfoUrlSession" customModuleProvider="target" sceneMemberID="viewController">
@@ -267,7 +267,7 @@
                             <outlet property="delegate" destination="5qh-h2-9Be" id="hA1-gJ-hOt"/>
                         </connections>
                     </tableView>
-                    <tabBarItem key="tabBarItem" title="Watch later" image="bookmarkTab" id="MQa-Mh-eIu"/>
+                    <tabBarItem key="tabBarItem" title="Смотреть позже" image="bookmarkTab" id="MQa-Mh-eIu"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bwo-To-um5" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

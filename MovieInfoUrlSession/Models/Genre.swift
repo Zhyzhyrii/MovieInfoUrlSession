@@ -7,9 +7,12 @@
 //
 
 struct Genre: Decodable {
-    let genreName: String
+    
+    let genreName: String?
+    let id: Int?
     
     enum CodingKeys: String, CodingKey {
         case genreName = "name"
+        case id
     }
 }

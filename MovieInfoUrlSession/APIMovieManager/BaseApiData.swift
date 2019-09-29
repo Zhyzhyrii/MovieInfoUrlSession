@@ -8,7 +8,8 @@
 
 class BaseApiData {
     
-    static var baseURL = "https://api.themoviedb.org/3/movie"
+    static var baseURL = "https://api.themoviedb.org/3"
+    static var baseMovieURL = "\(baseURL)/movie"
     
     static var apiKey = "?api_key=10c9d0f7d2e89b09263bafaaf8c69a6a"
     

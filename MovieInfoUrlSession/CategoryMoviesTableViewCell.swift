@@ -29,7 +29,8 @@ extension CategoryMoviesTableViewCell: UICollectionViewDataSource { //try to mov
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "movieCell", for: indexPath) as! MovieCollectionCell
-        cell.configure(with: movies[indexPath.row])
+        let movie = movies[indexPath.row]
+        cell.configure(with: movie)
        
         return cell
     }

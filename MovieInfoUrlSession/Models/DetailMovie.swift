@@ -37,7 +37,8 @@ struct DetailMovie: Decodable {
         guard let genres = genres else { return nil }
         var genresAsString = ""
         for index in genres.indices {
-            genresAsString += genres[index].genreName.capitalized
+            guard let genreName = genres[index].genreName else { return nil }
+            genresAsString += genreName.capitalized
             if index != genres.count - 1 {
                 genresAsString += ", "
             }

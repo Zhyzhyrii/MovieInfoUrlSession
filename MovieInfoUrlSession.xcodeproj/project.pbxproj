@@ -26,6 +26,8 @@
 		78449794231C0CFB009082F6 /* BaseApiData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78449793231C0CFB009082F6 /* BaseApiData.swift */; };
 		78449796231C550E009082F6 /* ReviewList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78449795231C550E009082F6 /* ReviewList.swift */; };
 		78449798231C55A2009082F6 /* Review.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78449797231C55A2009082F6 /* Review.swift */; };
+		78586497234126FD00B991BB /* GenreJson.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78586496234126FD00B991BB /* GenreJson.swift */; };
+		785864992341406200B991BB /* GenresStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 785864982341406200B991BB /* GenresStorage.swift */; };
 		786CF6E02317FE9D008CBB10 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786CF6DF2317FE9D008CBB10 /* AppDelegate.swift */; };
 		786CF6E72317FE9F008CBB10 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 786CF6E62317FE9F008CBB10 /* Assets.xcassets */; };
 		786CF6EA2317FE9F008CBB10 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 786CF6E82317FE9F008CBB10 /* LaunchScreen.storyboard */; };
@@ -60,6 +62,8 @@
 		78449793231C0CFB009082F6 /* BaseApiData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseApiData.swift; sourceTree = "<group>"; };
 		78449795231C550E009082F6 /* ReviewList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewList.swift; sourceTree = "<group>"; };
 		78449797231C55A2009082F6 /* Review.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Review.swift; sourceTree = "<group>"; };
+		78586496234126FD00B991BB /* GenreJson.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenreJson.swift; sourceTree = "<group>"; };
+		785864982341406200B991BB /* GenresStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenresStorage.swift; sourceTree = "<group>"; };
 		786CF6DC2317FE9D008CBB10 /* MovieInfoUrlSession.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MovieInfoUrlSession.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		786CF6DF2317FE9D008CBB10 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		786CF6E62317FE9F008CBB10 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -111,6 +115,7 @@
 				7844977423184407009082F6 /* UIHelpers.swift */,
 				78449787231ADBDA009082F6 /* StorageManager.swift */,
 				78709C8D232ABFFF002FDB90 /* ListManager.swift */,
+				785864982341406200B991BB /* GenresStorage.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -174,6 +179,7 @@
 				78449791231C0940009082F6 /* Trailer.swift */,
 				78449795231C550E009082F6 /* ReviewList.swift */,
 				78449797231C55A2009082F6 /* Review.swift */,
+				78586496234126FD00B991BB /* GenreJson.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -263,6 +269,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				78449790231C08D3009082F6 /* TrailerList.swift in Sources */,
+				78586497234126FD00B991BB /* GenreJson.swift in Sources */,
 				783735F52338F1B90046FCB0 /* CategoryMoviesTableViewCell.swift in Sources */,
 				786DA9852334011700AEEBCF /* MovieCollectionCell.swift in Sources */,
 				78449788231ADBDA009082F6 /* StorageManager.swift in Sources */,
@@ -286,6 +293,7 @@
 				7828E9D92329964E009E23EF /* FavoriteTableViewController.swift in Sources */,
 				7844977123183A47009082F6 /* MovieJson.swift in Sources */,
 				7894C2C2232E647D0029D8D9 /* ImageView.swift in Sources */,
+				785864992341406200B991BB /* GenresStorage.swift in Sources */,
 				7844978E231C03C6009082F6 /* Genre.swift in Sources */,
 				78449796231C550E009082F6 /* ReviewList.swift in Sources */,
 				7839209823325B57001D6FDC /* CategoriesTableViewController.swift in Sources */,

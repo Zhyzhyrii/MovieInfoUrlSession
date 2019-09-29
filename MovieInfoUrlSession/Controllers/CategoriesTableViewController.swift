@@ -17,6 +17,8 @@ class CategoriesTableViewController: UITableViewController {
     
     var movies: [MovieJson] = Array()
     var fetchedData: [MovieType: [MovieJson]] = [:]
+    var genreJson: GenreJson!
+    var genresDictionary: [Int: String] = [:]
     var category: MovieType!
     
     override func viewDidLoad() {
@@ -108,7 +110,6 @@ class CategoriesTableViewController: UITableViewController {
                 
             }
         }
-        
     }
     
     // MARK: - Table view data source
@@ -183,13 +184,13 @@ class CategoriesTableViewController: UITableViewController {
     }
 }
 
-    // MARK: - Extension
+// MARK: - Extension
 
 extension CategoriesTableViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if let tableViewcell = collectionView.superview?.superview as? CategoryMoviesTableViewCell {
             guard let tableViewIndexPath = tableView.indexPath(for: tableViewcell) else { fatalError() }
-           
+            
             if let movies = fetchedData[movieCategories[tableViewIndexPath.section]] {
                 selectedMovieId = movies[indexPath.row].id
             }

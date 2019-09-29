@@ -8,12 +8,12 @@
 
 import Foundation
 
-enum MovieType {
+enum MovieType: String, CaseIterable {
     
-    case topRated
-    case popular
-    case upComing
-    case nowPlaying
+    case topRated = "Топ-фильмы"
+    case popular = "Популярные фильмы"
+    case nowPlaying = "Сейчас в прокате"
+    case upComing = "Скоро в прокате"
     
     var otherParameters: String {
         return "&language=ru&page=1"

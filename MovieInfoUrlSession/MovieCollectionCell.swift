@@ -12,11 +12,11 @@ class MovieCollectionCell: UICollectionViewCell {
     
     @IBOutlet var posterImageView: ImageView!
     @IBOutlet var titleLabel: UILabel!
-    @IBOutlet var yearGenreLabel: UILabel!
+//    @IBOutlet var yearGenreLabel: UILabel!
 
     func configure(with movie: MovieJson) {
         titleLabel.text = movie.title ?? ""
-        yearGenreLabel.text = "\(movie.releaseDate ?? ""), \(movie.genreName)"
+//        yearGenreLabel.text = "\(movie.releaseDate ?? ""), \(movie.genreName)"
         posterImageView.fetchImage(with: movie.posterPath)
     }
 }

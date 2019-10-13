@@ -103,8 +103,10 @@
 		78449772231843C6009082F6 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				786CF7062318001A008CBB10 /* Main.storyboard */,
-				786CF6E82317FE9F008CBB10 /* LaunchScreen.storyboard */,
+				7894C2C1232E647D0029D8D9 /* ImageView.swift */,
+				786CF6F32317FF10008CBB10 /* MovieCell.swift */,
+				786DA9842334011600AEEBCF /* MovieCollectionCell.swift */,
+				783735F42338F1B90046FCB0 /* CategoryMoviesTableViewCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -112,6 +114,7 @@
 		78449773231843F1009082F6 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				787AC4B923532EFC00946896 /* Configs */,
 				7844977423184407009082F6 /* UIHelpers.swift */,
 				78449787231ADBDA009082F6 /* StorageManager.swift */,
 				78709C8D232ABFFF002FDB90 /* ListManager.swift */,
@@ -144,14 +147,8 @@
 				78449772231843C6009082F6 /* Views */,
 				786CF7052317FFB6008CBB10 /* Controllers */,
 				786CF6FF2317FF5C008CBB10 /* APIMovieManager */,
+				787AC4B823532EC700946896 /* StoryBoards */,
 				78449773231843F1009082F6 /* Helpers */,
-				786CF6F32317FF10008CBB10 /* MovieCell.swift */,
-				786CF6DF2317FE9D008CBB10 /* AppDelegate.swift */,
-				786CF6E62317FE9F008CBB10 /* Assets.xcassets */,
-				786CF6EB2317FE9F008CBB10 /* Info.plist */,
-				7894C2C1232E647D0029D8D9 /* ImageView.swift */,
-				786DA9842334011600AEEBCF /* MovieCollectionCell.swift */,
-				783735F42338F1B90046FCB0 /* CategoryMoviesTableViewCell.swift */,
 			);
 			path = MovieInfoUrlSession;
 			sourceTree = "<group>";
@@ -195,6 +192,25 @@
 				7828E9DA23299676009E23EF /* WatchLaterViewController.swift */,
 			);
 			path = Controllers;
+			sourceTree = "<group>";
+		};
+		787AC4B823532EC700946896 /* StoryBoards */ = {
+			isa = PBXGroup;
+			children = (
+				786CF7062318001A008CBB10 /* Main.storyboard */,
+				786CF6E82317FE9F008CBB10 /* LaunchScreen.storyboard */,
+			);
+			path = StoryBoards;
+			sourceTree = "<group>";
+		};
+		787AC4B923532EFC00946896 /* Configs */ = {
+			isa = PBXGroup;
+			children = (
+				786CF6DF2317FE9D008CBB10 /* AppDelegate.swift */,
+				786CF6E62317FE9F008CBB10 /* Assets.xcassets */,
+				786CF6EB2317FE9F008CBB10 /* Info.plist */,
+			);
+			path = Configs;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -436,7 +452,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 3G59622ZHZ;
-				INFOPLIST_FILE = MovieInfoUrlSession/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/MovieInfoUrlSession/Helpers/Configs/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -454,7 +470,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 3G59622ZHZ;
-				INFOPLIST_FILE = MovieInfoUrlSession/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/MovieInfoUrlSession/Helpers/Configs/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

@@ -10,7 +10,7 @@
 //  see http://clean-swift.com
 //
 
-import UIKit
+import Foundation
 
 enum DetailMovieModels {
     
@@ -23,7 +23,9 @@ enum DetailMovieModels {
         }
         
         struct Response {
-            let detailMovie: DetailMovie
+            let detailMovie: DetailMovie //todo optional?? need to think
+            let videoCode: String?
+            let reviewList: ReviewList?
         }
         
         struct ViewModel {
@@ -35,6 +37,9 @@ enum DetailMovieModels {
                 let releaseGenre: String?
                 let runTime: String?
                 let voteAverage: String?
+                let overView: String?
+                let trailerUrl: URL?
+                let reviews: String?
             }
         }
     }

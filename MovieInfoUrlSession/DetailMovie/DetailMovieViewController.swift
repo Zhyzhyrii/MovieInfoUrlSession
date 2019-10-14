@@ -34,7 +34,7 @@ class DetailMovieViewController: UIViewController {
     var router: (NSObjectProtocol & DetailMovieRoutingLogic & DetailMovieDataPassing)?
     
     private var detailMovie: DetailMovie!
-    private var reviewList: ReviewList!
+    private var reviews: String!
     
     // MARK: Object lifecycle
     
@@ -43,7 +43,7 @@ class DetailMovieViewController: UIViewController {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
         setup()
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         setup()
@@ -53,9 +53,6 @@ class DetailMovieViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        getTrailer()
-        getReviews()
         
         showDetails()
     }
@@ -106,7 +103,7 @@ class DetailMovieViewController: UIViewController {
         if sender.selectedSegmentIndex == 0 {
             overviewReviewTextView.text = detailMovie.overview
         } else {
-            overviewReviewTextView.text = reviewList.getReviewAsString()
+            overviewReviewTextView.text = reviews
         }
     }
     
@@ -133,56 +130,8 @@ class DetailMovieViewController: UIViewController {
     }
     
     private func configureUI() {
-        overviewReviewTextView.text = detailMovie.overview ?? ""
-        
         let isMoviePresenInFavorite = ListManager.listManager.isPresent(movie: detailMovie, in: .favoriteList)
         updateAddToFavoriteUISection(if: isMoviePresenInFavorite)
-    }
-    
-    private func getTrailer() {
-        APIMovieManager.fetchMovieTrailer(movieId: movieId) { (trailers, result) in
-            switch result {
-            case .Success:
-                guard let trailers = trailers, trailers.count > 0 else {
-                    let alert = UIHelpers.showAlert(withTitle: "Трейлер отсутствует",
-                                                    message: "Не удалось загрузить трейлер",
-                                                    buttonTitle: "Хорошо",
-                                                    handler: nil)
-                    self.present(alert, animated: true, completion: nil)
-                    return }
-                guard let videoCode = trailers[0].key else { return }
-                DispatchQueue.main.async {
-                    guard let url = URL(string: "https://www.youtube.com/embed/\(videoCode)") else { return }
-                    self.trailerPlayer.load(URLRequest(url: url))
-                }
-            case .Failure:
-                let alert = UIHelpers.showAlert(withTitle: "Ошибка",
-                                                message: "Данные не были получены из сети",
-                                                buttonTitle: "Вернуться назад",
-                                                handler: { action in                                        self.navigationController?.popViewController(animated: true)
-                })
-                
-                self.present(alert, animated: true, completion: nil)
-            }
-        }
-    }
-    
-    private func getReviews() {
-        APIMovieManager.fetchMovieReviews(movieId: movieId) { (reviewlist, result) in
-            switch result {
-            case .Success:
-                guard let reviewList = reviewlist else { return }
-                self.reviewList = reviewList
-            case .Failure:
-                let alert = UIHelpers.showAlert(withTitle: "Ошибка",
-                                                message: "Данные не были получены из сети",
-                                                buttonTitle: "Вернуться назад",
-                                                handler: { action in                                        self.navigationController?.popViewController(animated: true)
-                })
-                
-                self.present(alert, animated: true, completion: nil)
-            }
-        }
     }
     
     private func updateAddToFavoriteUISection(if isPresentInFavorite: Bool) {
@@ -203,6 +152,13 @@ extension DetailMovieViewController: DetailMovieDisplayLogic {
             self.releaseGenreLabel.text = viewModel.displayedDetails.releaseGenre
             self.runTimeLabel.text = viewModel.displayedDetails.runTime
             self.voteAverageLabel.text = viewModel.displayedDetails.voteAverage
+            
+            guard let urlTrailer = viewModel.displayedDetails.trailerUrl else { return } //add ui message trailer is missing
+            self.trailerPlayer.load(URLRequest(url: urlTrailer))
+            
+            self.overviewReviewTextView.text = viewModel.displayedDetails.overView
+            self.reviews = viewModel.displayedDetails.reviews //todo remove after implementation use case for segmentedValueChanged
+            //            guard let reviews = viewModel.displayedDetails.reviews else { return } //add ui message reviews are missing
         }
     }
 }

@@ -38,7 +38,20 @@ class DetailMoviePresenter: DetailMoviePresentationLogic {
         
         let voteAverage = "\(detailMovie.voteAverage ?? 0)"
         
-        let displayedDetails = DetailMovieModels.ShowDetails.ViewModel.DisplayedDetails(movieTitle: title, releaseGenre: releaseGenre, runTime: displayedRunTime, voteAverage: voteAverage)
+        let overview = detailMovie.overview
+        
+        var trailerUrl: URL? = nil
+        
+        if let videoCode = response.videoCode {
+            trailerUrl = URL(string: "https://www.youtube.com/embed/\(videoCode)")
+        }
+        
+        var reiews: String? = nil
+        if let reviewList = response.reviewList {
+            reiews = reviewList.getReviewAsString()
+        }
+        
+        let displayedDetails = DetailMovieModels.ShowDetails.ViewModel.DisplayedDetails(movieTitle: title, releaseGenre: releaseGenre, runTime: displayedRunTime, voteAverage: voteAverage, overView: overview, trailerUrl: trailerUrl, reviews: reiews)
         let viewModel = DetailMovieModels.ShowDetails.ViewModel(displayedDetails: displayedDetails)
         viewController?.displayTextDetails(viewModel: viewModel)
     }

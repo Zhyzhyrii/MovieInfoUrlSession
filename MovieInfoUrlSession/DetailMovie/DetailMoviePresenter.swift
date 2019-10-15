@@ -14,6 +14,8 @@ import UIKit
 
 protocol DetailMoviePresentationLogic {
     func presentDetails(response: DetailMovieModels.ShowDetails.Response)
+    func presentFavouriteStatus(response: DetailMovieModels.SetFavouriteStatus.Response)
+    func presentWatchLaterStatus(response: DetailMovieModels.SetWatchLaterStatus.Response)
 }
 
 class DetailMoviePresenter: DetailMoviePresentationLogic {
@@ -51,8 +53,21 @@ class DetailMoviePresenter: DetailMoviePresentationLogic {
             reiews = reviewList.getReviewAsString()
         }
         
-        let displayedDetails = DetailMovieModels.ShowDetails.ViewModel.DisplayedDetails(movieTitle: title, releaseGenre: releaseGenre, runTime: displayedRunTime, voteAverage: voteAverage, overView: overview, trailerUrl: trailerUrl, reviews: reiews)
+        let isAddedToFavourite = response.isAddedToFavourite
+        let isAddedToWatchLater = response.isAddedToWatchLater
+        
+        let displayedDetails = DetailMovieModels.ShowDetails.ViewModel.DisplayedDetails(movieTitle: title, releaseGenre: releaseGenre, runTime: displayedRunTime, voteAverage: voteAverage, overView: overview, trailerUrl: trailerUrl, reviews: reiews, isAddedToFavourite: isAddedToFavourite, isAddedToWatchLater: isAddedToWatchLater)
         let viewModel = DetailMovieModels.ShowDetails.ViewModel(displayedDetails: displayedDetails)
-        viewController?.displayTextDetails(viewModel: viewModel)
+        viewController?.displayMovieDetails(viewModel: viewModel)
+    }
+    
+    func presentFavouriteStatus(response: DetailMovieModels.SetFavouriteStatus.Response) {
+        let viewModel = DetailMovieModels.SetFavouriteStatus.ViewModel(isAddedToFavourite: response.isAddedToFavourite)
+        viewController?.updateUIForFavouriteStatus(viewModel: viewModel)
+    }
+    
+    func presentWatchLaterStatus(response: DetailMovieModels.SetWatchLaterStatus.Response) {
+        let viewModel = DetailMovieModels.SetWatchLaterStatus.ViewModel(isAddedToWatchLater: response.isAddedToWatchLater)
+        viewController?.updateUIForWatchLaterStatus(viewModel: viewModel)
     }
 }

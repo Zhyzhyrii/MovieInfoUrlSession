@@ -14,7 +14,9 @@ import UIKit
 import WebKit
 
 protocol DetailMovieDisplayLogic: class {
-    func displayTextDetails(viewModel: DetailMovieModels.ShowDetails.ViewModel)
+    func displayMovieDetails(viewModel: DetailMovieModels.ShowDetails.ViewModel)
+    func updateUIForFavouriteStatus(viewModel: DetailMovieModels.SetFavouriteStatus.ViewModel)
+    func updateUIForWatchLaterStatus(viewModel: DetailMovieModels.SetWatchLaterStatus.ViewModel)
 }
 
 class DetailMovieViewController: UIViewController {
@@ -69,31 +71,11 @@ class DetailMovieViewController: UIViewController {
     }
     
     @IBAction func addToFavoritePressed() {
-        if ListManager.listManager.isPresent(movie: detailMovie, in: .favoriteList) {
-            addtoFavoriteButton.setImage(UIImage(named: "heart"), for: .normal)
-            addtoFavoriteButton.setTitle(" Добавить в избранное", for: .normal)
-            detailMovie.isAddedToFavorite = false
-            ListManager.listManager.remove(movie: detailMovie, from: .favoriteList)
-        } else {
-            addtoFavoriteButton.setImage(UIImage(named: "heartColored"), for: .normal)
-            addtoFavoriteButton.setTitle(" В избранном", for: .normal)
-            detailMovie.isAddedToFavorite = true
-            ListManager.listManager.add(movie: detailMovie, to: .favoriteList)
-        }
+        interactor?.setFavouriteStatus()
     }
     
     @IBAction func watchLaterPressed() {
-        if ListManager.listManager.isPresent(movie: detailMovie, in: .watchLaterList) {
-            watchLaterButton.setImage(UIImage(named: "bookmark"), for: .normal)
-            watchLaterButton.setTitle(" Смотреть позже", for: .normal)
-            detailMovie.isAddedToWatchLater = false
-            ListManager.listManager.remove(movie: detailMovie, from: .watchLaterList)
-        } else {
-            watchLaterButton.setImage(UIImage(named: "bookmarkSelected"), for: .normal)
-            watchLaterButton.setTitle(" Посмотрю позже", for: .normal)
-            detailMovie.isAddedToWatchLater = true
-            ListManager.listManager.add(movie: detailMovie, to: .watchLaterList)
-        }
+        interactor?.setWatchLaterStatus()
     }
     
     @IBAction func overviewReviewPressed() {
@@ -107,7 +89,7 @@ class DetailMovieViewController: UIViewController {
         }
     }
     
-    // MARK: Do something
+    // MARK: Do show details
     
     func showDetails() {
         let request = DetailMovieModels.ShowDetails.Request(detailMovieId: movieId)
@@ -116,7 +98,7 @@ class DetailMovieViewController: UIViewController {
     
     // MARK: Setup
     
-    private func setup() {
+    private func setup() { //move to configurator
         let viewController = self
         let interactor = DetailMovieInteractor()
         let presenter = DetailMoviePresenter()
@@ -129,11 +111,6 @@ class DetailMovieViewController: UIViewController {
         router.dataStore = interactor
     }
     
-    private func configureUI() {
-        let isMoviePresenInFavorite = ListManager.listManager.isPresent(movie: detailMovie, in: .favoriteList)
-        updateAddToFavoriteUISection(if: isMoviePresenInFavorite)
-    }
-    
     private func updateAddToFavoriteUISection(if isPresentInFavorite: Bool) {
         if !isPresentInFavorite {
             addtoFavoriteButton.setImage(UIImage(named: "heart"), for: .normal)
@@ -143,11 +120,21 @@ class DetailMovieViewController: UIViewController {
             addtoFavoriteButton.setTitle(" В избранном", for: .normal)
         }
     }
+    
+    private func updateAddToWatchLaterUISection(if isPresentInWatchLater: Bool) {
+        if !isPresentInWatchLater {
+            watchLaterButton.setImage(UIImage(named: "bookmark"), for: .normal)
+            watchLaterButton.setTitle(" Смотреть позже", for: .normal)
+        } else {
+            watchLaterButton.setImage(UIImage(named: "bookmarkSelected"), for: .normal)
+            watchLaterButton.setTitle(" Посмотрю позже", for: .normal)
+        }
+    }
 }
 
 extension DetailMovieViewController: DetailMovieDisplayLogic {
-    func displayTextDetails(viewModel: DetailMovieModels.ShowDetails.ViewModel) {
-        DispatchQueue.main.async {
+    func displayMovieDetails(viewModel: DetailMovieModels.ShowDetails.ViewModel) {
+        DispatchQueue.main.async { // todo why dispatch??
             self.titleLabel.text = viewModel.displayedDetails.movieTitle
             self.releaseGenreLabel.text = viewModel.displayedDetails.releaseGenre
             self.runTimeLabel.text = viewModel.displayedDetails.runTime
@@ -158,7 +145,19 @@ extension DetailMovieViewController: DetailMovieDisplayLogic {
             
             self.overviewReviewTextView.text = viewModel.displayedDetails.overView
             self.reviews = viewModel.displayedDetails.reviews //todo remove after implementation use case for segmentedValueChanged
+            
+            self.updateAddToFavoriteUISection(if: viewModel.displayedDetails.isAddedToFavourite)
+            self.updateAddToWatchLaterUISection(if: viewModel.displayedDetails.isAddedToWatchLater)
+            
             //            guard let reviews = viewModel.displayedDetails.reviews else { return } //add ui message reviews are missing
         }
+    }
+    
+    func updateUIForFavouriteStatus(viewModel: DetailMovieModels.SetFavouriteStatus.ViewModel) {
+        updateAddToFavoriteUISection(if: viewModel.isAddedToFavourite)
+    }
+    
+    func updateUIForWatchLaterStatus(viewModel: DetailMovieModels.SetWatchLaterStatus.ViewModel) {
+        updateAddToWatchLaterUISection(if: viewModel.isAddedToWatchLater)
     }
 }

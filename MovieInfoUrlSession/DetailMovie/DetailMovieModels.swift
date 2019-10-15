@@ -26,10 +26,11 @@ enum DetailMovieModels {
             let detailMovie: DetailMovie //todo optional?? need to think
             let videoCode: String?
             let reviewList: ReviewList?
+            let isAddedToFavourite: Bool
+            let isAddedToWatchLater: Bool
         }
         
         struct ViewModel {
-            
             let displayedDetails: DisplayedDetails
             
             struct DisplayedDetails {
@@ -40,7 +41,38 @@ enum DetailMovieModels {
                 let overView: String?
                 let trailerUrl: URL?
                 let reviews: String?
+                let isAddedToFavourite: Bool
+                let isAddedToWatchLater: Bool
             }
         }
     }
+    
+    enum SetFavouriteStatus {
+        
+        struct Request {
+        }
+        
+        struct Response {
+            let isAddedToFavourite: Bool
+        }
+        
+        struct ViewModel {
+            let isAddedToFavourite: Bool
+        }
+    }
+    
+    enum SetWatchLaterStatus {
+        
+        struct Request {
+        }
+        
+        struct Response {
+            let isAddedToWatchLater: Bool
+        }
+        
+        struct ViewModel {
+            let isAddedToWatchLater: Bool
+        }
+    }
+    
 }

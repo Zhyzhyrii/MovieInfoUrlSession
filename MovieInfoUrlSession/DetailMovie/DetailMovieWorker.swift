@@ -12,7 +12,7 @@
 
 import UIKit
 
-class DetailMovieWorker {
+class DetailMovieWorker { //todo split into two workers? (network and work with lists)
     
     func getMovieDetailInfo(forMovieId movieId: Int, completionHandler: @escaping (DetailMovie?) -> Void) {
         APIMovieManager.fetchDetailMovie(movieId: movieId) { (detailMovie, result) in
@@ -88,6 +88,18 @@ class DetailMovieWorker {
 //
 //                self.present(alert, animated: true, completion: nil)
             }
+        }
+    }
+    
+    func isPresent(movie: DetailMovie, in listType: ListType) -> Bool {
+        return ListManager.listManager.isPresent(movie: movie, in: listType)
+    }
+    
+    func setStatus(for movie: DetailMovie, in list: ListType, with status: Bool) {
+        if !status {
+            ListManager.listManager.remove(movie: movie, from: list)
+        } else {
+            ListManager.listManager.add(movie: movie, to: list)
         }
     }
     

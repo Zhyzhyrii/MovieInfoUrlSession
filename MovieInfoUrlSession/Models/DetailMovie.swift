@@ -18,10 +18,6 @@ struct DetailMovie: Decodable {
     let posterPath: String?
     let genres: [Genre]?
     
-    //custom fields
-    var isAddedToFavorite = false
-    var isAddedToWatchLater = false
-    
     enum CodingKeys: String, CodingKey {
         case title
         case id

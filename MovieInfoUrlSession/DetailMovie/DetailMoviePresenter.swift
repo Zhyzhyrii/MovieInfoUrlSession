@@ -16,6 +16,7 @@ protocol DetailMoviePresentationLogic {
     func presentDetails(response: DetailMovieModels.ShowDetails.Response)
     func presentFavouriteStatus(response: DetailMovieModels.SetFavouriteStatus.Response)
     func presentWatchLaterStatus(response: DetailMovieModels.SetWatchLaterStatus.Response)
+    func presentOverviewReview(response: DetailMovieModels.SelectOverviewReviewsSegmentedControl.Response)
 }
 
 class DetailMoviePresenter: DetailMoviePresentationLogic {
@@ -48,10 +49,7 @@ class DetailMoviePresenter: DetailMoviePresentationLogic {
             trailerUrl = URL(string: "https://www.youtube.com/embed/\(videoCode)")
         }
         
-        var reiews: String? = nil
-        if let reviewList = response.reviewList {
-            reiews = reviewList.getReviewAsString()
-        }
+        let reiews = response.reviews
         
         let isAddedToFavourite = response.isAddedToFavourite
         let isAddedToWatchLater = response.isAddedToWatchLater
@@ -69,5 +67,10 @@ class DetailMoviePresenter: DetailMoviePresentationLogic {
     func presentWatchLaterStatus(response: DetailMovieModels.SetWatchLaterStatus.Response) {
         let viewModel = DetailMovieModels.SetWatchLaterStatus.ViewModel(isAddedToWatchLater: response.isAddedToWatchLater)
         viewController?.updateUIForWatchLaterStatus(viewModel: viewModel)
+    }
+    
+    func presentOverviewReview(response: DetailMovieModels.SelectOverviewReviewsSegmentedControl.Response) {
+        let viewModel = DetailMovieModels.SelectOverviewReviewsSegmentedControl.ViewModel(overviewReviews: response.overviewReviews)
+        viewController?.updateOverviewReviews(viewModel: viewModel)
     }
 }

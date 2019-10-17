@@ -16,12 +16,13 @@ protocol DetailMovieBusinessLogic {
     func showDetails(request: DetailMovieModels.ShowDetails.Request)
     func setFavouriteStatus()
     func setWatchLaterStatus()
+    func selectOverviewReviewSegment(request: DetailMovieModels.SelectOverviewReviewsSegmentedControl.Request)
 }
 
 protocol DetailMovieDataStore {
     var detailMovie: DetailMovie! { get }
     var videoCode: String! { get }
-    var reviewList: ReviewList! { get }
+    var reviews: String! { get }
     var isAddedToFavourite: Bool { get }
     var isAddedToWatchLater: Bool { get }
 }
@@ -33,7 +34,7 @@ class DetailMovieInteractor: DetailMovieBusinessLogic, DetailMovieDataStore {
     
     var detailMovie: DetailMovie!
     var videoCode: String!
-    var reviewList: ReviewList!
+    var reviews: String!
     var isAddedToFavourite = false
     var isAddedToWatchLater = false
     
@@ -52,12 +53,12 @@ class DetailMovieInteractor: DetailMovieBusinessLogic, DetailMovieDataStore {
         })
         
         worker?.getReviews(forMovieId: request.detailMovieId, completionHandler: { (reviewList) in
-            self.reviewList = reviewList
+            self.reviews = reviewList?.getReviewAsString()
             
             self.isAddedToFavourite = self.worker?.isPresent(movie: self.detailMovie, in: .favoriteList) ?? false
             self.isAddedToWatchLater = self.worker?.isPresent(movie: self.detailMovie, in: .watchLaterList) ?? false
             
-            let response = DetailMovieModels.ShowDetails.Response(detailMovie: self.detailMovie, videoCode: self.videoCode, reviewList: self.reviewList, isAddedToFavourite: self.isAddedToFavourite, isAddedToWatchLater: self.isAddedToWatchLater)
+            let response = DetailMovieModels.ShowDetails.Response(detailMovie: self.detailMovie, videoCode: self.videoCode, reviews: self.reviews, isAddedToFavourite: self.isAddedToFavourite, isAddedToWatchLater: self.isAddedToWatchLater)
             self.presenter?.presentDetails(response: response)
         })
     }
@@ -76,5 +77,19 @@ class DetailMovieInteractor: DetailMovieBusinessLogic, DetailMovieDataStore {
         
         let response = DetailMovieModels.SetWatchLaterStatus.Response(isAddedToWatchLater: isAddedToWatchLater)
         presenter?.presentWatchLaterStatus(response: response)
+    }
+    
+    func selectOverviewReviewSegment(request: DetailMovieModels.SelectOverviewReviewsSegmentedControl.Request) {
+        var overviewOrReviews = ""
+        if request.selectedSegmentIndex == 0 {
+            if let overview = detailMovie.overview {
+                overviewOrReviews = overview
+            }
+        } else {
+            overviewOrReviews = reviews
+        }
+        
+        let response = DetailMovieModels.SelectOverviewReviewsSegmentedControl.Response(overviewReviews: overviewOrReviews)
+        presenter?.presentOverviewReview(response: response)
     }
 }

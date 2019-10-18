@@ -24,8 +24,6 @@ enum DetailMovieModels {
         
         struct Response {
             let detailMovie: DetailMovie //todo optional?? need to think
-            let videoCode: String?
-            let reviews: String?
             let isAddedToFavourite: Bool
             let isAddedToWatchLater: Bool
         }
@@ -39,11 +37,24 @@ enum DetailMovieModels {
                 let runTime: String?
                 let voteAverage: String?
                 let overView: String?
-                let trailerUrl: URL?
-                let reviews: String?
                 let isAddedToFavourite: Bool
                 let isAddedToWatchLater: Bool
             }
+        }
+    }
+    
+    enum ShowTrailer {
+        
+        struct Request {
+            let detailMovieId: Int
+        }
+        
+        struct Response {
+            let videoCode: String?
+        }
+        
+        struct ViewModel {
+            let trailerUrl: URL?
         }
     }
     
@@ -81,6 +92,7 @@ enum DetailMovieModels {
         
         struct Request {
             let selectedSegmentIndex: Int
+            let movieId: Int
         }
         
         struct Response {

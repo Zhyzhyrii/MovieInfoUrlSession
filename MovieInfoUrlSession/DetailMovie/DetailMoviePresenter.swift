@@ -14,6 +14,7 @@ import UIKit
 
 protocol DetailMoviePresentationLogic {
     func presentDetails(response: DetailMovieModels.ShowDetails.Response)
+    func presentTrailer(response: DetailMovieModels.ShowTrailer.Response)
     func presentFavouriteStatus(response: DetailMovieModels.SetFavouriteStatus.Response)
     func presentWatchLaterStatus(response: DetailMovieModels.SetWatchLaterStatus.Response)
     func presentOverviewReview(response: DetailMovieModels.SelectOverviewReviewsSegmentedControl.Response)
@@ -43,34 +44,40 @@ class DetailMoviePresenter: DetailMoviePresentationLogic {
         
         let overview = detailMovie.overview
         
-        var trailerUrl: URL? = nil
         
-        if let videoCode = response.videoCode {
-            trailerUrl = URL(string: "https://www.youtube.com/embed/\(videoCode)")
-        }
-        
-        let reiews = response.reviews
         
         let isAddedToFavourite = response.isAddedToFavourite
         let isAddedToWatchLater = response.isAddedToWatchLater
         
-        let displayedDetails = DetailMovieModels.ShowDetails.ViewModel.DisplayedDetails(movieTitle: title, releaseGenre: releaseGenre, runTime: displayedRunTime, voteAverage: voteAverage, overView: overview, trailerUrl: trailerUrl, reviews: reiews, isAddedToFavourite: isAddedToFavourite, isAddedToWatchLater: isAddedToWatchLater)
+        let displayedDetails = DetailMovieModels.ShowDetails.ViewModel.DisplayedDetails(movieTitle: title, releaseGenre: releaseGenre, runTime: displayedRunTime, voteAverage: voteAverage, overView: overview, isAddedToFavourite: isAddedToFavourite, isAddedToWatchLater: isAddedToWatchLater)
+        
         let viewModel = DetailMovieModels.ShowDetails.ViewModel(displayedDetails: displayedDetails)
         viewController?.displayMovieDetails(viewModel: viewModel)
     }
     
+    func presentTrailer(response: DetailMovieModels.ShowTrailer.Response) {
+        var trailerUrl: URL? = nil
+
+        if let videoCode = response.videoCode {
+            trailerUrl = URL(string: "https://www.youtube.com/embed/\(videoCode)")
+        }
+        
+        let viewModel = DetailMovieModels.ShowTrailer.ViewModel(trailerUrl: trailerUrl)
+        viewController?.displayTrailer(viewModel: viewModel)
+    }
+    
     func presentFavouriteStatus(response: DetailMovieModels.SetFavouriteStatus.Response) {
         let viewModel = DetailMovieModels.SetFavouriteStatus.ViewModel(isAddedToFavourite: response.isAddedToFavourite)
-        viewController?.updateUIForFavouriteStatus(viewModel: viewModel)
+        viewController?.displayFavouriteStatus(viewModel: viewModel)
     }
     
     func presentWatchLaterStatus(response: DetailMovieModels.SetWatchLaterStatus.Response) {
         let viewModel = DetailMovieModels.SetWatchLaterStatus.ViewModel(isAddedToWatchLater: response.isAddedToWatchLater)
-        viewController?.updateUIForWatchLaterStatus(viewModel: viewModel)
+        viewController?.displayWatchLaterStatus(viewModel: viewModel)
     }
     
     func presentOverviewReview(response: DetailMovieModels.SelectOverviewReviewsSegmentedControl.Response) {
         let viewModel = DetailMovieModels.SelectOverviewReviewsSegmentedControl.ViewModel(overviewReviews: response.overviewReviews)
-        viewController?.updateOverviewReviews(viewModel: viewModel)
+        viewController?.displayOverviewReviews(viewModel: viewModel)
     }
 }

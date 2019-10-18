@@ -14,6 +14,7 @@ import UIKit
 
 protocol DetailMovieBusinessLogic {
     func showDetails(request: DetailMovieModels.ShowDetails.Request)
+    func showTrailer(request: DetailMovieModels.ShowTrailer.Request)
     func setFavouriteStatus()
     func setWatchLaterStatus()
     func selectOverviewReviewSegment(request: DetailMovieModels.SelectOverviewReviewsSegmentedControl.Request)
@@ -41,25 +42,24 @@ class DetailMovieInteractor: DetailMovieBusinessLogic, DetailMovieDataStore {
     // MARK: Do something
     
     func showDetails(request: DetailMovieModels.ShowDetails.Request) {
-
         worker = DetailMovieWorker()
         
         worker?.getMovieDetailInfo(forMovieId: request.detailMovieId, completionHandler: { (detailMovie) in
             self.detailMovie = detailMovie
-        })
-        
-        worker?.getTrailer(forMovieId: request.detailMovieId, completionHandler: { (videoCode) in
-            self.videoCode = videoCode
-        })
-        
-        worker?.getReviews(forMovieId: request.detailMovieId, completionHandler: { (reviewList) in
-            self.reviews = reviewList?.getReviewAsString()
             
             self.isAddedToFavourite = self.worker?.isPresent(movie: self.detailMovie, in: .favoriteList) ?? false
             self.isAddedToWatchLater = self.worker?.isPresent(movie: self.detailMovie, in: .watchLaterList) ?? false
             
-            let response = DetailMovieModels.ShowDetails.Response(detailMovie: self.detailMovie, videoCode: self.videoCode, reviews: self.reviews, isAddedToFavourite: self.isAddedToFavourite, isAddedToWatchLater: self.isAddedToWatchLater)
+            let response = DetailMovieModels.ShowDetails.Response(detailMovie: self.detailMovie, isAddedToFavourite: self.isAddedToFavourite, isAddedToWatchLater: self.isAddedToWatchLater)
             self.presenter?.presentDetails(response: response)
+        })
+    }
+    
+    func showTrailer(request: DetailMovieModels.ShowTrailer.Request) {
+        worker?.getTrailer(forMovieId: request.detailMovieId, completionHandler: { (videoCode) in
+            self.videoCode = videoCode
+            let response = DetailMovieModels.ShowTrailer.Response(videoCode: videoCode)
+            self.presenter?.presentTrailer(response: response)
         })
     }
     
@@ -80,16 +80,17 @@ class DetailMovieInteractor: DetailMovieBusinessLogic, DetailMovieDataStore {
     }
     
     func selectOverviewReviewSegment(request: DetailMovieModels.SelectOverviewReviewsSegmentedControl.Request) {
-        var overviewOrReviews = ""
         if request.selectedSegmentIndex == 0 {
             if let overview = detailMovie.overview {
-                overviewOrReviews = overview
+                let response = DetailMovieModels.SelectOverviewReviewsSegmentedControl.Response(overviewReviews: overview)
+                presenter?.presentOverviewReview(response: response)
             }
         } else {
-            overviewOrReviews = reviews
+            worker?.getReviews(forMovieId: request.movieId, completionHandler: { (reviewList) in
+                self.reviews = reviewList?.getReviewAsString()
+                let response = DetailMovieModels.SelectOverviewReviewsSegmentedControl.Response(overviewReviews: self.reviews)
+                self.presenter?.presentOverviewReview(response: response)
+            })
         }
-        
-        let response = DetailMovieModels.SelectOverviewReviewsSegmentedControl.Response(overviewReviews: overviewOrReviews)
-        presenter?.presentOverviewReview(response: response)
     }
 }

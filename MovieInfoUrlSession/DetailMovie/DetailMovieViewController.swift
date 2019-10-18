@@ -15,9 +15,10 @@ import WebKit
 
 protocol DetailMovieDisplayLogic: class {
     func displayMovieDetails(viewModel: DetailMovieModels.ShowDetails.ViewModel)
-    func updateUIForFavouriteStatus(viewModel: DetailMovieModels.SetFavouriteStatus.ViewModel)
-    func updateUIForWatchLaterStatus(viewModel: DetailMovieModels.SetWatchLaterStatus.ViewModel)
-    func updateOverviewReviews(viewModel: DetailMovieModels.SelectOverviewReviewsSegmentedControl.ViewModel)
+    func displayTrailer(viewModel: DetailMovieModels.ShowTrailer.ViewModel)
+    func displayFavouriteStatus(viewModel: DetailMovieModels.SetFavouriteStatus.ViewModel)
+    func displayWatchLaterStatus(viewModel: DetailMovieModels.SetWatchLaterStatus.ViewModel)
+    func displayOverviewReviews(viewModel: DetailMovieModels.SelectOverviewReviewsSegmentedControl.ViewModel)
 }
 
 class DetailMovieViewController: UIViewController {
@@ -55,6 +56,7 @@ class DetailMovieViewController: UIViewController {
         super.viewDidLoad()
         
         showDetails()
+        showTrailer()
     }
     
     // MARK: Routing
@@ -77,7 +79,7 @@ class DetailMovieViewController: UIViewController {
     }
     
     @IBAction func segmentedValueChanged(_ sender: UISegmentedControl) {
-        let request = DetailMovieModels.SelectOverviewReviewsSegmentedControl.Request(selectedSegmentIndex: sender.selectedSegmentIndex)
+        let request = DetailMovieModels.SelectOverviewReviewsSegmentedControl.Request(selectedSegmentIndex: sender.selectedSegmentIndex, movieId: movieId)
         interactor?.selectOverviewReviewSegment(request: request)
     }
     
@@ -86,6 +88,11 @@ class DetailMovieViewController: UIViewController {
     private func showDetails() {
         let request = DetailMovieModels.ShowDetails.Request(detailMovieId: movieId)
         interactor?.showDetails(request: request)
+    }
+    
+    private func showTrailer() {
+        let request = DetailMovieModels.ShowTrailer.Request(detailMovieId: movieId)
+        interactor?.showTrailer(request: request)
     }
     
     // MARK: Setup
@@ -105,15 +112,12 @@ class DetailMovieViewController: UIViewController {
 }
 
 extension DetailMovieViewController: DetailMovieDisplayLogic {
-    func displayMovieDetails(viewModel: DetailMovieModels.ShowDetails.ViewModel) {
-        DispatchQueue.main.async { // todo why dispatch??
+    func displayMovieDetails(viewModel: DetailMovieModels.ShowDetails.ViewModel) { // add ui error message
+        DispatchQueue.main.async {
             self.titleLabel.text = viewModel.displayedDetails.movieTitle
             self.releaseGenreLabel.text = viewModel.displayedDetails.releaseGenre
             self.runTimeLabel.text = viewModel.displayedDetails.runTime
             self.voteAverageLabel.text = viewModel.displayedDetails.voteAverage
-            
-            guard let urlTrailer = viewModel.displayedDetails.trailerUrl else { return } //add ui message trailer is missing
-            self.trailerPlayer.load(URLRequest(url: urlTrailer))
             
             self.overviewReviewTextView.text = viewModel.displayedDetails.overView
             
@@ -124,16 +128,25 @@ extension DetailMovieViewController: DetailMovieDisplayLogic {
         }
     }
     
-    func updateUIForFavouriteStatus(viewModel: DetailMovieModels.SetFavouriteStatus.ViewModel) {
+    func displayTrailer(viewModel: DetailMovieModels.ShowTrailer.ViewModel) {
+        guard let urlTrailer = viewModel.trailerUrl else { return } //add ui message trailer is missing
+        DispatchQueue.main.async {
+            self.trailerPlayer.load(URLRequest(url: urlTrailer))
+        }
+    }
+    
+    func displayFavouriteStatus(viewModel: DetailMovieModels.SetFavouriteStatus.ViewModel) {
         updateAddToFavoriteUISection(if: viewModel.isAddedToFavourite)
     }
     
-    func updateUIForWatchLaterStatus(viewModel: DetailMovieModels.SetWatchLaterStatus.ViewModel) {
+    func displayWatchLaterStatus(viewModel: DetailMovieModels.SetWatchLaterStatus.ViewModel) {
         updateAddToWatchLaterUISection(if: viewModel.isAddedToWatchLater)
     }
     
-    func updateOverviewReviews(viewModel: DetailMovieModels.SelectOverviewReviewsSegmentedControl.ViewModel) {
-        overviewReviewTextView.text = viewModel.overviewReviews
+    func displayOverviewReviews(viewModel: DetailMovieModels.SelectOverviewReviewsSegmentedControl.ViewModel) {
+        DispatchQueue.main.async {
+            self.overviewReviewTextView.text = viewModel.overviewReviews
+        }
     }
     
     private func updateAddToFavoriteUISection(if isPresentInFavorite: Bool) {

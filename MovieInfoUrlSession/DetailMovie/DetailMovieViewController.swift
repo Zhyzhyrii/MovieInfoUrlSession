@@ -46,21 +46,22 @@ class DetailMovieViewController: UIViewController {
     // MARK: Object lifecycle
     
     //initiate before starting lifecycle
-    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
-        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
-        setup()
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        setup()
-    }
+//    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
+//        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+//         DetailMovieConfigurator.shared.configure(with: self)
+//    }
+//
+//    required init?(coder aDecoder: NSCoder) {
+//        super.init(coder: aDecoder)
+//        DetailMovieConfigurator.shared.configure(with: self)
+//    }
     
     // MARK: View lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        DetailMovieConfigurator.shared.configure(with: self) //MARK: TODO remove and move to initializators
         showDetails()
         showTrailer()
     }
@@ -99,21 +100,6 @@ class DetailMovieViewController: UIViewController {
     private func showTrailer() {
         let request = DetailMovieModels.ShowTrailer.Request(detailMovieId: movieId)
         interactor?.showTrailer(request: request)
-    }
-    
-    // MARK: Setup
-    
-    private func setup() { //move to configurator
-        let viewController = self
-        let interactor = DetailMovieInteractor()
-        let presenter = DetailMoviePresenter()
-        let router = DetailMovieRouter()
-        viewController.interactor = interactor
-        viewController.router = router
-        interactor.presenter = presenter
-        presenter.viewController = viewController
-        router.viewController = viewController
-        router.dataStore = interactor
     }
 }
 

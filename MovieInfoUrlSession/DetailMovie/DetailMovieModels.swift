@@ -96,11 +96,13 @@ enum DetailMovieModels {
         }
         
         struct Response {
-            let overviewReviews: String
+            let overviewReviews: String?
+            let errorMessage: String?
         }
         
         struct ViewModel {
-            let overviewReviews: String
+            let overviewReviews: String?
+            let errorMessage: String?
         }
         
     }

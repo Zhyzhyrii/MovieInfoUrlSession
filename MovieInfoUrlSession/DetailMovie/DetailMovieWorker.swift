@@ -12,6 +12,9 @@
 
 import UIKit
 
+typealias getReviewResponseSuccess = (ReviewList?) -> Void
+typealias getReviewResponseFailure = (Error?) -> Void
+
 class DetailMovieWorker { //todo split into two workers? (network and work with lists)
     
     func getMovieDetailInfo(forMovieId movieId: Int, completionHandler: @escaping (DetailMovie?) -> Void) {
@@ -71,22 +74,14 @@ class DetailMovieWorker { //todo split into two workers? (network and work with 
         }
     }
     
-    func getReviews(forMovieId movieId: Int, completionHandler: @escaping (ReviewList?) -> Void) {
-        APIMovieManager.fetchMovieReviews(movieId: movieId) { (reviewlist, result) in
+    func getReviews(forMovieId movieId: Int, success: @escaping getReviewResponseSuccess, failure: @escaping getReviewResponseFailure) {
+        APIMovieManager.fetchMovieReviews(movieId: movieId) { (reviewlist, result, error) in
             switch result {
             case .Success:
                 guard let reviewList = reviewlist else { return }
-                completionHandler(reviewList)
+                success(reviewList)
             case .Failure:
-                print("Error")
-                completionHandler(nil)
-//                let alert = UIHelpers.showAlert(withTitle: "Ошибка",
-//                                                message: "Данные не были получены из сети",
-//                                                buttonTitle: "Вернуться назад",
-//                                                handler: { action in                                        self.navigationController?.popViewController(animated: true)
-//                })
-//
-//                self.present(alert, animated: true, completion: nil)
+                failure(error)
             }
         }
     }

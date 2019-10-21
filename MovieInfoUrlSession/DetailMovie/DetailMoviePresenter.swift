@@ -77,7 +77,19 @@ class DetailMoviePresenter: DetailMoviePresentationLogic {
     }
     
     func presentOverviewReview(response: DetailMovieModels.SelectOverviewReviewsSegmentedControl.Response) {
-        let viewModel = DetailMovieModels.SelectOverviewReviewsSegmentedControl.ViewModel(overviewReviews: response.overviewReviews)
-        viewController?.displayOverviewReviews(viewModel: viewModel)
+        
+        if response.errorMessage != nil {
+            let viewModel = DetailMovieModels.SelectOverviewReviewsSegmentedControl.ViewModel(overviewReviews: nil, errorMessage: response.errorMessage)
+            viewController?.displayeOverViewReviewsError(viewModel: viewModel)
+        } else {
+            
+            if response.overviewReviews != nil {
+                let viewModel = DetailMovieModels.SelectOverviewReviewsSegmentedControl.ViewModel(overviewReviews: response.overviewReviews, errorMessage: nil)
+                viewController?.displayOverviewReviews(viewModel: viewModel)
+            } else { //todo need to make text bigger and centered (maybe move to VC)
+                let viewModel = DetailMovieModels.SelectOverviewReviewsSegmentedControl.ViewModel(overviewReviews: "Отзывов еще нет.", errorMessage: nil)
+                viewController?.displayOverviewReviews(viewModel: viewModel)
+            }
+        }
     }
 }

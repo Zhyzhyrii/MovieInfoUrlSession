@@ -68,7 +68,7 @@ final class APIMovieManager {
             }.resume()
     }
     
-    static func fetchMovieReviews(movieId: Int, completionHandler: @escaping (ReviewList?, APIResult) -> Void) {
+    static func fetchMovieReviews(movieId: Int, completionHandler: @escaping (ReviewList?, APIResult, Error?) -> Void) {
         
         guard let url = URL(string: BaseApiData.baseMovieURL + "/\(movieId)/reviews" + BaseApiData.apiKey + "&language=en-US") else { return }
         let urlrequest = URLRequest(url: url)
@@ -76,15 +76,15 @@ final class APIMovieManager {
         URLSession.shared.dataTask(with: urlrequest) { (data, response, error) in
             
             guard let data = data, error == nil else {
-                completionHandler(nil, .Failure)
+                completionHandler(nil, .Failure, error)
                 return
             }
             
             do {
                 let reviewList = try JSONDecoder().decode(ReviewList.self, from: data)
-                completionHandler(reviewList, .Success)
+                completionHandler(reviewList, .Success, nil)
             } catch let error {
-                completionHandler(nil, .Failure)
+                completionHandler(nil, .Failure, error)
                 print(error)
             }
             }.resume()

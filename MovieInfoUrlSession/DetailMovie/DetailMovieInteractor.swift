@@ -82,14 +82,17 @@ class DetailMovieInteractor: DetailMovieBusinessLogic, DetailMovieDataStore {
     func selectOverviewReviewSegment(request: DetailMovieModels.SelectOverviewReviewsSegmentedControl.Request) {
         if request.selectedSegmentIndex == 0 {
             if let overview = detailMovie.overview {
-                let response = DetailMovieModels.SelectOverviewReviewsSegmentedControl.Response(overviewReviews: overview)
+                let response = DetailMovieModels.SelectOverviewReviewsSegmentedControl.Response(overviewReviews: overview, errorMessage: nil)
                 presenter?.presentOverviewReview(response: response)
             }
         } else {
-            worker?.getReviews(forMovieId: request.movieId, completionHandler: { (reviewList) in
+            worker?.getReviews(forMovieId: request.movieId, success: { (reviewList) in
                 self.reviews = reviewList?.getReviewAsString()
-                let response = DetailMovieModels.SelectOverviewReviewsSegmentedControl.Response(overviewReviews: self.reviews)
+                let response = DetailMovieModels.SelectOverviewReviewsSegmentedControl.Response(overviewReviews: self.reviews, errorMessage: nil)
                 self.presenter?.presentOverviewReview(response: response)
+            }, failure: { [weak self] (error) in
+                let response = DetailMovieModels.SelectOverviewReviewsSegmentedControl.Response(overviewReviews: nil, errorMessage: error?.localizedDescription)
+                self?.presenter?.presentOverviewReview(response: response)
             })
         }
     }

@@ -18,7 +18,9 @@ protocol DetailMovieDisplayLogic: class {
     func displayTrailer(viewModel: DetailMovieModels.ShowTrailer.ViewModel)
     func displayFavouriteStatus(viewModel: DetailMovieModels.SetFavouriteStatus.ViewModel)
     func displayWatchLaterStatus(viewModel: DetailMovieModels.SetWatchLaterStatus.ViewModel)
+    
     func displayOverviewReviews(viewModel: DetailMovieModels.SelectOverviewReviewsSegmentedControl.ViewModel)
+    func displayeOverViewReviewsError(viewModel: DetailMovieModels.SelectOverviewReviewsSegmentedControl.ViewModel)
 }
 
 class DetailMovieViewController: UIViewController {
@@ -123,8 +125,6 @@ extension DetailMovieViewController: DetailMovieDisplayLogic {
             
             self.updateAddToFavoriteUISection(if: viewModel.displayedDetails.isAddedToFavourite)
             self.updateAddToWatchLaterUISection(if: viewModel.displayedDetails.isAddedToWatchLater)
-            
-            //            guard let reviews = viewModel.displayedDetails.reviews else { return } //add ui message reviews are missing
         }
     }
     
@@ -143,10 +143,21 @@ extension DetailMovieViewController: DetailMovieDisplayLogic {
         updateAddToWatchLaterUISection(if: viewModel.isAddedToWatchLater)
     }
     
-    func displayOverviewReviews(viewModel: DetailMovieModels.SelectOverviewReviewsSegmentedControl.ViewModel) {
+    func displayOverviewReviews(viewModel: DetailMovieModels.SelectOverviewReviewsSegmentedControl.ViewModel) { //display error message
         DispatchQueue.main.async {
             self.overviewReviewTextView.text = viewModel.overviewReviews
         }
+    }
+    
+    func displayeOverViewReviewsError(viewModel: DetailMovieModels.SelectOverviewReviewsSegmentedControl.ViewModel) {
+        let alert = UIHelpers.showAlert(withTitle: "Ошибка",
+                                        message: "Данные не были получены из сети",
+                                        buttonTitle: "OK",
+                                        handler: { action in
+                                            self.overviewReviewSegmentedControl.selectedSegmentIndex = 0
+        })
+        
+        self.present(alert, animated: true, completion: nil)
     }
     
     private func updateAddToFavoriteUISection(if isPresentInFavorite: Bool) {

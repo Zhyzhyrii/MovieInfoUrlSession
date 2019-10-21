@@ -39,7 +39,7 @@ final class APIMovieManager {
             }.resume()
     }
     
-    static func fetchMovieTrailer(movieId: Int, completionHandler: @escaping ([Trailer]?, APIResult) -> Void) {
+    static func fetchMovieTrailer(movieId: Int, completionHandler: @escaping ([Trailer]?, APIResult, Error?) -> Void) {
         
         guard let url = URL(string: BaseApiData.baseMovieURL + "/\(movieId)/videos" + BaseApiData.apiKey + "&language=ru") else { return }
         let urlrequest = URLRequest(url: url)
@@ -47,7 +47,7 @@ final class APIMovieManager {
         URLSession.shared.dataTask(with: urlrequest) { (data, response, error) in
             
             guard let data = data, error == nil else {
-                completionHandler(nil, .Failure)
+                completionHandler(nil, .Failure, error)
                 return
             }
             
@@ -56,13 +56,13 @@ final class APIMovieManager {
                 let trailers = Trailer.getTrailers(from: trailerList)
                 
                 guard trailers != nil else {
-                    completionHandler(nil, .Failure)
+                    completionHandler(nil, .Failure, error)
                     return
                 }
                 
-                completionHandler(trailers, .Success)
+                completionHandler(trailers, .Success, nil)
             } catch let error {
-                completionHandler(nil, .Failure)
+                completionHandler(nil, .Failure, error)
                 print(error)
             }
             }.resume()

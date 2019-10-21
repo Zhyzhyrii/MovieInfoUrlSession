@@ -15,6 +15,9 @@ import UIKit
 typealias getReviewResponseSuccess = (ReviewList?) -> Void
 typealias getReviewResponseFailure = (Error?) -> Void
 
+typealias getTrailerSuccess = (String?) -> Void
+typealias getTrailerFailure = (Error?) -> Void
+
 class DetailMovieWorker { //todo split into two workers? (network and work with lists)
     
     func getMovieDetailInfo(forMovieId movieId: Int, completionHandler: @escaping (DetailMovie?) -> Void) {
@@ -23,53 +26,36 @@ class DetailMovieWorker { //todo split into two workers? (network and work with 
             case .Success:
                 guard let detailMovie = detailMovie else { return }
                 completionHandler(detailMovie)
-//                DispatchQueue.main.async {
-//                    self.configureUI()
-//                }
+                //                DispatchQueue.main.async {
+                //                    self.configureUI()
+            //                }
             case .Failure:
                 print("Error")
                 completionHandler(nil)
-//                let alert = UIHelpers.showAlert(withTitle: "Ошибка",
-//                                                message: "Данные не были получены из сети",
-//                                                buttonTitle: "Вернуться назад",
-//                                                handler: { action in
-//                                                    self.navigationController?.popViewController(animated: true)
-//                })
+                //                let alert = UIHelpers.showAlert(withTitle: "Ошибка",
+                //                                                message: "Данные не были получены из сети",
+                //                                                buttonTitle: "Вернуться назад",
+                //                                                handler: { action in
+                //                                                    self.navigationController?.popViewController(animated: true)
+                //                })
                 
-//                self.present(alert, animated: true, completion: nil)
+                //                self.present(alert, animated: true, completion: nil)
                 
             }
         }
     }
     
-    func getTrailer(forMovieId movieId: Int, completionHandler: @escaping (String?) -> Void) {
-        APIMovieManager.fetchMovieTrailer(movieId: movieId) { (trailers, result) in
+    func getTrailer(forMovieId movieId: Int, success: @escaping getTrailerSuccess, failure: @escaping getTrailerFailure) {
+        APIMovieManager.fetchMovieTrailer(movieId: movieId) { (trailers, result, error) in
             switch result {
             case .Success:
                 guard let trailers = trailers, trailers.count > 0 else {
-//                    let alert = UIHelpers.showAlert(withTitle: "Трейлер отсутствует",
-//                                                    message: "Не удалось загрузить трейлер",
-//                                                    buttonTitle: "Хорошо",
-//                                                    handler: nil)
-//                    self.present(alert, animated: true, completion: nil)
-                    completionHandler(nil)
+                    failure(error)
                     return }
                 guard let videoCode = trailers[0].key else { return }
-                completionHandler(videoCode)
-//                DispatchQueue.main.async {
-//                    guard let url = URL(string: "https://www.youtube.com/embed/\(videoCode)") else { return }
-//                    self.trailerPlayer.load(URLRequest(url: url))
-//                }
+                success(videoCode)
             case .Failure:
-                print("Error")
-                completionHandler(nil)
-//                let alert = UIHelpers.showAlert(withTitle: "Ошибка",
-//                                                message: "Данные не были получены из сети",
-//                                                buttonTitle: "Вернуться назад",
-//                                                handler: { action in                                        self.navigationController?.popViewController(animated: true)
-//                })
-//
-//                self.present(alert, animated: true, completion: nil)
+                failure(error)
             }
         }
     }

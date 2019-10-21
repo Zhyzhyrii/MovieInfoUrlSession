@@ -32,7 +32,7 @@ class DetailMoviePresenter: DetailMoviePresentationLogic {
         
         let title = detailMovie.title
         let releaseGenre = (detailMovie.releaseDate ?? "") + ", " + (detailMovie.getGenresAsString() ?? "")
-       
+        
         var displayedRunTime: String
         if let runTime = detailMovie.runTime {
             displayedRunTime = String(runTime) + " мин"
@@ -56,14 +56,21 @@ class DetailMoviePresenter: DetailMoviePresentationLogic {
     }
     
     func presentTrailer(response: DetailMovieModels.ShowTrailer.Response) {
-        var trailerUrl: URL? = nil
-
-        if let videoCode = response.videoCode {
-            trailerUrl = URL(string: "https://www.youtube.com/embed/\(videoCode)")
+        
+        if let errorMessage = response.errorMessage {
+            let viewModel = DetailMovieModels.ShowTrailer.ViewModel(trailerUrl: nil, errorMessage: errorMessage)
+            viewController?.displayTrailerError(viewModel: viewModel)
+        } else {
+            if let videoCode = response.videoCode {
+                let trailerUrl = URL(string: "https://www.youtube.com/embed/\(videoCode)")
+                let viewModel = DetailMovieModels.ShowTrailer.ViewModel(trailerUrl: trailerUrl, errorMessage: nil)
+                viewController?.displayTrailer(viewModel: viewModel)
+            } else {
+                let viewModel = DetailMovieModels.ShowTrailer.ViewModel(trailerUrl: nil, errorMessage: nil)
+                viewController?.displayTrailerError(viewModel: viewModel)
+            }
         }
         
-        let viewModel = DetailMovieModels.ShowTrailer.ViewModel(trailerUrl: trailerUrl)
-        viewController?.displayTrailer(viewModel: viewModel)
     }
     
     func presentFavouriteStatus(response: DetailMovieModels.SetFavouriteStatus.Response) {

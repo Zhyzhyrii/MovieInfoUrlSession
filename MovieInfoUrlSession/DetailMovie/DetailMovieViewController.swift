@@ -15,7 +15,10 @@ import WebKit
 
 protocol DetailMovieDisplayLogic: class {
     func displayMovieDetails(viewModel: DetailMovieModels.ShowDetails.ViewModel)
+   
     func displayTrailer(viewModel: DetailMovieModels.ShowTrailer.ViewModel)
+    func displayTrailerError(viewModel: DetailMovieModels.ShowTrailer.ViewModel)
+    
     func displayFavouriteStatus(viewModel: DetailMovieModels.SetFavouriteStatus.ViewModel)
     func displayWatchLaterStatus(viewModel: DetailMovieModels.SetWatchLaterStatus.ViewModel)
     
@@ -129,10 +132,18 @@ extension DetailMovieViewController: DetailMovieDisplayLogic {
     }
     
     func displayTrailer(viewModel: DetailMovieModels.ShowTrailer.ViewModel) {
-        guard let urlTrailer = viewModel.trailerUrl else { return } //add ui message trailer is missing
+        guard let urlTrailer = viewModel.trailerUrl else { return }
         DispatchQueue.main.async {
             self.trailerPlayer.load(URLRequest(url: urlTrailer))
         }
+    }
+    
+    func displayTrailerError(viewModel: DetailMovieModels.ShowTrailer.ViewModel) {
+        let alert = UIHelpers.showAlert(withTitle: "Ошибка",
+                                        message: "Данные о трейлере не были получены из сети",
+                                        buttonTitle: "OK",
+                                        handler: nil)
+        self.present(alert, animated: true, completion: nil)
     }
     
     func displayFavouriteStatus(viewModel: DetailMovieModels.SetFavouriteStatus.ViewModel) {
@@ -143,7 +154,7 @@ extension DetailMovieViewController: DetailMovieDisplayLogic {
         updateAddToWatchLaterUISection(if: viewModel.isAddedToWatchLater)
     }
     
-    func displayOverviewReviews(viewModel: DetailMovieModels.SelectOverviewReviewsSegmentedControl.ViewModel) { //display error message
+    func displayOverviewReviews(viewModel: DetailMovieModels.SelectOverviewReviewsSegmentedControl.ViewModel) {
         DispatchQueue.main.async {
             self.overviewReviewTextView.text = viewModel.overviewReviews
         }

@@ -51,10 +51,12 @@ enum DetailMovieModels {
         
         struct Response {
             let videoCode: String?
+            let errorMessage: String?
         }
         
         struct ViewModel {
             let trailerUrl: URL?
+             let errorMessage: String?
         }
     }
     

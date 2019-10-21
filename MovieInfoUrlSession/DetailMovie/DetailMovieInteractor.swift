@@ -56,10 +56,13 @@ class DetailMovieInteractor: DetailMovieBusinessLogic, DetailMovieDataStore {
     }
     
     func showTrailer(request: DetailMovieModels.ShowTrailer.Request) {
-        worker?.getTrailer(forMovieId: request.detailMovieId, completionHandler: { (videoCode) in
+        worker?.getTrailer(forMovieId: request.detailMovieId, success: { (videoCode) in
             self.videoCode = videoCode
-            let response = DetailMovieModels.ShowTrailer.Response(videoCode: videoCode)
+            let response = DetailMovieModels.ShowTrailer.Response(videoCode: videoCode, errorMessage: nil)
             self.presenter?.presentTrailer(response: response)
+        }, failure: { [weak self] (error) in
+            let response = DetailMovieModels.ShowTrailer.Response(videoCode: nil, errorMessage: error?.localizedDescription)
+            self?.presenter?.presentTrailer(response: response)
         })
     }
     

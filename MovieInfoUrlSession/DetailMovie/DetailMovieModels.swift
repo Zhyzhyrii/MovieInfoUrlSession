@@ -23,13 +23,15 @@ enum DetailMovieModels {
         }
         
         struct Response {
-            let detailMovie: DetailMovie //todo optional?? need to think
+            let detailMovie: DetailMovie?
             let isAddedToFavourite: Bool
             let isAddedToWatchLater: Bool
+            let errorMessage: String?
         }
         
         struct ViewModel {
-            let displayedDetails: DisplayedDetails
+            let displayedDetails: DisplayedDetails?
+            let errorMessage: String?
             
             struct DisplayedDetails {
                 let movieTitle: String?
@@ -56,7 +58,7 @@ enum DetailMovieModels {
         
         struct ViewModel {
             let trailerUrl: URL?
-             let errorMessage: String?
+            let errorMessage: String?
         }
     }
     

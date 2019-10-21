@@ -44,23 +44,32 @@ class DetailMovieInteractor: DetailMovieBusinessLogic, DetailMovieDataStore {
     func showDetails(request: DetailMovieModels.ShowDetails.Request) {
         worker = DetailMovieWorker()
         
-        worker?.getMovieDetailInfo(forMovieId: request.detailMovieId, completionHandler: { (detailMovie) in
+        worker?.getMovieDetailInfo(forMovieId: request.detailMovieId,
+                                   success: { [weak self] (detailMovie) in
+                                    
+            guard let self = self else { return }
             self.detailMovie = detailMovie
             
-            self.isAddedToFavourite = self.worker?.isPresent(movie: self.detailMovie, in: .favoriteList) ?? false
+            self.isAddedToFavourite = self.worker?.isPresent(movie: self.detailMovie, in: .favouriteList) ?? false
             self.isAddedToWatchLater = self.worker?.isPresent(movie: self.detailMovie, in: .watchLaterList) ?? false
             
-            let response = DetailMovieModels.ShowDetails.Response(detailMovie: self.detailMovie, isAddedToFavourite: self.isAddedToFavourite, isAddedToWatchLater: self.isAddedToWatchLater)
+            let response = DetailMovieModels.ShowDetails.Response(detailMovie: self.detailMovie, isAddedToFavourite: self.isAddedToFavourite, isAddedToWatchLater: self.isAddedToWatchLater, errorMessage: nil)
             self.presenter?.presentDetails(response: response)
+        }, failure: { [weak self] (error) in
+            let response = DetailMovieModels.ShowDetails.Response(detailMovie: nil, isAddedToFavourite: false, isAddedToWatchLater: false, errorMessage: error?.localizedDescription)
+            self?.presenter?.presentDetails(response: response)
         })
+        
     }
     
     func showTrailer(request: DetailMovieModels.ShowTrailer.Request) {
-        worker?.getTrailer(forMovieId: request.detailMovieId, success: { (videoCode) in
-            self.videoCode = videoCode
+        worker?.getTrailer(forMovieId: request.detailMovieId,
+                           success: { [weak self] (videoCode) in
+            self?.videoCode = videoCode
             let response = DetailMovieModels.ShowTrailer.Response(videoCode: videoCode, errorMessage: nil)
-            self.presenter?.presentTrailer(response: response)
-        }, failure: { [weak self] (error) in
+            self?.presenter?.presentTrailer(response: response)
+        },
+                           failure: { [weak self] (error) in
             let response = DetailMovieModels.ShowTrailer.Response(videoCode: nil, errorMessage: error?.localizedDescription)
             self?.presenter?.presentTrailer(response: response)
         })
@@ -68,7 +77,7 @@ class DetailMovieInteractor: DetailMovieBusinessLogic, DetailMovieDataStore {
     
     func setFavouriteStatus() {
         isAddedToFavourite.toggle()
-        worker?.setStatus(for: detailMovie, in: .favoriteList, with: isAddedToFavourite)
+        worker?.setStatus(for: detailMovie, in: .favouriteList, with: isAddedToFavourite)
         
         let response = DetailMovieModels.SetFavouriteStatus.Response(isAddedToFavourite: isAddedToFavourite)
         presenter?.presentFavouriteStatus(response: response)
@@ -89,11 +98,13 @@ class DetailMovieInteractor: DetailMovieBusinessLogic, DetailMovieDataStore {
                 presenter?.presentOverviewReview(response: response)
             }
         } else {
-            worker?.getReviews(forMovieId: request.movieId, success: { (reviewList) in
-                self.reviews = reviewList?.getReviewAsString()
-                let response = DetailMovieModels.SelectOverviewReviewsSegmentedControl.Response(overviewReviews: self.reviews, errorMessage: nil)
-                self.presenter?.presentOverviewReview(response: response)
-            }, failure: { [weak self] (error) in
+            worker?.getReviews(forMovieId: request.movieId,
+                               success: { [weak self] (reviewList) in
+                self?.reviews = reviewList?.getReviewAsString()
+                let response = DetailMovieModels.SelectOverviewReviewsSegmentedControl.Response(overviewReviews: self?.reviews, errorMessage: nil)
+                self?.presenter?.presentOverviewReview(response: response)
+            },
+                               failure: { [weak self] (error) in
                 let response = DetailMovieModels.SelectOverviewReviewsSegmentedControl.Response(overviewReviews: nil, errorMessage: error?.localizedDescription)
                 self?.presenter?.presentOverviewReview(response: response)
             })

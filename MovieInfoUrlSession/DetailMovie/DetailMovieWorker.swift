@@ -18,29 +18,19 @@ typealias getReviewResponseFailure = (Error?) -> Void
 typealias getTrailerSuccess = (String?) -> Void
 typealias getTrailerFailure = (Error?) -> Void
 
+typealias getMovieDetailInfoSuccess = (DetailMovie?) -> Void
+typealias getMovieDetailInfoError = (Error?) -> Void
+
 class DetailMovieWorker { //todo split into two workers? (network and work with lists)
     
-    func getMovieDetailInfo(forMovieId movieId: Int, completionHandler: @escaping (DetailMovie?) -> Void) {
-        APIMovieManager.fetchDetailMovie(movieId: movieId) { (detailMovie, result) in
+    func getMovieDetailInfo(forMovieId movieId: Int, success: @escaping getMovieDetailInfoSuccess, failure: @escaping getTrailerFailure) {
+        APIMovieManager.fetchDetailMovie(movieId: movieId) { (detailMovie, result, error) in
             switch result {
             case .Success:
                 guard let detailMovie = detailMovie else { return }
-                completionHandler(detailMovie)
-                //                DispatchQueue.main.async {
-                //                    self.configureUI()
-            //                }
+                success(detailMovie)
             case .Failure:
-                print("Error")
-                completionHandler(nil)
-                //                let alert = UIHelpers.showAlert(withTitle: "Ошибка",
-                //                                                message: "Данные не были получены из сети",
-                //                                                buttonTitle: "Вернуться назад",
-                //                                                handler: { action in
-                //                                                    self.navigationController?.popViewController(animated: true)
-                //                })
-                
-                //                self.present(alert, animated: true, completion: nil)
-                
+                failure(error)
             }
         }
     }

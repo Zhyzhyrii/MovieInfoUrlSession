@@ -28,31 +28,39 @@ class DetailMoviePresenter: DetailMoviePresentationLogic {
     
     func presentDetails(response: DetailMovieModels.ShowDetails.Response) {
         
-        let detailMovie = response.detailMovie
-        
-        let title = detailMovie.title
-        let releaseGenre = (detailMovie.releaseDate ?? "") + ", " + (detailMovie.getGenresAsString() ?? "")
-        
-        var displayedRunTime: String
-        if let runTime = detailMovie.runTime {
-            displayedRunTime = String(runTime) + " мин"
+        if let errorMessage = response.errorMessage {
+            let viewModel = DetailMovieModels.ShowDetails.ViewModel(displayedDetails: nil, errorMessage: errorMessage)
+            viewController?.displayMovieDetailsError(viewModel: viewModel)
         } else {
-            displayedRunTime = ""
+            if let detailMovie = response.detailMovie {
+                let title = detailMovie.title
+                let releaseGenre = (detailMovie.releaseDate ?? "") + ", " + (detailMovie.getGenresAsString() ?? "")
+                
+                var displayedRunTime: String
+                if let runTime = detailMovie.runTime {
+                    displayedRunTime = String(runTime) + " мин"
+                } else {
+                    displayedRunTime = ""
+                }
+                
+                let voteAverage = "\(detailMovie.voteAverage ?? 0)"
+                
+                let overview = detailMovie.overview
+                
+                
+                
+                let isAddedToFavourite = response.isAddedToFavourite
+                let isAddedToWatchLater = response.isAddedToWatchLater
+                
+                let displayedDetails = DetailMovieModels.ShowDetails.ViewModel.DisplayedDetails(movieTitle: title, releaseGenre: releaseGenre, runTime: displayedRunTime, voteAverage: voteAverage, overView: overview, isAddedToFavourite: isAddedToFavourite, isAddedToWatchLater: isAddedToWatchLater)
+                
+                let viewModel = DetailMovieModels.ShowDetails.ViewModel(displayedDetails: displayedDetails, errorMessage: response.errorMessage)
+                viewController?.displayMovieDetails(viewModel: viewModel)
+            } else {
+                let viewModel = DetailMovieModels.ShowDetails.ViewModel(displayedDetails: nil, errorMessage: nil)
+                viewController?.displayMovieDetailsError(viewModel: viewModel)
+            }
         }
-        
-        let voteAverage = "\(detailMovie.voteAverage ?? 0)"
-        
-        let overview = detailMovie.overview
-        
-        
-        
-        let isAddedToFavourite = response.isAddedToFavourite
-        let isAddedToWatchLater = response.isAddedToWatchLater
-        
-        let displayedDetails = DetailMovieModels.ShowDetails.ViewModel.DisplayedDetails(movieTitle: title, releaseGenre: releaseGenre, runTime: displayedRunTime, voteAverage: voteAverage, overView: overview, isAddedToFavourite: isAddedToFavourite, isAddedToWatchLater: isAddedToWatchLater)
-        
-        let viewModel = DetailMovieModels.ShowDetails.ViewModel(displayedDetails: displayedDetails)
-        viewController?.displayMovieDetails(viewModel: viewModel)
     }
     
     func presentTrailer(response: DetailMovieModels.ShowTrailer.Response) {

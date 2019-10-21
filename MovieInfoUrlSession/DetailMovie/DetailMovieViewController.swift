@@ -15,6 +15,7 @@ import WebKit
 
 protocol DetailMovieDisplayLogic: class {
     func displayMovieDetails(viewModel: DetailMovieModels.ShowDetails.ViewModel)
+    func displayMovieDetailsError(viewModel: DetailMovieModels.ShowDetails.ViewModel)
    
     func displayTrailer(viewModel: DetailMovieModels.ShowTrailer.ViewModel)
     func displayTrailerError(viewModel: DetailMovieModels.ShowTrailer.ViewModel)
@@ -117,18 +118,28 @@ class DetailMovieViewController: UIViewController {
 }
 
 extension DetailMovieViewController: DetailMovieDisplayLogic {
-    func displayMovieDetails(viewModel: DetailMovieModels.ShowDetails.ViewModel) { // add ui error message
+    func displayMovieDetails(viewModel: DetailMovieModels.ShowDetails.ViewModel) {
+        guard let displayedDetails = viewModel.displayedDetails else { return }
         DispatchQueue.main.async {
-            self.titleLabel.text = viewModel.displayedDetails.movieTitle
-            self.releaseGenreLabel.text = viewModel.displayedDetails.releaseGenre
-            self.runTimeLabel.text = viewModel.displayedDetails.runTime
-            self.voteAverageLabel.text = viewModel.displayedDetails.voteAverage
+            self.titleLabel.text = displayedDetails.movieTitle
+            self.releaseGenreLabel.text = displayedDetails.releaseGenre
+            self.runTimeLabel.text = displayedDetails.runTime
+            self.voteAverageLabel.text = displayedDetails.voteAverage
             
-            self.overviewReviewTextView.text = viewModel.displayedDetails.overView
+            self.overviewReviewTextView.text = displayedDetails.overView
             
-            self.updateAddToFavoriteUISection(if: viewModel.displayedDetails.isAddedToFavourite)
-            self.updateAddToWatchLaterUISection(if: viewModel.displayedDetails.isAddedToWatchLater)
+            self.updateAddToFavoriteUISection(if: displayedDetails.isAddedToFavourite)
+            self.updateAddToWatchLaterUISection(if: displayedDetails.isAddedToWatchLater)
         }
+    }
+    
+    func displayMovieDetailsError(viewModel: DetailMovieModels.ShowDetails.ViewModel) {
+        let alert = UIHelpers.showAlert(withTitle: "Ошибка",
+                                        message: "Данные о фильме не были получены из сети",
+                                        buttonTitle: "Вернуться назад",
+                                        handler: { action in
+                                            self.navigationController?.popViewController(animated: true)})
+        self.present(alert, animated: true, completion: nil)
     }
     
     func displayTrailer(viewModel: DetailMovieModels.ShowTrailer.ViewModel) {

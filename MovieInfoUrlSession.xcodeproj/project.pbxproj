@@ -10,7 +10,6 @@
 		7828E9D92329964E009E23EF /* FavoriteTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7828E9D82329964E009E23EF /* FavoriteTableViewController.swift */; };
 		7828E9DB23299676009E23EF /* WatchLaterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7828E9DA23299676009E23EF /* WatchLaterViewController.swift */; };
 		783735F52338F1B90046FCB0 /* CategoryMoviesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 783735F42338F1B90046FCB0 /* CategoryMoviesTableViewCell.swift */; };
-		7839209823325B57001D6FDC /* CategoriesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7839209723325B57001D6FDC /* CategoriesTableViewController.swift */; };
 		7844977123183A47009082F6 /* MovieJson.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7844977023183A47009082F6 /* MovieJson.swift */; };
 		7844977523184407009082F6 /* UIHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7844977423184407009082F6 /* UIHelpers.swift */; };
 		7844977E23187248009082F6 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7844977D23187247009082F6 /* WebKit.framework */; };
@@ -28,6 +27,13 @@
 		78586497234126FD00B991BB /* GenreJson.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78586496234126FD00B991BB /* GenreJson.swift */; };
 		785864992341406200B991BB /* GenresStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 785864982341406200B991BB /* GenresStorage.swift */; };
 		786383E8235DE92C00BF55D4 /* DetailMovieConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786383E7235DE92C00BF55D4 /* DetailMovieConfigurator.swift */; };
+		786383F0235DEF9100BF55D4 /* CategoriesPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786383EA235DEF9000BF55D4 /* CategoriesPresenter.swift */; };
+		786383F1235DEF9100BF55D4 /* CategoriesWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786383EB235DEF9000BF55D4 /* CategoriesWorker.swift */; };
+		786383F2235DEF9100BF55D4 /* CategoriesRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786383EC235DEF9000BF55D4 /* CategoriesRouter.swift */; };
+		786383F3235DEF9100BF55D4 /* CategoriesModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786383ED235DEF9000BF55D4 /* CategoriesModels.swift */; };
+		786383F4235DEF9100BF55D4 /* CategoriesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786383EE235DEF9000BF55D4 /* CategoriesTableViewController.swift */; };
+		786383F5235DEF9100BF55D4 /* CategoriesInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786383EF235DEF9000BF55D4 /* CategoriesInteractor.swift */; };
+		786383F7235E25DF00BF55D4 /* CategoriesConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786383F6235E25DF00BF55D4 /* CategoriesConfigurator.swift */; };
 		786CF6E02317FE9D008CBB10 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786CF6DF2317FE9D008CBB10 /* AppDelegate.swift */; };
 		786CF6E72317FE9F008CBB10 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 786CF6E62317FE9F008CBB10 /* Assets.xcassets */; };
 		786CF6EA2317FE9F008CBB10 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 786CF6E82317FE9F008CBB10 /* LaunchScreen.storyboard */; };
@@ -52,7 +58,6 @@
 		7828E9D82329964E009E23EF /* FavoriteTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = FavoriteTableViewController.swift; path = MovieInfoUrlSession/Controllers/FavoriteTableViewController.swift; sourceTree = SOURCE_ROOT; };
 		7828E9DA23299676009E23EF /* WatchLaterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = WatchLaterViewController.swift; path = MovieInfoUrlSession/Controllers/WatchLaterViewController.swift; sourceTree = SOURCE_ROOT; };
 		783735F42338F1B90046FCB0 /* CategoryMoviesTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryMoviesTableViewCell.swift; sourceTree = "<group>"; };
-		7839209723325B57001D6FDC /* CategoriesTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesTableViewController.swift; sourceTree = "<group>"; };
 		7844977023183A47009082F6 /* MovieJson.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieJson.swift; sourceTree = "<group>"; };
 		7844977423184407009082F6 /* UIHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIHelpers.swift; sourceTree = "<group>"; };
 		7844977D23187247009082F6 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
@@ -70,6 +75,13 @@
 		78586496234126FD00B991BB /* GenreJson.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenreJson.swift; sourceTree = "<group>"; };
 		785864982341406200B991BB /* GenresStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenresStorage.swift; sourceTree = "<group>"; };
 		786383E7235DE92C00BF55D4 /* DetailMovieConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailMovieConfigurator.swift; sourceTree = "<group>"; };
+		786383EA235DEF9000BF55D4 /* CategoriesPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesPresenter.swift; sourceTree = "<group>"; };
+		786383EB235DEF9000BF55D4 /* CategoriesWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesWorker.swift; sourceTree = "<group>"; };
+		786383EC235DEF9000BF55D4 /* CategoriesRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesRouter.swift; sourceTree = "<group>"; };
+		786383ED235DEF9000BF55D4 /* CategoriesModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesModels.swift; sourceTree = "<group>"; };
+		786383EE235DEF9000BF55D4 /* CategoriesTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesTableViewController.swift; sourceTree = "<group>"; };
+		786383EF235DEF9000BF55D4 /* CategoriesInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesInteractor.swift; sourceTree = "<group>"; };
+		786383F6235E25DF00BF55D4 /* CategoriesConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesConfigurator.swift; sourceTree = "<group>"; };
 		786CF6DC2317FE9D008CBB10 /* MovieInfoUrlSession.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MovieInfoUrlSession.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		786CF6DF2317FE9D008CBB10 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		786CF6E62317FE9F008CBB10 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -135,6 +147,20 @@
 			path = Helpers;
 			sourceTree = "<group>";
 		};
+		786383E9235DEF5F00BF55D4 /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+				786383EE235DEF9000BF55D4 /* CategoriesTableViewController.swift */,
+				786383EF235DEF9000BF55D4 /* CategoriesInteractor.swift */,
+				786383EA235DEF9000BF55D4 /* CategoriesPresenter.swift */,
+				786383EB235DEF9000BF55D4 /* CategoriesWorker.swift */,
+				786383EC235DEF9000BF55D4 /* CategoriesRouter.swift */,
+				786383ED235DEF9000BF55D4 /* CategoriesModels.swift */,
+				786383F6235E25DF00BF55D4 /* CategoriesConfigurator.swift */,
+			);
+			path = Categories;
+			sourceTree = "<group>";
+		};
 		786CF6D32317FE9D008CBB10 = {
 			isa = PBXGroup;
 			children = (
@@ -155,6 +181,7 @@
 		786CF6DE2317FE9D008CBB10 /* MovieInfoUrlSession */ = {
 			isa = PBXGroup;
 			children = (
+				786383E9235DEF5F00BF55D4 /* Categories */,
 				7898CBDC2353AB7300E77F90 /* DetailMovie */,
 				786CF7042317FF91008CBB10 /* Models */,
 				78449772231843C6009082F6 /* Views */,
@@ -199,7 +226,6 @@
 			children = (
 				78449781231924E1009082F6 /* WelcomeViewController.swift */,
 				784497832319686D009082F6 /* SignInUpViewController.swift */,
-				7839209723325B57001D6FDC /* CategoriesTableViewController.swift */,
 				7828E9D82329964E009E23EF /* FavoriteTableViewController.swift */,
 				7828E9DA23299676009E23EF /* WatchLaterViewController.swift */,
 			);
@@ -316,18 +342,24 @@
 				783735F52338F1B90046FCB0 /* CategoryMoviesTableViewCell.swift in Sources */,
 				786DA9852334011700AEEBCF /* MovieCollectionCell.swift in Sources */,
 				78449788231ADBDA009082F6 /* StorageManager.swift in Sources */,
+				786383F0235DEF9100BF55D4 /* CategoriesPresenter.swift in Sources */,
 				7898CBE52353ABA700E77F90 /* DetailMovieRouter.swift in Sources */,
+				786383F2235DEF9100BF55D4 /* CategoriesRouter.swift in Sources */,
 				786CF70F231802D5008CBB10 /* APIResult.swift in Sources */,
 				7898CBE72353ABA700E77F90 /* DetailMovieViewController.swift in Sources */,
 				786CF7032317FF83008CBB10 /* MovieList.swift in Sources */,
 				7898CBE62353ABA700E77F90 /* DetailMovieModels.swift in Sources */,
 				78449786231AD9C9009082F6 /* User.swift in Sources */,
+				786383F4235DEF9100BF55D4 /* CategoriesTableViewController.swift in Sources */,
 				7844978C231C01B7009082F6 /* DetailMovie.swift in Sources */,
 				786383E8235DE92C00BF55D4 /* DetailMovieConfigurator.swift in Sources */,
+				786383F5235DEF9100BF55D4 /* CategoriesInteractor.swift in Sources */,
 				7898CBE82353ABA700E77F90 /* DetailMovieInteractor.swift in Sources */,
 				78449782231924E1009082F6 /* WelcomeViewController.swift in Sources */,
 				78709C8E232ABFFF002FDB90 /* ListManager.swift in Sources */,
+				786383F1235DEF9100BF55D4 /* CategoriesWorker.swift in Sources */,
 				7828E9DB23299676009E23EF /* WatchLaterViewController.swift in Sources */,
+				786383F3235DEF9100BF55D4 /* CategoriesModels.swift in Sources */,
 				78449798231C55A2009082F6 /* Review.swift in Sources */,
 				7844977523184407009082F6 /* UIHelpers.swift in Sources */,
 				78449792231C0940009082F6 /* Trailer.swift in Sources */,
@@ -343,8 +375,8 @@
 				7894C2C2232E647D0029D8D9 /* ImageView.swift in Sources */,
 				785864992341406200B991BB /* GenresStorage.swift in Sources */,
 				7844978E231C03C6009082F6 /* Genre.swift in Sources */,
+				786383F7235E25DF00BF55D4 /* CategoriesConfigurator.swift in Sources */,
 				78449796231C550E009082F6 /* ReviewList.swift in Sources */,
-				7839209823325B57001D6FDC /* CategoriesTableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

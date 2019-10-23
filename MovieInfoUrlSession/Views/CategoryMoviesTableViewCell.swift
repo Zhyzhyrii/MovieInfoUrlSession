@@ -12,7 +12,7 @@ class  CategoryMoviesTableViewCell: UITableViewCell {
     
     @IBOutlet var moviesCollection: UICollectionView!
     
-    var movies: [MovieJson] = Array()
+    var movies: [CategoriesModels.FetchMovies.ViewModel.DisplayedDetails] = Array()
     
     override func awakeFromNib() {
         super.awakeFromNib()

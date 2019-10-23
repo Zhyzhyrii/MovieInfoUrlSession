@@ -14,8 +14,8 @@ class MovieCollectionCell: UICollectionViewCell {
     @IBOutlet var titleLabel: UILabel!
 //    @IBOutlet var yearGenreLabel: UILabel!
 
-    func configure(with movie: MovieJson) {
-        titleLabel.text = movie.title ?? ""
+    func configure(with movie: CategoriesModels.FetchMovies.ViewModel.DisplayedDetails) {
+        titleLabel.text = movie.movieTitle ?? ""
 //        yearGenreLabel.text = "\(movie.releaseDate ?? ""), \(movie.genreName)"
         posterImageView.fetchImage(with: movie.posterPath)
     }

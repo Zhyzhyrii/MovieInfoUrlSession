@@ -77,6 +77,18 @@ class DetailMovieViewController: UIViewController {
         }
     }
     
+    // MARK: Do show details
+    
+    private func showDetails() {
+        let request = DetailMovieModels.ShowDetails.Request(detailMovieId: movieId)
+        interactor?.showDetails(request: request)
+    }
+    
+    private func showTrailer() {
+        let request = DetailMovieModels.ShowTrailer.Request(detailMovieId: movieId)
+        interactor?.showTrailer(request: request)
+    }
+    
     @IBAction func addToFavoritePressed() {
         interactor?.setFavouriteStatus()
     }
@@ -88,18 +100,6 @@ class DetailMovieViewController: UIViewController {
     @IBAction func segmentedValueChanged(_ sender: UISegmentedControl) {
         let request = DetailMovieModels.SelectOverviewReviewsSegmentedControl.Request(selectedSegmentIndex: sender.selectedSegmentIndex, movieId: movieId)
         interactor?.selectOverviewReviewSegment(request: request)
-    }
-    
-    // MARK: Do show details
-    
-    private func showDetails() {
-        let request = DetailMovieModels.ShowDetails.Request(detailMovieId: movieId)
-        interactor?.showDetails(request: request)
-    }
-    
-    private func showTrailer() {
-        let request = DetailMovieModels.ShowTrailer.Request(detailMovieId: movieId)
-        interactor?.showTrailer(request: request)
     }
 }
 

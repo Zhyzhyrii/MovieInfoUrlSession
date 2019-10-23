@@ -15,7 +15,7 @@ import UIKit
 typealias getReviewResponseSuccess = (ReviewList?) -> Void
 typealias getReviewResponseFailure = (Error?) -> Void
 
-typealias getTrailerSuccess = (String?) -> Void
+typealias getTrailerSuccess = (String?) -> Void // why ??
 typealias getTrailerFailure = (Error?) -> Void
 
 typealias getMovieDetailInfoSuccess = (DetailMovie?) -> Void

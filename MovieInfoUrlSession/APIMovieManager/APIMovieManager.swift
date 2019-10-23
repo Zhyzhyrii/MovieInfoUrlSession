@@ -12,12 +12,12 @@ final class APIMovieManager {
     
     let apiKey = "10c9d0f7d2e89b09263bafaaf8c69a6a"
     
-    static func fetchMovies(from movieType: MovieType, completionHandler: @escaping ([MovieJson]?, APIResult) -> Void) {
+    static func fetchMovies(from movieType: MovieType, completionHandler: @escaping ([MovieJson]?, APIResult, Error?) -> Void) {
         
         URLSession.shared.dataTask(with: movieType.request) { (data, response, error) in
             
             guard let data = data, error == nil else {
-                completionHandler(nil, .Failure)
+                completionHandler(nil, .Failure, error)
                 return
             }
             
@@ -26,13 +26,13 @@ final class APIMovieManager {
                 let movies = MovieJson.getMovies(from: movieList)
                 
                 guard movies != nil else {
-                    completionHandler(nil, .Failure)
+                    completionHandler(nil, .Failure, error)
                     return
                 }
                 
-                completionHandler(movies, .Success)
+                completionHandler(movies, .Success, nil)
             } catch let error {
-                completionHandler(nil, .Failure)
+                completionHandler(nil, .Failure, nil)
                 print(error)
             }
             

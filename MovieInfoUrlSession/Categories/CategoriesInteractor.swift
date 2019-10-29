@@ -14,10 +14,12 @@ import UIKit
 
 protocol CategoriesBusinessLogic {
     func fetchMovies(request: CategoriesModels.FetchMovies.Request)
+    func selectMovie(request: CategoriesModels.SelectMovie.Request)
 }
 
 protocol CategoriesDataStore {
-    var movies: [MovieType: [MovieJson]]! { get }
+    var selectedMovieId: Int! { get }
+    var movies: [MovieType: [MovieJson]]! { get set }
 }
 
 class CategoriesInteractor: CategoriesBusinessLogic, CategoriesDataStore {
@@ -26,6 +28,7 @@ class CategoriesInteractor: CategoriesBusinessLogic, CategoriesDataStore {
     var worker: CategoriesWorker?
     
     var movies: [MovieType : [MovieJson]]! = [:]
+    var selectedMovieId: Int!
     
     // MARK: Fetch movies
     
@@ -42,5 +45,9 @@ class CategoriesInteractor: CategoriesBusinessLogic, CategoriesDataStore {
                 self?.presenter?.presentMovies(response: response)
             })
         }
+    }
+    
+    func selectMovie(request: CategoriesModels.SelectMovie.Request) {
+        selectedMovieId = request.movieId
     }
 }

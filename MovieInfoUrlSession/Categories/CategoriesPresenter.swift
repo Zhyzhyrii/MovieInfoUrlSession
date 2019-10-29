@@ -32,7 +32,7 @@ class CategoriesPresenter: CategoriesPresentationLogic {
             allMovies.forEach { (moviesOfType) in
                 var displayedMoviesDetails: [CategoriesModels.FetchMovies.ViewModel.DisplayedDetails] = []
                 moviesOfType.value.forEach({ (movie) in
-                    let displayedMovieDetails = CategoriesModels.FetchMovies.ViewModel.DisplayedDetails(movieTitle: movie.title, posterPath: movie.posterPath)
+                    let displayedMovieDetails = CategoriesModels.FetchMovies.ViewModel.DisplayedDetails(movieTitle: movie.title, posterPath: movie.posterPath, movieId: movie.id)
                     displayedMoviesDetails.append(displayedMovieDetails)
                 })
                 displayedMoviesTypesDetails[moviesOfType.key] = displayedMoviesDetails

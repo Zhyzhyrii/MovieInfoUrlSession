@@ -19,7 +19,6 @@ enum DetailMovieModels {
     enum ShowDetails {
         
         struct Request {
-            let detailMovieId: Int
         }
         
         struct Response {
@@ -48,7 +47,6 @@ enum DetailMovieModels {
     enum ShowTrailer {
         
         struct Request {
-            let detailMovieId: Int
         }
         
         struct Response {
@@ -96,7 +94,6 @@ enum DetailMovieModels {
         
         struct Request {
             let selectedSegmentIndex: Int
-            let movieId: Int
         }
         
         struct Response {

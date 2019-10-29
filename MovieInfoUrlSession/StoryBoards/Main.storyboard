@@ -231,7 +231,7 @@
                     </tableView>
                     <tabBarItem key="tabBarItem" title="Item" image="main" id="nUj-wk-kS0"/>
                     <connections>
-                        <segue destination="5tu-Wv-Gr8" kind="show" identifier="GoToDetailViewController" id="rFV-Nc-C5C"/>
+                        <segue destination="5tu-Wv-Gr8" kind="show" identifier="DetailMovie" id="ch7-eT-TCD"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3Ga-EN-zT5" userLabel="First Responder" sceneMemberID="firstResponder"/>

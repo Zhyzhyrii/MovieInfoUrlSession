@@ -32,7 +32,15 @@ enum CategoriesModels {
             struct DisplayedDetails {
                 let movieTitle: String?
                 let posterPath: String?
+                
+                let movieId: Int?
             }
+        }
+    }
+    
+    enum SelectMovie {
+        struct Request {
+            let movieId: Int!
         }
     }
 }

@@ -39,29 +39,27 @@ class DetailMovieViewController: UIViewController {
     @IBOutlet var overviewReviewTextView: UITextView!
     @IBOutlet var voteAverageLabel: UILabel!
     
-    var movieId: Int!
     var interactor: DetailMovieBusinessLogic?
     var router: (NSObjectProtocol & DetailMovieRoutingLogic & DetailMovieDataPassing)?
     
     // MARK: Object lifecycle
     
-    //initiate before starting lifecycle
-//    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
-//        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
-//         DetailMovieConfigurator.shared.configure(with: self)
-//    }
-//
-//    required init?(coder aDecoder: NSCoder) {
-//        super.init(coder: aDecoder)
-//        DetailMovieConfigurator.shared.configure(with: self)
-//    }
+    //initiate before starting lifecycle for router
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
+        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+         DetailMovieConfigurator.shared.configure(with: self)
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        DetailMovieConfigurator.shared.configure(with: self)
+    }
     
     // MARK: View lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        DetailMovieConfigurator.shared.configure(with: self) //MARK: TODO remove and move to initializators
         showDetails()
         showTrailer()
     }
@@ -80,12 +78,12 @@ class DetailMovieViewController: UIViewController {
     // MARK: Do show details
     
     private func showDetails() {
-        let request = DetailMovieModels.ShowDetails.Request(detailMovieId: movieId)
+        let request = DetailMovieModels.ShowDetails.Request()
         interactor?.showDetails(request: request)
     }
     
     private func showTrailer() {
-        let request = DetailMovieModels.ShowTrailer.Request(detailMovieId: movieId)
+        let request = DetailMovieModels.ShowTrailer.Request()
         interactor?.showTrailer(request: request)
     }
     
@@ -98,7 +96,7 @@ class DetailMovieViewController: UIViewController {
     }
     
     @IBAction func segmentedValueChanged(_ sender: UISegmentedControl) {
-        let request = DetailMovieModels.SelectOverviewReviewsSegmentedControl.Request(selectedSegmentIndex: sender.selectedSegmentIndex, movieId: movieId)
+        let request = DetailMovieModels.SelectOverviewReviewsSegmentedControl.Request(selectedSegmentIndex: sender.selectedSegmentIndex)
         interactor?.selectOverviewReviewSegment(request: request)
     }
 }

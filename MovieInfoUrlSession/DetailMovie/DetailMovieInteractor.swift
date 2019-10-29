@@ -21,6 +21,7 @@ protocol DetailMovieBusinessLogic {
 }
 
 protocol DetailMovieDataStore {
+    var movieId: Int! { get set }
     var detailMovie: DetailMovie! { get }
     var videoCode: String! { get }
     var reviews: String! { get }
@@ -33,6 +34,7 @@ class DetailMovieInteractor: DetailMovieBusinessLogic, DetailMovieDataStore {
     var presenter: DetailMoviePresentationLogic?
     var worker: DetailMovieWorker?
     
+    var movieId: Int!
     var detailMovie: DetailMovie!
     var videoCode: String!
     var reviews: String!
@@ -44,7 +46,7 @@ class DetailMovieInteractor: DetailMovieBusinessLogic, DetailMovieDataStore {
     func showDetails(request: DetailMovieModels.ShowDetails.Request) {
         worker = DetailMovieWorker()
         
-        worker?.getMovieDetailInfo(forMovieId: request.detailMovieId,
+        worker?.getMovieDetailInfo(forMovieId: movieId,
                                    success: { [weak self] (detailMovie) in
                                     
             guard let self = self else { return }
@@ -63,7 +65,7 @@ class DetailMovieInteractor: DetailMovieBusinessLogic, DetailMovieDataStore {
     }
     
     func showTrailer(request: DetailMovieModels.ShowTrailer.Request) {
-        worker?.getTrailer(forMovieId: request.detailMovieId,
+        worker?.getTrailer(forMovieId: movieId,
                            success: { [weak self] (videoCode) in
             self?.videoCode = videoCode
             let response = DetailMovieModels.ShowTrailer.Response(videoCode: videoCode, errorMessage: nil)
@@ -98,7 +100,7 @@ class DetailMovieInteractor: DetailMovieBusinessLogic, DetailMovieDataStore {
                 presenter?.presentOverviewReview(response: response)
             }
         } else {
-            worker?.getReviews(forMovieId: request.movieId,
+            worker?.getReviews(forMovieId: movieId,
                                success: { [weak self] (reviewList) in
                 self?.reviews = reviewList?.getReviewAsString()
                 let response = DetailMovieModels.SelectOverviewReviewsSegmentedControl.Response(overviewReviews: self?.reviews, errorMessage: nil)

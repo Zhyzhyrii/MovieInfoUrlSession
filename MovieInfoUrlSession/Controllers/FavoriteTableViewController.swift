@@ -14,7 +14,7 @@ class FavoriteTableViewController: UITableViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        movies = ListManager.listManager.getMovies(from: .favoriteList)
+        movies = ListManager.listManager.getMovies(from: .favouriteList)
         tableView.reloadData()
     }
 

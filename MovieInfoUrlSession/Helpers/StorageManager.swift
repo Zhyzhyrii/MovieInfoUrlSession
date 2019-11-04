@@ -10,7 +10,7 @@ import Foundation
 
 class StorageManager {
     
-    static let storageManager = StorageManager()
+    static let shared = StorageManager()
     
     private var user: User?
     private let defaults = UserDefaults.standard

@@ -8,7 +8,7 @@
 
 enum ListType {
     
-    case favoriteList
+    case favouriteList
     case watchLaterList
     
 }
@@ -23,7 +23,7 @@ class ListManager {
     func add(movie: DetailMovie, to listType: ListType) {
         
         switch listType {
-        case .favoriteList:
+        case .favouriteList:
             favoriteMovies.append(movie)
         case .watchLaterList:
             watchLaterMovies.append(movie)
@@ -33,7 +33,7 @@ class ListManager {
     func remove(movie: DetailMovie, from listType: ListType) {
         
         switch listType {
-        case .favoriteList:
+        case .favouriteList:
             if let index = favoriteMovies.firstIndex(of: movie) {
                 favoriteMovies.remove(at: index)
             }
@@ -46,7 +46,7 @@ class ListManager {
     
     func getMovies(from listType: ListType) -> [DetailMovie] {
         switch listType {
-        case .favoriteList:
+        case .favouriteList:
             return favoriteMovies
         case .watchLaterList:
             return watchLaterMovies
@@ -56,11 +56,12 @@ class ListManager {
     func isPresent(movie: DetailMovie, in listType: ListType) -> Bool {
         
         switch listType {
-        case .favoriteList:
+        case .favouriteList:
             return favoriteMovies.contains(movie) ? true : false
         case .watchLaterList:
             return watchLaterMovies.contains(movie) ? true : false
         }
         
     }
+    
 }

@@ -12,7 +12,7 @@ struct Genre: Decodable {
     let id: Int?
     
     enum CodingKeys: String, CodingKey {
-        case genreName = "name"
         case id
+        case genreName = "name"
     }
 }

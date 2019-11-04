@@ -11,10 +11,6 @@ struct ReviewList: Decodable {
     let page: Int?
     let results: [Review]?
     
-    enum CodingKeys: String, CodingKey {
-        case id, page, results
-    }
-    
     func getReviewAsString() -> String? {
         guard let reviews = results, reviews.isEmpty == false else { return nil }
         var reviewsAsString = ""

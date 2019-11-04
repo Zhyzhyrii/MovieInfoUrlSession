@@ -9,9 +9,4 @@
 struct TrailerList: Decodable {
     let id: Int?
     let results: [Trailer]?
-    
-    enum CodingKeys: String, CodingKey {
-        case id
-        case results
-    }
 }

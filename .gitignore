@@ -2,3 +2,9 @@
 MovieInfoUrlSession.xcodeproj/xcuserdata/igor.xcuserdatad/xcdebugger/Breakpoints_v2.xcbkptlist
 
 *.xcuserstate
+
+*.xcbkptlist
+
+MovieInfoUrlSession/.DS_Store
+
+.DS_Store

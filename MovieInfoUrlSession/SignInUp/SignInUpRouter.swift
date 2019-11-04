@@ -13,7 +13,7 @@
 import UIKit
 
 @objc protocol SignInUpRoutingLogic {
-    //func routeToSomewhere(segue: UIStoryboardSegue?)
+    func routeToCategoriesTable(segue: UIStoryboardSegue?)
 }
 
 protocol SignInUpDataPassing {
@@ -27,29 +27,31 @@ class SignInUpRouter: NSObject, SignInUpRoutingLogic, SignInUpDataPassing {
     
     // MARK: Routing
     
-    //func routeToSomewhere(segue: UIStoryboardSegue?) {
-    //  if let segue = segue {
-    //    let destinationVC = segue.destination as! SomewhereViewController
-    //    var destinationDS = destinationVC.router!.dataStore!
-    //    passDataToSomewhere(source: dataStore!, destination: &destinationDS)
-    //  } else {
-    //    let storyboard = UIStoryboard(name: "Main", bundle: nil)
-    //    let destinationVC = storyboard.instantiateViewController(withIdentifier: "SomewhereViewController") as! SomewhereViewController
-    //    var destinationDS = destinationVC.router!.dataStore!
-    //    passDataToSomewhere(source: dataStore!, destination: &destinationDS)
-    //    navigateToSomewhere(source: viewController!, destination: destinationVC)
-    //  }
-    //}
+    //I am going to use this method once I create profile page for storing user name, surname on this page
+    
+    func routeToCategoriesTable(segue: UIStoryboardSegue?) {
+//      if let segue = segue {
+//        let destinationVC = segue.destination as! CategoriesTableViewController
+//        var destinationDS = destinationVC.router!.dataStore!
+//        passDataToSomewhere(source: dataStore!, destination: &destinationDS)
+//      } else {
+//        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+//        let destinationVC = storyboard.instantiateViewController(withIdentifier: "CategoriesTableViewController") as! CategoriesTableViewController
+//        var destinationDS = destinationVC.router!.dataStore!
+//        passDataToSomewhere(source: dataStore!, destination: &destinationDS)
+//        navigateToSomewhere(source: viewController!, destination: destinationVC)
+//      }
+    }
     
     // MARK: Navigation
     
-    //func navigateToSomewhere(source: SignInUpViewController, destination: SomewhereViewController) {
-    //  source.show(destination, sender: nil)
-    //}
+//    func navigateToSomewhere(source: SignInUpViewController, destination: CategoriesTableViewController) {
+//      source.show(destination, sender: nil)
+//    }
     
     // MARK: Passing data
     
-    //func passDataToSomewhere(source: SignInUpDataStore, destination: inout SomewhereDataStore) {
-    //  destination.name = source.name
-    //}
+//    func passDataToSomewhere(source: SignInUpDataStore, destination: inout CategoriesTableDataStore) {
+//      destination.name = source.name
+//    }
 }

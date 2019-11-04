@@ -13,26 +13,30 @@
 import UIKit
 
 protocol ProfileBusinessLogic {
-    func doSomething(request: Profile.Something.Request)
+    func logOut()
 }
 
 protocol ProfileDataStore {
-    //var name: String { get set }
+    var user: User! { get }
 }
 
 class ProfileInteractor: ProfileBusinessLogic, ProfileDataStore {
     
+    
     var presenter: ProfilePresentationLogic?
     var worker: ProfileWorker?
-    //var name: String = ""
+    
+    var user: User!
     
     // MARK: Do something
     
-    func doSomething(request: Profile.Something.Request) {
-        worker = ProfileWorker()
-        worker?.doSomeWork()
-        
+    func logOut() {
+//        worker = ProfileWorker()
+//        worker?.doSomeWork()
+        guard var user = StorageManager.shared.getUser() else { return }
+        user.isLoggedIn = false
+        StorageManager.shared.saveUser(user)
         let response = Profile.Something.Response()
-        presenter?.presentSomething(response: response)
+        presenter?.presentLoggedOut(response: response)
     }
 }

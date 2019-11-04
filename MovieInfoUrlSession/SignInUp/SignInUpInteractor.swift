@@ -13,26 +13,41 @@
 import UIKit
 
 protocol SignInUpBusinessLogic {
-    func doSomething(request: SignInUp.Something.Request)
+    func setUpButonTitle()
+    func signInUp(request: SignInUpModels.SignInUp.Request)
 }
 
 protocol SignInUpDataStore {
-    //var name: String { get set }
+    var isSignInClicked: Bool! { get set }
 }
 
 class SignInUpInteractor: SignInUpBusinessLogic, SignInUpDataStore {
     
     var presenter: SignInUpPresentationLogic?
     var worker: SignInUpWorker?
-    //var name: String = ""
+    var isSignInClicked: Bool!
     
-    // MARK: Do something
+    // MARK: Set button title
     
-    func doSomething(request: SignInUp.Something.Request) {
+    func setUpButonTitle() {
+        let response = SignInUpModels.SetSignInUpButtonTitle.Response(isSignInClicked: isSignInClicked)
+        presenter?.presentButtonTitle(response: response)
+    }
+    
+    // MARK: SignInUp
+    
+    func signInUp(request: SignInUpModels.SignInUp.Request) {
         worker = SignInUpWorker()
-        worker?.doSomeWork()
-        
-        let response = SignInUp.Something.Response()
-        presenter?.presentSomething(response: response)
+        if isSignInClicked {
+            worker?.signIn(login: request.login, password: request.password, handler: { [weak self] (result) in
+                let response = SignInUpModels.SignInUp.Response(signInUpResult: result)
+                self?.presenter?.presentSignInUpResult(response: response)
+            })
+        } else {
+            worker?.signUp(login: request.login, password: request.password, handler: { [weak self] (result) in
+                let response = SignInUpModels.SignInUp.Response(signInUpResult: result)
+                self?.presenter?.presentSignInUpResult(response: response)
+            })
+        }
     }
 }

@@ -12,7 +12,53 @@
 
 import UIKit
 
+typealias signInUpCompletion = (SignInUpResult) -> Void
+
 class SignInUpWorker {
-    func doSomeWork() {
+    
+    func signUp(login: String?, password: String?, handler: signInUpCompletion) {
+        
+        guard let login = Helpers.verifyStringDoesNotContainDigits(login) else {
+            handler(.failure(error: SignInUpError(code: ErrorCode.errorWithNoAction, title: "Ошибка в логине", description: "Логин не может быть пустым и содержать цифры")))
+            return
+        }
+        
+        guard let password = Helpers.verifyStringIsNotEmpty(password) else {
+            handler(.failure(error: SignInUpError(code: ErrorCode.errorWithNoAction, title: "Ошибка в пароле", description: "Пароль не может быть пустым")))
+            return
+        }
+        
+        let user = User(login: login, password: password, isLoggedIn: true)
+        StorageManager.shared.saveUser(user)
+        handler(.success)
+        
+    }
+    
+    func signIn(login: String?, password: String?, handler: signInUpCompletion) {
+        
+        guard var expectedUser = StorageManager.shared.getUser() else {
+            handler(.failure(error: SignInUpError(code: ErrorCode.errorWithAction, title: "Вы еще не зарегистрированы в приложении", description: "Сперва выполните регистрацию")))
+            return
+        }
+        
+        guard let login = Helpers.verifyStringDoesNotContainDigits(login) else {
+            handler(.failure(error: SignInUpError(code: ErrorCode.errorWithNoAction, title: "Ошибка в логине", description: "Логин не может быть пустым и содержать цифры")))
+            return
+        }
+        
+        guard let password = Helpers.verifyStringIsNotEmpty(password) else {
+            handler(.failure(error: SignInUpError(code: ErrorCode.errorWithNoAction, title: "Ошибка в пароле", description: "Пароль не может быть пустым")))
+            return
+        }
+        
+        if login == expectedUser.login, password == expectedUser.password {
+            expectedUser.isLoggedIn = true
+            StorageManager.shared.saveUser(expectedUser)
+            handler(.success)
+        }
+        else {
+            handler(.failure(error: SignInUpError(code: ErrorCode.errorWithNoAction, title: "Ошибка авторизации", description: "Неправильный логин или пароль")))
+        }
+        
     }
 }

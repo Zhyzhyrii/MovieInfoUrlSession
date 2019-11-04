@@ -19,10 +19,10 @@ class CategoriesWorker {
     func fetchMovies(from movieType: MovieType, success: @escaping fetchSuccess, failure: @escaping fetchFailure) {
         APIMovieManager.fetchMovies(from: movieType) { (movies, result, error) in
             switch result {
-            case .Success:
+            case .success:
                 guard let movies = movies else { return }
                 success(movies)
-            case .Failure:
+            case .failure:
                 guard let error = error else { return }
                 failure(error)
             }

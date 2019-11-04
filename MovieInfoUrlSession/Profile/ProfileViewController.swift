@@ -13,7 +13,7 @@
 import UIKit
 
 protocol ProfileDisplayLogic: class {
-    func displaySomething(viewModel: Profile.Something.ViewModel)
+    func displayLoggedOut(viewModel: Profile.Something.ViewModel)
 }
 
 class ProfileViewController: UIViewController, ProfileDisplayLogic {
@@ -39,7 +39,6 @@ class ProfileViewController: UIViewController, ProfileDisplayLogic {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        doSomething()
     }
     
     // MARK: Routing
@@ -53,15 +52,12 @@ class ProfileViewController: UIViewController, ProfileDisplayLogic {
         }
     }
     
-    // MARK: Do something
-    
-    func doSomething() {
-        let request = Profile.Something.Request()
-        interactor?.doSomething(request: request)
+    @IBAction func logOutPressed() {
+        interactor?.logOut()
     }
     
-    func displaySomething(viewModel: Profile.Something.ViewModel) {
-        //nameTextField.text = viewModel.name
+    func displayLoggedOut(viewModel: Profile.Something.ViewModel) {
+        
     }
     // MARK: Setup
     

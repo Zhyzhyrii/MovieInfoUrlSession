@@ -24,11 +24,11 @@ class GenresStorage {
         var genresDictionary = [Int: String]()
         APIMovieManager.fetchGenres { (genreJson, result) in
             switch result {
-            case .Success:
+            case .success:
                 guard let genreJson = genreJson else { return }
                 guard let genresArray = genreJson.genres else { return }
                 genresDictionary = self.transformGenreArrayToDictionary(genresArray)
-            case .Failure: break
+            case .failure: break
             }
         }
         return genresDictionary

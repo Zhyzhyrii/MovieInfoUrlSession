@@ -12,12 +12,14 @@ final class APIMovieManager {
     
     let apiKey = "10c9d0f7d2e89b09263bafaaf8c69a6a"
     
+    //MARK: - TODO - Need to make one method with generic
+    
     static func fetchMovies(from movieType: MovieType, completionHandler: @escaping ([MovieJson]?, APIResult, Error?) -> Void) {
         
         URLSession.shared.dataTask(with: movieType.request) { (data, response, error) in
             
             guard let data = data, error == nil else {
-                completionHandler(nil, .Failure, error)
+                completionHandler(nil, .failure, error)
                 return
             }
             
@@ -26,13 +28,13 @@ final class APIMovieManager {
                 let movies = MovieJson.getMovies(from: movieList)
                 
                 guard movies != nil else {
-                    completionHandler(nil, .Failure, error)
+                    completionHandler(nil, .failure, error)
                     return
                 }
                 
-                completionHandler(movies, .Success, nil)
+                completionHandler(movies, .success, nil)
             } catch let error {
-                completionHandler(nil, .Failure, nil)
+                completionHandler(nil, .failure, nil)
                 print(error)
             }
             
@@ -47,7 +49,7 @@ final class APIMovieManager {
         URLSession.shared.dataTask(with: urlrequest) { (data, response, error) in
             
             guard let data = data, error == nil else {
-                completionHandler(nil, .Failure, error)
+                completionHandler(nil, .failure, error)
                 return
             }
             
@@ -56,13 +58,13 @@ final class APIMovieManager {
                 let trailers = Trailer.getTrailers(from: trailerList)
                 
                 guard trailers != nil else {
-                    completionHandler(nil, .Failure, error)
+                    completionHandler(nil, .failure, error)
                     return
                 }
                 
-                completionHandler(trailers, .Success, nil)
+                completionHandler(trailers, .success, nil)
             } catch let error {
-                completionHandler(nil, .Failure, error)
+                completionHandler(nil, .failure, error)
                 print(error)
             }
             }.resume()
@@ -76,15 +78,15 @@ final class APIMovieManager {
         URLSession.shared.dataTask(with: urlrequest) { (data, response, error) in
             
             guard let data = data, error == nil else {
-                completionHandler(nil, .Failure, error)
+                completionHandler(nil, .failure, error)
                 return
             }
             
             do {
                 let reviewList = try JSONDecoder().decode(ReviewList.self, from: data)
-                completionHandler(reviewList, .Success, nil)
+                completionHandler(reviewList, .success, nil)
             } catch let error {
-                completionHandler(nil, .Failure, error)
+                completionHandler(nil, .failure, error)
                 print(error)
             }
             }.resume()
@@ -98,14 +100,14 @@ final class APIMovieManager {
         URLSession.shared.dataTask(with: urlrequest) { (data, response, error) in
             
             guard let data = data, error == nil else {
-                completionHandler(nil, .Failure, error)
+                completionHandler(nil, .failure, error)
                 return
             }
             do {
                 let detailMovie = try JSONDecoder().decode(DetailMovie.self, from: data)
-                completionHandler(detailMovie, .Success, nil)
+                completionHandler(detailMovie, .success, nil)
             } catch let error {
-                completionHandler(nil, .Failure, nil)
+                completionHandler(nil, .failure, nil)
                 print(error)
             }
             }.resume()
@@ -119,14 +121,14 @@ final class APIMovieManager {
         URLSession.shared.dataTask(with: urlrequest) { (data, response, error) in
             
             guard let data = data, error == nil else {
-                completionHandler(nil, .Failure)
+                completionHandler(nil, .failure)
                 return
             }
             do {
                 let genresJson = try JSONDecoder().decode(GenreJson.self, from: data)
-                completionHandler(genresJson, .Success)
+                completionHandler(genresJson, .success)
             } catch let error {
-                completionHandler(nil, .Failure)
+                completionHandler(nil, .failure)
                 print(error)
             }
             }.resume()

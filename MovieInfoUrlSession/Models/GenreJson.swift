@@ -10,7 +10,4 @@ struct GenreJson: Decodable {
     
     let genres: [Genre]?
     
-    enum CodingKeys: CodingKey {
-        case genres
-    }
 }

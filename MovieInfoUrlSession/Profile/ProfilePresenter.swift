@@ -13,7 +13,7 @@
 import UIKit
 
 protocol ProfilePresentationLogic {
-    func presentSomething(response: Profile.Something.Response)
+    func presentLoggedOut(response: Profile.Something.Response)
 }
 
 class ProfilePresenter: ProfilePresentationLogic {
@@ -22,8 +22,8 @@ class ProfilePresenter: ProfilePresentationLogic {
     
     // MARK: Do something
     
-    func presentSomething(response: Profile.Something.Response) {
+    func presentLoggedOut(response: Profile.Something.Response) {
         let viewModel = Profile.Something.ViewModel()
-        viewController?.displaySomething(viewModel: viewModel)
+        viewController?.displayLoggedOut(viewModel: viewModel)
     }
 }

@@ -13,26 +13,38 @@
 import UIKit
 
 protocol WelcomeBusinessLogic {
-    func doSomething(request: Welcome.Something.Request)
+    func signIn()
+    func signUp()
+    func goToCategoriesIfUserExistsAndIsLoggedIn()
 }
 
 protocol WelcomeDataStore {
-    //var name: String { get set }
+    var isSignInClicked: Bool { get }
 }
 
 class WelcomeInteractor: WelcomeBusinessLogic, WelcomeDataStore {
     
     var presenter: WelcomePresentationLogic?
     var worker: WelcomeWorker?
-    //var name: String = ""
     
-    // MARK: Do something
+    var isSignInClicked: Bool = false
     
-    func doSomething(request: Welcome.Something.Request) {
-        worker = WelcomeWorker()
-        worker?.doSomeWork()
-        
-        let response = Welcome.Something.Response()
-        presenter?.presentSomething(response: response)
+    // MARK: - Set data isSignInClicked
+    
+    func signIn() {
+        isSignInClicked = true
+    }
+    
+    func signUp() {
+        isSignInClicked = false
+    }
+    
+    //MARK: - Check if user exists and is logged in
+    
+    func goToCategoriesIfUserExistsAndIsLoggedIn() {
+        if let user = StorageManager.shared.getUser() {
+            let reponse = WelcomeModels.UserIsLoggedInAndExists.Response(isUserLoggedInExists: user.isLoggedIn)
+            presenter?.presentUserExistsAndIsLoggedIn(response: reponse)
+        }
     }
 }

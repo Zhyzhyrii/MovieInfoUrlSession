@@ -13,17 +13,35 @@
 import UIKit
 
 protocol SignInUpPresentationLogic {
-    func presentSomething(response: SignInUp.Something.Response)
+    func presentButtonTitle(response: SignInUpModels.SetSignInUpButtonTitle.Response)
+    func presentSignInUpResult(response: SignInUpModels.SignInUp.Response)
 }
 
 class SignInUpPresenter: SignInUpPresentationLogic {
     
     weak var viewController: SignInUpDisplayLogic?
     
-    // MARK: Do something
+    // MARK: Present button title
     
-    func presentSomething(response: SignInUp.Something.Response) {
-        let viewModel = SignInUp.Something.ViewModel()
-        viewController?.displaySomething(viewModel: viewModel)
+    func presentButtonTitle(response: SignInUpModels.SetSignInUpButtonTitle.Response) {
+        let buttonTitle = response.isSignInClicked ? "Войти" : "Зарегистрироваться"
+        let viewModel = SignInUpModels.SetSignInUpButtonTitle.ViewModel(title: buttonTitle)
+        viewController?.displaySignInUpButtonTitle(viewModel: viewModel)
+    }
+    
+    // MARK: Present SignIn SignUp result
+    
+    func presentSignInUpResult(response: SignInUpModels.SignInUp.Response) {
+        if case let SignInUpResult.failure(error: error) = response.signInUpResult {
+            let viewModel = SignInUpModels.SignInUp.ViewModel(errorTitle: error.title, errorMessage: error.description)
+            if error.code == .errorWithAction {
+                viewController?.signInUpFailureWithAction(viewModel: viewModel)
+            } else {
+                viewController?.signInUpFailureWithNoAction(viewModel: viewModel)
+            }
+        } else {
+            let viewModel = SignInUpModels.SignInUp.ViewModel(errorTitle: "", errorMessage: "")
+            viewController?.signInUpSuccessful(viewModel: viewModel)
+        }
     }
 }

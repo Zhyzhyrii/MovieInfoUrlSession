@@ -15,21 +15,21 @@ import UIKit
 typealias getReviewResponseSuccess = (ReviewList?) -> Void
 typealias getReviewResponseFailure = (Error?) -> Void
 
-typealias getTrailerSuccess = (String?) -> Void // why ??
+typealias getTrailerSuccess = (String?) -> Void
 typealias getTrailerFailure = (Error?) -> Void
 
 typealias getMovieDetailInfoSuccess = (DetailMovie?) -> Void
 typealias getMovieDetailInfoError = (Error?) -> Void
 
-class DetailMovieWorker { //todo split into two workers? (network and work with lists)
+class DetailMovieWorker { //todo split into two workers (network and work with lists)
     
     func getMovieDetailInfo(forMovieId movieId: Int, success: @escaping getMovieDetailInfoSuccess, failure: @escaping getTrailerFailure) {
         APIMovieManager.fetchDetailMovie(movieId: movieId) { (detailMovie, result, error) in
             switch result {
-            case .Success:
+            case .success:
                 guard let detailMovie = detailMovie else { return }
                 success(detailMovie)
-            case .Failure:
+            case .failure:
                 failure(error)
             }
         }
@@ -38,13 +38,13 @@ class DetailMovieWorker { //todo split into two workers? (network and work with 
     func getTrailer(forMovieId movieId: Int, success: @escaping getTrailerSuccess, failure: @escaping getTrailerFailure) {
         APIMovieManager.fetchMovieTrailer(movieId: movieId) { (trailers, result, error) in
             switch result {
-            case .Success:
+            case .success:
                 guard let trailers = trailers, trailers.count > 0 else {
                     failure(error)
                     return }
                 guard let videoCode = trailers[0].key else { return }
                 success(videoCode)
-            case .Failure:
+            case .failure:
                 failure(error)
             }
         }
@@ -53,10 +53,10 @@ class DetailMovieWorker { //todo split into two workers? (network and work with 
     func getReviews(forMovieId movieId: Int, success: @escaping getReviewResponseSuccess, failure: @escaping getReviewResponseFailure) {
         APIMovieManager.fetchMovieReviews(movieId: movieId) { (reviewlist, result, error) in
             switch result {
-            case .Success:
+            case .success:
                 guard let reviewList = reviewlist else { return }
                 success(reviewList)
-            case .Failure:
+            case .failure:
                 failure(error)
             }
         }

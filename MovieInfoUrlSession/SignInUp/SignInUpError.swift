@@ -6,4 +6,8 @@
 //  Copyright © 2019 Igor Zhyzhyrii. All rights reserved.
 //
 
-import Foundation
+struct SignInUpError {
+    var code: ErrorCode
+    var title: String
+    var description: String
+}

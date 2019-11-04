@@ -16,16 +16,11 @@ struct MovieJson: Decodable {
     let releaseDate: String?
     let genresIds: [Int]?
     
-    //custom fields
-    var genreName = ""
-    
     enum CodingKeys: String, CodingKey {
+        case id, overview, title
         case posterPath = "poster_path"
-        case id
         case backdropPath = "backdrop_path"
-        case title
         case voteAverage = "vote_average"
-        case overview
         case genresIds = "genre_ids"
         case releaseDate = "release_date"
     }

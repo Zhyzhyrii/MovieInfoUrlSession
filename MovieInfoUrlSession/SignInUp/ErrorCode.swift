@@ -6,4 +6,7 @@
 //  Copyright © 2019 Igor Zhyzhyrii. All rights reserved.
 //
 
-import Foundation
+enum ErrorCode: String {
+    case errorWithAction = "Data error with action"
+    case errorWithNoAction = "Data error with no action"
+}

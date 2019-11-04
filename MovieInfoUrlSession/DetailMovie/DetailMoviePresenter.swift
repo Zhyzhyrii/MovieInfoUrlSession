@@ -47,8 +47,6 @@ class DetailMoviePresenter: DetailMoviePresentationLogic {
                 
                 let overview = detailMovie.overview
                 
-                
-                
                 let isAddedToFavourite = response.isAddedToFavourite
                 let isAddedToWatchLater = response.isAddedToWatchLater
                 
@@ -97,11 +95,10 @@ class DetailMoviePresenter: DetailMoviePresentationLogic {
             let viewModel = DetailMovieModels.SelectOverviewReviewsSegmentedControl.ViewModel(overviewReviews: nil, errorMessage: response.errorMessage)
             viewController?.displayeOverViewReviewsError(viewModel: viewModel)
         } else {
-            
             if response.overviewReviews != nil {
                 let viewModel = DetailMovieModels.SelectOverviewReviewsSegmentedControl.ViewModel(overviewReviews: response.overviewReviews, errorMessage: nil)
                 viewController?.displayOverviewReviews(viewModel: viewModel)
-            } else { //todo need to make text bigger and centered (maybe move to VC)
+            } else { //todo need to make text bigger and centered
                 let viewModel = DetailMovieModels.SelectOverviewReviewsSegmentedControl.ViewModel(overviewReviews: "Отзывов еще нет.", errorMessage: nil)
                 viewController?.displayOverviewReviews(viewModel: viewModel)
             }

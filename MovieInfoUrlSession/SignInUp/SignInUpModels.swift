@@ -12,17 +12,37 @@
 
 import UIKit
 
-enum SignInUp {
+enum SignInUpModels {
+    
     // MARK: Use cases
     
-    enum Something {
+    enum SetSignInUpButtonTitle {
         struct Request {
         }
         
         struct Response {
+            var isSignInClicked: Bool
         }
         
         struct ViewModel {
+            var title: String
         }
     }
+    
+    enum SignInUp {
+        struct Request {
+            var login: String?
+            var password:String?
+        }
+        
+        struct Response {
+            var signInUpResult: SignInUpResult
+        }
+        
+        struct ViewModel {
+            var errorTitle: String
+            var errorMessage: String
+        }
+    }
+    
 }

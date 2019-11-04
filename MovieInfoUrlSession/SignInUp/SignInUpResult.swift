@@ -6,4 +6,7 @@
 //  Copyright © 2019 Igor Zhyzhyrii. All rights reserved.
 //
 
-import Foundation
+enum SignInUpResult {
+    case success
+    case failure(error: SignInUpError)
+}

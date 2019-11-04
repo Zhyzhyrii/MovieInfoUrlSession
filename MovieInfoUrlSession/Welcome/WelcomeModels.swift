@@ -12,14 +12,40 @@
 
 import UIKit
 
-enum Welcome {
+enum WelcomeModels {
+   
     // MARK: Use cases
     
-    enum Something {
+    //I leave these enums empty and do not remove them because I will use them further (perhaps)
+    
+    enum SignIn {
         struct Request {
         }
         
         struct Response {
+        }
+        
+        struct ViewModel {
+        }
+    }
+    
+    enum SignUp {
+        struct Request {
+        }
+        
+        struct Response {
+        }
+        
+        struct ViewModel {
+        }
+    }
+    
+    enum UserIsLoggedInAndExists {
+        struct Request {
+        }
+        
+        struct Response {
+            var isUserLoggedInExists: Bool
         }
         
         struct ViewModel {

@@ -16,7 +16,7 @@ import WebKit
 protocol DetailMovieDisplayLogic: class {
     func displayMovieDetails(viewModel: DetailMovieModels.ShowDetails.ViewModel)
     func displayMovieDetailsError(viewModel: DetailMovieModels.ShowDetails.ViewModel)
-   
+    
     func displayTrailer(viewModel: DetailMovieModels.ShowTrailer.ViewModel)
     func displayTrailerError(viewModel: DetailMovieModels.ShowTrailer.ViewModel)
     
@@ -45,11 +45,6 @@ class DetailMovieViewController: UIViewController {
     // MARK: Object lifecycle
     
     //initiate before starting lifecycle for router
-    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
-        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
-         DetailMovieConfigurator.shared.configure(with: self)
-    }
-
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         DetailMovieConfigurator.shared.configure(with: self)
@@ -75,7 +70,7 @@ class DetailMovieViewController: UIViewController {
         }
     }
     
-    // MARK: Do show details
+    // MARK: Show details
     
     private func showDetails() {
         let request = DetailMovieModels.ShowDetails.Request()
@@ -118,12 +113,12 @@ extension DetailMovieViewController: DetailMovieDisplayLogic {
     }
     
     func displayMovieDetailsError(viewModel: DetailMovieModels.ShowDetails.ViewModel) {
-        let alert = UIHelpers.showAlert(withTitle: "Ошибка",
-                                        message: "Данные о фильме не были получены из сети",
-                                        buttonTitle: "Вернуться назад",
-                                        handler: { action in
-                                            self.navigationController?.popViewController(animated: true)})
-        self.present(alert, animated: true, completion: nil)
+        Helpers.showAlert(withTitle: "Ошибка",
+                            message: "Данные о фильме не были получены из сети",
+                            viewController: self,
+                            buttonTitle: "Вернуться назад",
+                            handler: { action in
+                                self.navigationController?.popViewController(animated: true)})
     }
     
     func displayTrailer(viewModel: DetailMovieModels.ShowTrailer.ViewModel) {
@@ -134,11 +129,11 @@ extension DetailMovieViewController: DetailMovieDisplayLogic {
     }
     
     func displayTrailerError(viewModel: DetailMovieModels.ShowTrailer.ViewModel) {
-        let alert = UIHelpers.showAlert(withTitle: "Ошибка",
-                                        message: "Данные о трейлере не были получены из сети",
-                                        buttonTitle: "OK",
-                                        handler: nil)
-        self.present(alert, animated: true, completion: nil)
+        Helpers.showAlert(withTitle: "Ошибка",
+                            message: "Данные о трейлере не были получены из сети",
+                            viewController: self,
+                            buttonTitle: "OK",
+                            handler: nil)
     }
     
     func displayFavouriteStatus(viewModel: DetailMovieModels.SetFavouriteStatus.ViewModel) {
@@ -156,14 +151,13 @@ extension DetailMovieViewController: DetailMovieDisplayLogic {
     }
     
     func displayeOverViewReviewsError(viewModel: DetailMovieModels.SelectOverviewReviewsSegmentedControl.ViewModel) {
-        let alert = UIHelpers.showAlert(withTitle: "Ошибка",
-                                        message: "Данные не были получены из сети",
-                                        buttonTitle: "OK",
-                                        handler: { action in
-                                            self.overviewReviewSegmentedControl.selectedSegmentIndex = 0
+        Helpers.showAlert(withTitle: "Ошибка",
+                            message: "Данные не были получены из сети",
+                            viewController: self,
+                            buttonTitle: "OK",
+                            handler: { action in
+                                self.overviewReviewSegmentedControl.selectedSegmentIndex = 0
         })
-        
-        self.present(alert, animated: true, completion: nil)
     }
     
     private func updateAddToFavoriteUISection(if isPresentInFavorite: Bool) {

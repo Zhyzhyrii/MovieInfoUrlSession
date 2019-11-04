@@ -13,7 +13,7 @@
 import UIKit
 
 protocol WelcomePresentationLogic {
-    func presentSomething(response: Welcome.Something.Response)
+    func presentUserExistsAndIsLoggedIn(response: WelcomeModels.UserIsLoggedInAndExists.Response)
 }
 
 class WelcomePresenter: WelcomePresentationLogic {
@@ -22,8 +22,10 @@ class WelcomePresenter: WelcomePresentationLogic {
     
     // MARK: Do something
     
-    func presentSomething(response: Welcome.Something.Response) {
-        let viewModel = Welcome.Something.ViewModel()
-        viewController?.displaySomething(viewModel: viewModel)
+    func presentUserExistsAndIsLoggedIn(response: WelcomeModels.UserIsLoggedInAndExists.Response) {
+        if response.isUserLoggedInExists {
+            let viewModel = WelcomeModels.UserIsLoggedInAndExists.ViewModel()
+            viewController?.displayCategoriesIfUserExistsIsLoggedIn(viewModel: viewModel)
+        }
     }
 }

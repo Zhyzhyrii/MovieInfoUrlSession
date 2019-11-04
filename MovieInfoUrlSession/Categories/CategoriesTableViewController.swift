@@ -31,6 +31,7 @@ class CategoriesTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         CategoriesConfigurator.shared.configure(with: self)
         
         fetchMovies()
@@ -121,10 +122,10 @@ extension CategoriesTableViewController: CategoriesDisplayLogic {
     }
     
     func displayMoviesError(viewModel: CategoriesModels.FetchMovies.ViewModel) {
-        let alert = UIHelpers.showAlert(withTitle: "Ошибка",
+        Helpers.showAlert(withTitle: "Ошибка",
                                         message: "Данные о фильмах не были получены из сети",
+                                        viewController: self,
                                         buttonTitle: "OK",
                                         handler: nil)
-        self.present(alert, animated: true, completion: nil)
     }
 }

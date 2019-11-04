@@ -13,7 +13,7 @@
 import UIKit
 
 @objc protocol WelcomeRoutingLogic {
-    //func routeToSomewhere(segue: UIStoryboardSegue?)
+    func routeToSignInUp(segue: UIStoryboardSegue?)
 }
 
 protocol WelcomeDataPassing {
@@ -27,29 +27,29 @@ class WelcomeRouter: NSObject, WelcomeRoutingLogic, WelcomeDataPassing {
     
     // MARK: Routing
     
-    //func routeToSomewhere(segue: UIStoryboardSegue?) {
-    //  if let segue = segue {
-    //    let destinationVC = segue.destination as! SomewhereViewController
-    //    var destinationDS = destinationVC.router!.dataStore!
-    //    passDataToSomewhere(source: dataStore!, destination: &destinationDS)
-    //  } else {
-    //    let storyboard = UIStoryboard(name: "Main", bundle: nil)
-    //    let destinationVC = storyboard.instantiateViewController(withIdentifier: "SomewhereViewController") as! SomewhereViewController
-    //    var destinationDS = destinationVC.router!.dataStore!
-    //    passDataToSomewhere(source: dataStore!, destination: &destinationDS)
-    //    navigateToSomewhere(source: viewController!, destination: destinationVC)
-    //  }
-    //}
+    func routeToSignInUp(segue: UIStoryboardSegue?) {
+        if let segue = segue {
+            let destinationVC = segue.destination as! SignInUpViewController
+            var destinationDS = destinationVC.router!.dataStore!
+            passDataToSignInUp(source: dataStore!, destination: &destinationDS)
+        } else {
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            let destinationVC = storyboard.instantiateViewController(withIdentifier: "SignInUpViewController") as! SignInUpViewController
+            var destinationDS = destinationVC.router!.dataStore!
+            passDataToSignInUp(source: dataStore!, destination: &destinationDS)
+            navigateToSomewhere(source: viewController!, destination: destinationVC)
+        }
+    }
     
     // MARK: Navigation
     
-    //func navigateToSomewhere(source: WelcomeViewController, destination: SomewhereViewController) {
-    //  source.show(destination, sender: nil)
-    //}
+    func navigateToSomewhere(source: WelcomeViewController, destination: SignInUpViewController) {
+        source.show(destination, sender: nil)
+    }
     
     // MARK: Passing data
     
-    //func passDataToSomewhere(source: WelcomeDataStore, destination: inout SomewhereDataStore) {
-    //  destination.name = source.name
-    //}
+    func passDataToSignInUp(source: WelcomeDataStore, destination: inout SignInUpDataStore) {
+        destination.isSignInClicked = source.isSignInClicked
+    }
 }

@@ -7,3 +7,24 @@
 //
 
 import Foundation
+
+class WelcomeConfigurator {
+    
+    static let shared = WelcomeConfigurator()
+    
+    // MARK: Setup
+    
+    func configure(with view: WelcomeViewController) {
+        let viewController = view
+        let interactor = WelcomeInteractor()
+        let presenter = WelcomePresenter()
+        let router = WelcomeRouter()
+        viewController.interactor = interactor
+        viewController.router = router
+        interactor.presenter = presenter
+        presenter.viewController = viewController
+        router.viewController = viewController
+        router.dataStore = interactor
+    }
+    
+}

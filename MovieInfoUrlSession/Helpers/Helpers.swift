@@ -1,5 +1,5 @@
 //
-//  UIHelpers.swift
+//  Helpers.swift
 //  MovieInfoUrlSession
 //
 //  Created by Игорь on 8/29/19.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class UIHelpers {
+class Helpers {
     
     static func showAlert(withTitle title: String, message: String, viewController: UIViewController, buttonTitle: String, handler: ((UIAlertAction) -> Void)?) {
         let alert = createAlert(withTitle: title, message: message, buttonTitle: buttonTitle, handler: handler)

@@ -7,6 +7,6 @@
 //
 
 enum APIResult {
-    case Success
-    case Failure
+    case success
+    case failure
 }

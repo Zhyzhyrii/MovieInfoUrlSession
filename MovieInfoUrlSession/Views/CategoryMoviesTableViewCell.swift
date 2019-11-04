@@ -22,7 +22,7 @@ class  CategoryMoviesTableViewCell: UITableViewCell {
     
 }
 
-extension CategoryMoviesTableViewCell: UICollectionViewDataSource { //try to move to VC as extension
+extension CategoryMoviesTableViewCell: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return movies.count
     }

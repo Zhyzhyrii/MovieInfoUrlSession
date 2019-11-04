@@ -13,33 +13,37 @@
 import UIKit
 
 protocol SignInUpDisplayLogic: class {
-    func displaySomething(viewModel: SignInUp.Something.ViewModel)
+    func displaySignInUpButtonTitle(viewModel: SignInUpModels.SetSignInUpButtonTitle.ViewModel)
+    func signInUpFailureWithNoAction(viewModel: SignInUpModels.SignInUp.ViewModel)
+    func signInUpFailureWithAction(viewModel: SignInUpModels.SignInUp.ViewModel)
+    func signInUpSuccessful(viewModel: SignInUpModels.SignInUp.ViewModel)
 }
 
 class SignInUpViewController: UIViewController, SignInUpDisplayLogic {
     
-    //@IBOutlet private var nameTextField: UITextField!
+    @IBOutlet var sigInUpButton: UIButton!
+    @IBOutlet var loginTextField: UITextField!
+    @IBOutlet var passwordTextField: UITextField!
     
     var interactor: SignInUpBusinessLogic?
     var router: (NSObjectProtocol & SignInUpRoutingLogic & SignInUpDataPassing)?
     
     // MARK: Object lifecycle
     
-    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
-        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
-        setup()
-    }
-    
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        setup()
+        SignInUpConfigurator.shared.configure(with: self)
     }
     
     // MARK: View lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        doSomething()
+        
+        interactor?.setUpButonTitle()
+        
+        loginTextField.delegate = self
+        passwordTextField.delegate = self
     }
     
     // MARK: Routing
@@ -53,28 +57,53 @@ class SignInUpViewController: UIViewController, SignInUpDisplayLogic {
         }
     }
     
-    // MARK: Do something
-    
-    func doSomething() {
-        let request = SignInUp.Something.Request()
-        interactor?.doSomething(request: request)
+    @IBAction func backButtonPressed() {
+        dismiss(animated: true, completion: nil)
     }
     
-    func displaySomething(viewModel: SignInUp.Something.ViewModel) {
-        //nameTextField.text = viewModel.name
-    }
-    // MARK: Setup
     
-    private func setup() {
-        let viewController = self
-        let interactor = SignInUpInteractor()
-        let presenter = SignInUpPresenter()
-        let router = SignInUpRouter()
-        viewController.interactor = interactor
-        viewController.router = router
-        interactor.presenter = presenter
-        presenter.viewController = viewController
-        router.viewController = viewController
-        router.dataStore = interactor
+    @IBAction func signInUpButtonPressed() {
+        let request = SignInUpModels.SignInUp.Request(login: loginTextField.text, password: passwordTextField.text)
+        interactor?.signInUp(request: request)
     }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
+        view.endEditing(true)
+    }
+    
+    // MARK: Display signIn or SignUp button title
+    
+    func displaySignInUpButtonTitle(viewModel: SignInUpModels.SetSignInUpButtonTitle.ViewModel) {
+        sigInUpButton.setTitle(viewModel.title, for: .normal)
+    }
+    
+    // MARK: Display signIn or SignUp button title
+    
+    func signInUpSuccessful(viewModel: SignInUpModels.SignInUp.ViewModel) {
+        performSegue(withIdentifier: "ShowCategories", sender: nil)
+    }
+    
+    func signInUpFailureWithNoAction(viewModel: SignInUpModels.SignInUp.ViewModel) {
+        Helpers.showAlert(withTitle: viewModel.errorTitle, message: viewModel.errorMessage, viewController: self, buttonTitle: "Ок", handler: nil)
+        
+        loginTextField.text = ""
+        passwordTextField.text = ""
+    }
+    
+    func signInUpFailureWithAction(viewModel: SignInUpModels.SignInUp.ViewModel) {
+        Helpers.showAlert(withTitle: viewModel.errorTitle, message: viewModel.errorMessage, viewController: self, buttonTitle: "Ok") { (_)
+            in
+            self.dismiss(animated: true, completion: nil)
+        }
+    }
+}
+
+extension SignInUpViewController: UITextFieldDelegate {
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        self.view.endEditing(true)
+        return true
+    }
+    
 }

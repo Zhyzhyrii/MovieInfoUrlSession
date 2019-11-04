@@ -9,4 +9,5 @@
 struct User: Encodable, Decodable {
     var login: String
     var password: String
+    var isLoggedIn: Bool
 }

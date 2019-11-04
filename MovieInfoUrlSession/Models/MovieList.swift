@@ -11,9 +11,8 @@ struct MovieList: Decodable {
     let results: [MovieJson]?
     
     enum CodingKeys: String, CodingKey {
-        case page
+        case page, results
         case totalResults = "total_results"
         case totalPages = "total_pages"
-        case results
     }
 }

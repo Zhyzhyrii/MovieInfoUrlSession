@@ -70,7 +70,7 @@
         <!--Избранное-->
         <scene sceneID="FsM-CZ-E0Q">
             <objects>
-                <tableViewController id="Kgr-4I-k2V" customClass="FavoriteTableViewController" customModule="MovieInfoUrlSession" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="Kgr-4I-k2V" customClass="FavouriteViewController" customModule="MovieInfoUrlSession" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="Dmh-AM-Aax">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

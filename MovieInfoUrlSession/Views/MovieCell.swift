@@ -20,9 +20,9 @@ class MovieCell: UITableViewCell {
         posterImageView.fetchImage(with: movie.posterPath)
     }
     
-    func configure(with movie: DetailMovie) {
-        titleLabel.text = "Название: \(movie.title ?? "")"
-        voteAverageLabel.text = "Рейтинг: \(movie.voteAverage ?? 0)"
+    func configure(with movie: DetailMovieInList) {
+        titleLabel.text = movie.movieTitle
+        voteAverageLabel.text = movie.rate
         posterImageView.fetchImage(with: movie.posterPath)
     }
 }

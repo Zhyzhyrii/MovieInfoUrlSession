@@ -35,9 +35,6 @@ class CategoriesTableViewController: UITableViewController {
         CategoriesConfigurator.shared.configure(with: self)
         
         fetchMovies()
-        
-        tableView.dataSource = self
-        tableView.delegate = self
     }
     
     // MARK: Routing

@@ -28,7 +28,7 @@ class WatchLaterViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! MovieCell
         
         let movie = movies[indexPath.row]
-        cell.configure(with: movie)
+//        cell.configure(with: movie)
         
         return cell
     }

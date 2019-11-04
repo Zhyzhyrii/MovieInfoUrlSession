@@ -1,5 +1,5 @@
 //
-//  FavouriteViewController.swift
+//  WatchLaterViewController.swift
 //  MovieInfoUrlSession
 //
 //  Created by Игорь on 11/4/19.
@@ -12,22 +12,24 @@
 
 import UIKit
 
-protocol FavouriteDisplayLogic: class {
-    func displayMovies(viewModel: FavouriteModels.GetMovies.ViewModel)
+protocol WatchLaterDisplayLogic: class {
+    func displayMovies(viewModel: WatchLaterModels.GetMovies.ViewModel)
 }
 
-class FavouriteViewController: UITableViewController, FavouriteDisplayLogic {
+class WatchLaterViewController: UITableViewController, WatchLaterDisplayLogic {
     
-    var interactor: FavouriteBusinessLogic?
-    var router: (NSObjectProtocol & FavouriteRoutingLogic & FavouriteDataPassing)?
+    //@IBOutlet private var nameTextField: UITextField!
     
-    private var movies: [FavouriteModels.GetMovies.ViewModel.DisplayedDetails]!
+    var interactor: WatchLaterBusinessLogic?
+    var router: (NSObjectProtocol & WatchLaterRoutingLogic & WatchLaterDataPassing)?
+    
+    private var movies: [WatchLaterModels.GetMovies.ViewModel.DisplayedDetails]!
     
     // MARK: Object lifecycle
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        FavouriteConfigurator.shared.configure(with: self)
+        WatchLaterConfigurator.shared.configure(with: self)
     }
     
     // MARK: View lifecycle
@@ -35,7 +37,7 @@ class FavouriteViewController: UITableViewController, FavouriteDisplayLogic {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        let request = FavouriteModels.GetMovies.Request()
+        let request = WatchLaterModels.GetMovies.Request()
         interactor?.getMovies(request: request)
     }
     
@@ -50,7 +52,7 @@ class FavouriteViewController: UITableViewController, FavouriteDisplayLogic {
         }
     }
     
-    func displayMovies(viewModel: FavouriteModels.GetMovies.ViewModel) {
+    func displayMovies(viewModel: WatchLaterModels.GetMovies.ViewModel) {
         movies = viewModel.displayedDetails
         tableView.reloadData()
     }
@@ -59,7 +61,7 @@ class FavouriteViewController: UITableViewController, FavouriteDisplayLogic {
 
 // MARK: - Extension
 
-extension FavouriteViewController {
+extension WatchLaterViewController {
     
     // MARK: - Table view data source
     

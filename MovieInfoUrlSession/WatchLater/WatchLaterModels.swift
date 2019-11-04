@@ -1,5 +1,5 @@
 //
-//  FavouriteModels.swift
+//  WatchLaterModels.swift
 //  MovieInfoUrlSession
 //
 //  Created by Игорь on 11/4/19.
@@ -12,7 +12,7 @@
 
 import UIKit
 
-enum FavouriteModels {
+enum WatchLaterModels {
    
     // MARK: Use cases
     

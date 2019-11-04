@@ -1,5 +1,5 @@
 //
-//  FavouritePresenter.swift
+//  WatchLaterPresenter.swift
 //  MovieInfoUrlSession
 //
 //  Created by Игорь on 11/4/19.
@@ -12,28 +12,28 @@
 
 import UIKit
 
-protocol FavouritePresentationLogic {
-    func presentMovies(response: FavouriteModels.GetMovies.Response)
+protocol WatchLaterPresentationLogic {
+    func presentMovies(response: WatchLaterModels.GetMovies.Response)
 }
 
-class FavouritePresenter: FavouritePresentationLogic {
+class WatchLaterPresenter: WatchLaterPresentationLogic {
     
-    weak var viewController: FavouriteDisplayLogic?
+    weak var viewController: WatchLaterDisplayLogic?
     
     // MARK: Present movies
     
-    func presentMovies(response: FavouriteModels.GetMovies.Response) {
+    func presentMovies(response: WatchLaterModels.GetMovies.Response) {
         let movies = response.movies
-        var displayedMoviesDetails: [FavouriteModels.GetMovies.ViewModel.DisplayedDetails] = []
+        var displayedMoviesDetails: [WatchLaterModels.GetMovies.ViewModel.DisplayedDetails] = []
         movies.forEach { (detailMovie) in
             let movieTitle = "Название: \(detailMovie.title ?? "")"
             let rate = "Рейтинг: \(detailMovie.voteAverage ?? 0)"
             
-            let displayedMovieDetails = FavouriteModels.GetMovies.ViewModel.DisplayedDetails(movieTitle: movieTitle, posterPath: detailMovie.posterPath, rate: rate, movieId: detailMovie.id)
+            let displayedMovieDetails = WatchLaterModels.GetMovies.ViewModel.DisplayedDetails(movieTitle: movieTitle, posterPath: detailMovie.posterPath, rate: rate, movieId: detailMovie.id)
             displayedMoviesDetails.append(displayedMovieDetails)
         }
         
-        let viewModel = FavouriteModels.GetMovies.ViewModel(displayedDetails: displayedMoviesDetails)
+        let viewModel = WatchLaterModels.GetMovies.ViewModel(displayedDetails: displayedMoviesDetails)
         viewController?.displayMovies(viewModel: viewModel)
     }
 }

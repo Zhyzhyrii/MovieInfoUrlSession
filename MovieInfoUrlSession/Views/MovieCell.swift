@@ -20,7 +20,7 @@ class MovieCell: UITableViewCell {
         posterImageView.fetchImage(with: movie.posterPath)
     }
     
-    func configure(with movie: FavouriteModels.GetMovies.ViewModel.DisplayedDetails) {
+    func configure(with movie: DetailMovieInList) {
         titleLabel.text = movie.movieTitle
         voteAverageLabel.text = movie.rate
         posterImageView.fetchImage(with: movie.posterPath)

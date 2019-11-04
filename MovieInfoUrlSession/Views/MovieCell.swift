@@ -14,12 +14,6 @@ class MovieCell: UITableViewCell {
     @IBOutlet var titleLabel: UILabel!
     @IBOutlet var voteAverageLabel: UILabel!
     
-    func configure(with movie: MovieJson) {
-        titleLabel.text = "Название: \(movie.title ?? "")"
-        voteAverageLabel.text = "Рейтинг: \(movie.voteAverage ?? 0)"
-        posterImageView.fetchImage(with: movie.posterPath)
-    }
-    
     func configure(with movie: DetailMovieInList) {
         titleLabel.text = movie.movieTitle
         voteAverageLabel.text = movie.rate

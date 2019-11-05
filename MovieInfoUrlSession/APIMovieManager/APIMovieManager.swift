@@ -10,127 +10,69 @@ import Foundation
 
 final class APIMovieManager {
     
-    let apiKey = "10c9d0f7d2e89b09263bafaaf8c69a6a"
-    
-    //MARK: - TODO - Need to make one method with generic
-    
     static func fetchMovies(from movieType: MovieType, completionHandler: @escaping ([MovieJson]?, APIResult, Error?) -> Void) {
         
-        URLSession.shared.dataTask(with: movieType.request) { (data, response, error) in
+        let url = movieType.requestString
+        APIManager.fetchGenericJSONData(urlString: url) { (movieList: MovieList?, result, error) in
             
-            guard let data = data, error == nil else {
+            guard let movieList = movieList else {
                 completionHandler(nil, .failure, error)
                 return
             }
             
-            do {
-                let movieList = try JSONDecoder().decode(MovieList.self, from: data)
-                let movies = MovieJson.getMovies(from: movieList)
-                
-                guard movies != nil else {
-                    completionHandler(nil, .failure, error)
-                    return
-                }
-                
-                completionHandler(movies, .success, nil)
-            } catch let error {
+            guard let movies = MovieJson.getMovies(from: movieList) else {
                 completionHandler(nil, .failure, nil)
-                print(error)
+                return
             }
             
-            }.resume()
+            completionHandler(movies, .success, nil)
+            
+        }
+
     }
     
     static func fetchMovieTrailer(movieId: Int, completionHandler: @escaping ([Trailer]?, APIResult, Error?) -> Void) {
         
-        guard let url = URL(string: BaseApiData.baseMovieURL + "/\(movieId)/videos" + BaseApiData.apiKey + "&language=ru") else { return }
-        let urlrequest = URLRequest(url: url)
-        
-        URLSession.shared.dataTask(with: urlrequest) { (data, response, error) in
+        let url = BaseApiData.baseMovieURL + "/\(movieId)/videos" + BaseApiData.apiKey + "&language=ru"
+        APIManager.fetchGenericJSONData(urlString: url) { (trailerList: TrailerList?, result, error) in
             
-            guard let data = data, error == nil else {
+            guard let trailerList = trailerList else {
                 completionHandler(nil, .failure, error)
                 return
             }
             
-            do {
-                let trailerList = try JSONDecoder().decode(TrailerList.self, from: data)
-                let trailers = Trailer.getTrailers(from: trailerList)
-                
-                guard trailers != nil else {
-                    completionHandler(nil, .failure, error)
-                    return
-                }
-                
-                completionHandler(trailers, .success, nil)
-            } catch let error {
-                completionHandler(nil, .failure, error)
-                print(error)
+            guard let trailers = Trailer.getTrailers(from: trailerList) else {
+                completionHandler(nil, .failure, nil)
+                return
             }
-            }.resume()
+            
+            completionHandler(trailers, .success, nil)
+        }
     }
     
     static func fetchMovieReviews(movieId: Int, completionHandler: @escaping (ReviewList?, APIResult, Error?) -> Void) {
         
-        guard let url = URL(string: BaseApiData.baseMovieURL + "/\(movieId)/reviews" + BaseApiData.apiKey + "&language=en-US") else { return }
-        let urlrequest = URLRequest(url: url)
-        
-        URLSession.shared.dataTask(with: urlrequest) { (data, response, error) in
-            
-            guard let data = data, error == nil else {
-                completionHandler(nil, .failure, error)
-                return
-            }
-            
-            do {
-                let reviewList = try JSONDecoder().decode(ReviewList.self, from: data)
-                completionHandler(reviewList, .success, nil)
-            } catch let error {
-                completionHandler(nil, .failure, error)
-                print(error)
-            }
-            }.resume()
+        let url = BaseApiData.baseMovieURL + "/\(movieId)/reviews" + BaseApiData.apiKey + "&language=en-US"
+        APIManager.fetchGenericJSONData(urlString: url) { (reviewList: ReviewList?, result, error) in
+            completionHandler(reviewList, result, error)
+        }
+
     }
     
     static func fetchDetailMovie(movieId: Int, completionHandler: @escaping (DetailMovie?, APIResult, Error?) -> Void) {
         
-        guard let url = URL(string: BaseApiData.baseMovieURL + "/\(movieId)" + BaseApiData.apiKey + "&language=ru") else { return }
-        let urlrequest = URLRequest(url: url)
-        
-        URLSession.shared.dataTask(with: urlrequest) { (data, response, error) in
-            
-            guard let data = data, error == nil else {
-                completionHandler(nil, .failure, error)
-                return
-            }
-            do {
-                let detailMovie = try JSONDecoder().decode(DetailMovie.self, from: data)
-                completionHandler(detailMovie, .success, nil)
-            } catch let error {
-                completionHandler(nil, .failure, nil)
-                print(error)
-            }
-            }.resume()
+        let url = BaseApiData.baseMovieURL + "/\(movieId)" + BaseApiData.apiKey + "&language=ru"
+        APIManager.fetchGenericJSONData(urlString: url) { (detailMovie: DetailMovie?, result, error) in
+            completionHandler(detailMovie, result, error)
+        }
     }
     
     static func fetchGenres(completionHandler: @escaping (GenreJson?, APIResult) -> Void) {
         
-        guard let url = URL(string: BaseApiData.baseURL + "/genre/movie/list" + BaseApiData.apiKey + "&language=ru") else { return }
-        let urlrequest = URLRequest(url: url)
+        let url = BaseApiData.baseURL + "/genre/movie/list" + BaseApiData.apiKey + "&language=ru"
+        APIManager.fetchGenericJSONData(urlString: url) { (genre: GenreJson?, result, _) in
+            completionHandler(genre, result)
+        }
         
-        URLSession.shared.dataTask(with: urlrequest) { (data, response, error) in
-            
-            guard let data = data, error == nil else {
-                completionHandler(nil, .failure)
-                return
-            }
-            do {
-                let genresJson = try JSONDecoder().decode(GenreJson.self, from: data)
-                completionHandler(genresJson, .success)
-            } catch let error {
-                completionHandler(nil, .failure)
-                print(error)
-            }
-            }.resume()
     }
 }

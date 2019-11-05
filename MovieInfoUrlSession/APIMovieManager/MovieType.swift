@@ -32,10 +32,7 @@ enum MovieType: String, CaseIterable {
         }
     }
     
-    var request: URLRequest {
-        guard let url = URL(string: BaseApiData.baseMovieURL + path + BaseApiData.apiKey + otherParameters) else {
-            fatalError("URL was not created")
-        }
-        return URLRequest(url: url)
+    var requestString: String {
+         return BaseApiData.baseMovieURL + path + BaseApiData.apiKey + otherParameters
     }
 }

@@ -10,7 +10,7 @@
 //  see http://clean-swift.com
 //
 
-import UIKit
+import RealmSwift
 
 enum FavouriteModels {
    
@@ -21,7 +21,7 @@ enum FavouriteModels {
         }
         
         struct Response {
-            var movies: [DetailMovie]
+            var movies: Results<DetailMovie>
         }
         
         struct ViewModel {
@@ -32,7 +32,7 @@ enum FavouriteModels {
                 let posterPath: String?
                 let rate: String?
                 
-                let movieId: Int?
+                let movieId: RealmOptional<Int>
             }
         }
     }

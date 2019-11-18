@@ -1,5 +1,5 @@
 //
-//  FavouriteWorker.swift
+//  WatchLaterWorker.swift
 //  MovieInfoUrlSession
 //
 //  Created by Игорь on 11/4/19.
@@ -10,9 +10,12 @@
 //  see http://clean-swift.com
 //
 
-import UIKit
+import RealmSwift
 
-class FavouriteWorker {
-    func doSomeWork() {
+class WatchLaterDBWorker {
+      
+    func getWatchedLaterMovies() -> Results<DetailMovie> {
+        return RealmMovieManager.getMovies(status: .watchLater)
     }
+    
 }

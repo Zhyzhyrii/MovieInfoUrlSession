@@ -32,7 +32,8 @@ protocol DetailMovieDataStore {
 class DetailMovieInteractor: DetailMovieBusinessLogic, DetailMovieDataStore {
     
     var presenter: DetailMoviePresentationLogic?
-    var worker: DetailMovieWorker?
+    var networkWorker: DetailMovieNetworkWorker?
+    var dataBaseWorker: DetailMovieDBWorker?
     
     var movieId: Int!
     var detailMovie: DetailMovie!
@@ -44,16 +45,17 @@ class DetailMovieInteractor: DetailMovieBusinessLogic, DetailMovieDataStore {
     // MARK: Do something
     
     func showDetails(request: DetailMovieModels.ShowDetails.Request) {
-        worker = DetailMovieWorker()
+        networkWorker = DetailMovieNetworkWorker()
+        dataBaseWorker = DetailMovieDBWorker()
         
-        worker?.getMovieDetailInfo(forMovieId: movieId,
+        networkWorker?.getMovieDetailInfo(forMovieId: movieId,
                                    success: { [weak self] (detailMovie) in
                                     
             guard let self = self else { return }
             self.detailMovie = detailMovie
             
-            self.isAddedToFavourite = self.worker?.isPresent(movie: self.detailMovie, in: .favouriteList) ?? false
-            self.isAddedToWatchLater = self.worker?.isPresent(movie: self.detailMovie, in: .watchLaterList) ?? false
+            self.isAddedToFavourite = self.dataBaseWorker?.has(movie: self.detailMovie, status: .favourite) ?? false
+            self.isAddedToWatchLater = self.dataBaseWorker?.has(movie: self.detailMovie, status: .watchLater) ?? false
             
             let response = DetailMovieModels.ShowDetails.Response(detailMovie: self.detailMovie, isAddedToFavourite: self.isAddedToFavourite, isAddedToWatchLater: self.isAddedToWatchLater, errorMessage: nil)
             self.presenter?.presentDetails(response: response)
@@ -65,7 +67,7 @@ class DetailMovieInteractor: DetailMovieBusinessLogic, DetailMovieDataStore {
     }
     
     func showTrailer(request: DetailMovieModels.ShowTrailer.Request) {
-        worker?.getTrailer(forMovieId: movieId,
+        networkWorker?.getTrailer(forMovieId: movieId,
                            success: { [weak self] (videoCode) in
             self?.videoCode = videoCode
             let response = DetailMovieModels.ShowTrailer.Response(videoCode: videoCode, errorMessage: nil)
@@ -79,7 +81,7 @@ class DetailMovieInteractor: DetailMovieBusinessLogic, DetailMovieDataStore {
     
     func setFavouriteStatus() {
         isAddedToFavourite.toggle()
-        worker?.setStatus(for: detailMovie, in: .favouriteList, with: isAddedToFavourite)
+        dataBaseWorker?.change(status: .favourite, for: detailMovie)
         
         let response = DetailMovieModels.SetFavouriteStatus.Response(isAddedToFavourite: isAddedToFavourite)
         presenter?.presentFavouriteStatus(response: response)
@@ -87,7 +89,7 @@ class DetailMovieInteractor: DetailMovieBusinessLogic, DetailMovieDataStore {
     
     func setWatchLaterStatus() {
         isAddedToWatchLater.toggle()
-        worker?.setStatus(for: detailMovie, in: .watchLaterList, with: isAddedToWatchLater)
+        dataBaseWorker?.change(status: .watchLater, for: detailMovie)
         
         let response = DetailMovieModels.SetWatchLaterStatus.Response(isAddedToWatchLater: isAddedToWatchLater)
         presenter?.presentWatchLaterStatus(response: response)
@@ -100,7 +102,7 @@ class DetailMovieInteractor: DetailMovieBusinessLogic, DetailMovieDataStore {
                 presenter?.presentOverviewReview(response: response)
             }
         } else {
-            worker?.getReviews(forMovieId: movieId,
+            networkWorker?.getReviews(forMovieId: movieId,
                                success: { [weak self] (reviewList) in
                 self?.reviews = reviewList?.getReviewAsString()
                 let response = DetailMovieModels.SelectOverviewReviewsSegmentedControl.Response(overviewReviews: self?.reviews, errorMessage: nil)

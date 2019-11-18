@@ -6,17 +6,26 @@
 //  Copyright © 2019 Igor Zhyzhyrii. All rights reserved.
 //
 
-struct DetailMovie: Decodable {
+import RealmSwift
+import Realm
+
+class DetailMovie: Object, Decodable {
+    
+    // MARK: - REFACTOR perhaps not optionals, genres
     
     //fields from json
-    let id: Int?
-    let title: String?
-    let releaseDate: String?
-    let runTime: Int?
-    let voteAverage: Double?
-    let overview: String?
-    let posterPath: String?
-    let genres: [Genre]?
+    var id = RealmOptional<Int>()
+    @objc dynamic var title: String? = nil
+    @objc dynamic var releaseDate: String? = nil
+    var runTime = RealmOptional<Int>()
+    var voteAverage = RealmOptional<Double>()
+    @objc dynamic var overview: String? = nil
+    @objc dynamic var posterPath: String? = nil
+    var genres: [Genre]? = nil
+    
+    //custom fields
+    @objc dynamic var isFavourite = false
+    @objc dynamic var isWatchedLater = false
     
     enum CodingKeys: String, CodingKey {
         case title, id, overview
@@ -27,7 +36,47 @@ struct DetailMovie: Decodable {
         case posterPath = "poster_path"
     }
     
-     func getGenresAsString() -> String? {
+    override static func primaryKey() -> String? {
+        return "id"
+    }
+    
+    convenience init(id: RealmOptional<Int>, title: String, releaseDate: String, runTime: RealmOptional<Int>, voteAverage: RealmOptional<Double>, overview: String, posterPath: String) {
+        self.init()
+        self.id = id
+        self.title = title
+        self.releaseDate = releaseDate
+        self.runTime = runTime
+        self.voteAverage = voteAverage
+        self.overview = overview
+        self.posterPath = posterPath
+    }
+    
+    convenience required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let id = try container.decode(RealmOptional<Int>.self, forKey: .id)
+        let title = try container.decode(String.self, forKey: .title)
+        let releaseDate = try container.decode(String.self, forKey: .releaseDate)
+        let runTime = try container.decode(RealmOptional<Int>.self, forKey: .runTime)
+        let voteAverage = try container.decode(RealmOptional<Double>.self, forKey: .voteAverage)
+        let overview = try container.decode(String.self, forKey: .overview)
+        let posterPath = try container.decode(String.self, forKey: .posterPath)
+        self.init(id: id, title: title, releaseDate: releaseDate, runTime: runTime, voteAverage: voteAverage, overview: overview, posterPath: posterPath)
+    }
+    
+    
+//    required init() {
+//        super.init()
+//    }
+//
+//    required init(value: Any, schema: RLMSchema) {
+//        super.init(value: value, schema: schema)
+//    }
+//
+//    required init(realm: RLMRealm, schema: RLMObjectSchema) {
+//        super.init(realm: realm, schema: schema)
+//    }
+    
+    func getGenresAsString() -> String? {
         guard let genres = genres else { return nil }
         var genresAsString = ""
         for index in genres.indices {
@@ -39,12 +88,4 @@ struct DetailMovie: Decodable {
         }
         return genresAsString
     }
-}
-
-extension DetailMovie: Equatable {
-    
-    static func == (lhs: DetailMovie, rhs: DetailMovie) -> Bool {
-        return lhs.id == rhs.id
-    }
-    
 }

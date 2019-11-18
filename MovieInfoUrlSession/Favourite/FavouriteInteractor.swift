@@ -10,30 +10,30 @@
 //  see http://clean-swift.com
 //
 
-import UIKit
+import RealmSwift
+
 
 protocol FavouriteBusinessLogic {
     func getMovies(request: FavouriteModels.GetMovies.Request)
 }
 
 protocol FavouriteDataStore {
-    var movies: [DetailMovie]! { get }
+    var movies: Results<DetailMovie>! { get }
 }
 
 class FavouriteInteractor: FavouriteBusinessLogic, FavouriteDataStore {
     
     var presenter: FavouritePresentationLogic?
-    var worker: FavouriteWorker?
+    var worker: FavouriteDBWorker?
    
-    var movies: [DetailMovie]!
+    var movies: Results<DetailMovie>!
     
     // MARK: Get movies
     
     func getMovies(request: FavouriteModels.GetMovies.Request) {
-//        worker = FavouriteWorker()
-//        worker?.doSomeWork()
+        worker = FavouriteDBWorker()
         
-        movies = ListManager.listManager.getMovies(from: .favouriteList)
+        movies = worker?.getFavouriteMovies()
         
         let response = FavouriteModels.GetMovies.Response(movies: movies)
         presenter?.presentMovies(response: response)

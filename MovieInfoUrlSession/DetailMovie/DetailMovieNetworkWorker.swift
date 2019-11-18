@@ -1,5 +1,5 @@
 //
-//  DetailMovieWorker.swift
+//  DetailMovieNetworkWorker.swift
 //  MovieInfoUrlSession
 //
 //  Created by Игорь on 10/13/19.
@@ -10,8 +10,6 @@
 //  see http://clean-swift.com
 //
 
-import UIKit
-
 typealias getReviewResponseSuccess = (ReviewList?) -> Void
 typealias getReviewResponseFailure = (Error?) -> Void
 
@@ -21,7 +19,7 @@ typealias getTrailerFailure = (Error?) -> Void
 typealias getMovieDetailInfoSuccess = (DetailMovie?) -> Void
 typealias getMovieDetailInfoError = (Error?) -> Void
 
-class DetailMovieWorker { //todo split into two workers (network and work with lists)
+class DetailMovieNetworkWorker {
     
     func getMovieDetailInfo(forMovieId movieId: Int, success: @escaping getMovieDetailInfoSuccess, failure: @escaping getTrailerFailure) {
         APIMovieManager.fetchDetailMovie(movieId: movieId) { (detailMovie, result, error) in
@@ -61,17 +59,4 @@ class DetailMovieWorker { //todo split into two workers (network and work with l
             }
         }
     }
-    
-    func isPresent(movie: DetailMovie, in listType: ListType) -> Bool {
-        return ListManager.listManager.isPresent(movie: movie, in: listType)
-    }
-    
-    func setStatus(for movie: DetailMovie, in list: ListType, with status: Bool) {
-        if !status {
-            ListManager.listManager.remove(movie: movie, from: list)
-        } else {
-            ListManager.listManager.add(movie: movie, to: list)
-        }
-    }
-    
 }

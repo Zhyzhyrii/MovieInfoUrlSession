@@ -27,7 +27,7 @@ class WatchLaterPresenter: WatchLaterPresentationLogic {
         var displayedMoviesDetails: [WatchLaterModels.GetMovies.ViewModel.DisplayedDetails] = []
         movies.forEach { (detailMovie) in
             let movieTitle = "Название: \(detailMovie.title ?? "")"
-            let rate = "Рейтинг: \(detailMovie.voteAverage ?? 0)"
+            let rate = "Рейтинг: \(detailMovie.voteAverage)"
             
             let displayedMovieDetails = WatchLaterModels.GetMovies.ViewModel.DisplayedDetails(movieTitle: movieTitle, posterPath: detailMovie.posterPath, rate: rate, movieId: detailMovie.id)
             displayedMoviesDetails.append(displayedMovieDetails)

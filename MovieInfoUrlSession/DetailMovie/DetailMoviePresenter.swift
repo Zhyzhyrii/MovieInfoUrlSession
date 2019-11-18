@@ -36,14 +36,9 @@ class DetailMoviePresenter: DetailMoviePresentationLogic {
                 let title = detailMovie.title
                 let releaseGenre = (detailMovie.releaseDate ?? "") + ", " + (detailMovie.getGenresAsString() ?? "")
                 
-                var displayedRunTime: String
-                if let runTime = detailMovie.runTime {
-                    displayedRunTime = String(runTime) + " мин"
-                } else {
-                    displayedRunTime = ""
-                }
+                let displayedRunTime = "\(detailMovie.runTime) мин"
                 
-                let voteAverage = "\(detailMovie.voteAverage ?? 0)"
+                let voteAverage = "\(detailMovie.voteAverage)"
                 
                 let overview = detailMovie.overview
                 

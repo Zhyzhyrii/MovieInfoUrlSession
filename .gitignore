@@ -8,3 +8,19 @@ MovieInfoUrlSession.xcodeproj/xcuserdata/igor.xcuserdatad/xcdebugger/Breakpoints
 MovieInfoUrlSession/.DS_Store
 
 .DS_Store
+
+Podfile.lock
+
+Pods/Manifest.lock
+
+Pods/Pods.xcodeproj/project.pbxproj
+
+Pods/Pods.xcodeproj/xcuserdata/igor.xcuserdatad/xcschemes/Pods-MovieInfoUrlSession.xcscheme
+
+Pods/Pods.xcodeproj/xcuserdata/igor.xcuserdatad/xcschemes/Realm.xcscheme
+
+Pods/Pods.xcodeproj/xcuserdata/igor.xcuserdatad/xcschemes/RealmSwift.xcscheme
+
+Pods/Pods.xcodeproj/xcuserdata/igor.xcuserdatad/xcschemes/xcschememanagement.plist
+
+Pods/

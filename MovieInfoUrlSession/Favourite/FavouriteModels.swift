@@ -32,7 +32,7 @@ enum FavouriteModels {
                 let posterPath: String?
                 let rate: String?
                 
-                let movieId: RealmOptional<Int>
+                let movieId: Int?
             }
         }
     }

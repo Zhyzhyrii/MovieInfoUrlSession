@@ -13,5 +13,5 @@ protocol DetailMovieInList {
     var posterPath: String? { get }
     var rate: String? { get }
     
-    var movieId: RealmOptional<Int> { get }
+    var movieId: Int? { get }
 }

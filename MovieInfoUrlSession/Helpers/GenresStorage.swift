@@ -37,7 +37,7 @@ class GenresStorage {
     private static func transformGenreArrayToDictionary(_ genres: Array<Genre>) -> [Int: String] {
         var dic = [Int: String]()
         genres.forEach {
-            if let id = $0.id, let genreName = $0.genreName {
+            if let id = $0.id.value, let genreName = $0.genreName {
                 dic[id] = genreName
             }
         }

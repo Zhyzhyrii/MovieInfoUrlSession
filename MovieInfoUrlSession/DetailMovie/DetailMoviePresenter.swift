@@ -34,18 +34,28 @@ class DetailMoviePresenter: DetailMoviePresentationLogic {
         } else {
             if let detailMovie = response.detailMovie {
                 let title = detailMovie.title
-                let releaseGenre = (detailMovie.releaseDate ?? "") + ", " + (detailMovie.getGenresAsString() ?? "")
                 
-                let displayedRunTime = "\(detailMovie.runTime) мин"
+                var releaseGenre = detailMovie.releaseDate ?? ""
+                if let genres = detailMovie.getGenresAsString() {
+                    releaseGenre = (detailMovie.releaseDate ?? "") + ", " + genres
+                }
                 
-                let voteAverage = "\(detailMovie.voteAverage)"
+                var displayedRunTime = "---"
+                if let runTime = detailMovie.runTime.value {
+                    displayedRunTime = "\(runTime) мин"
+                }
+                
+                var displayedVoteAverage = "---"
+                if let voteAverage = detailMovie.voteAverage.value {
+                    displayedVoteAverage = "\(voteAverage)"
+                }
                 
                 let overview = detailMovie.overview
                 
                 let isAddedToFavourite = response.isAddedToFavourite
                 let isAddedToWatchLater = response.isAddedToWatchLater
                 
-                let displayedDetails = DetailMovieModels.ShowDetails.ViewModel.DisplayedDetails(movieTitle: title, releaseGenre: releaseGenre, runTime: displayedRunTime, voteAverage: voteAverage, overView: overview, isAddedToFavourite: isAddedToFavourite, isAddedToWatchLater: isAddedToWatchLater)
+                let displayedDetails = DetailMovieModels.ShowDetails.ViewModel.DisplayedDetails(movieTitle: title, releaseGenre: releaseGenre, runTime: displayedRunTime, voteAverage: displayedVoteAverage, overView: overview, isAddedToFavourite: isAddedToFavourite, isAddedToWatchLater: isAddedToWatchLater)
                 
                 let viewModel = DetailMovieModels.ShowDetails.ViewModel(displayedDetails: displayedDetails, errorMessage: response.errorMessage)
                 viewController?.displayMovieDetails(viewModel: viewModel)

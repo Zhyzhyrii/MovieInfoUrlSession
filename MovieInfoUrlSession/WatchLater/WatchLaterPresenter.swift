@@ -27,9 +27,14 @@ class WatchLaterPresenter: WatchLaterPresentationLogic {
         var displayedMoviesDetails: [WatchLaterModels.GetMovies.ViewModel.DisplayedDetails] = []
         movies.forEach { (detailMovie) in
             let movieTitle = "Название: \(detailMovie.title ?? "")"
-            let rate = "Рейтинг: \(detailMovie.voteAverage)"
+           
+            var displayedVoteAverage = "---"
+            if let voteAverage = detailMovie.voteAverage.value {
+                displayedVoteAverage = "\(voteAverage)"
+            }
+            let rate = "Рейтинг: \(displayedVoteAverage)"
             
-            let displayedMovieDetails = WatchLaterModels.GetMovies.ViewModel.DisplayedDetails(movieTitle: movieTitle, posterPath: detailMovie.posterPath, rate: rate, movieId: detailMovie.id)
+            let displayedMovieDetails = WatchLaterModels.GetMovies.ViewModel.DisplayedDetails(movieTitle: movieTitle, posterPath: detailMovie.posterPath, rate: rate, movieId: detailMovie.id.value)
             displayedMoviesDetails.append(displayedMovieDetails)
         }
         

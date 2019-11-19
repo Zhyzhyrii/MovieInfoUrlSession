@@ -7,21 +7,18 @@
 //
 
 import RealmSwift
-import Realm
 
 class DetailMovie: Object, Decodable {
     
-    // MARK: - REFACTOR perhaps not optionals, genres
-    
     //fields from json
-    var id = RealmOptional<Int>()
-    @objc dynamic var title: String? = nil
-    @objc dynamic var releaseDate: String? = nil
-    var runTime = RealmOptional<Int>()
-    var voteAverage = RealmOptional<Double>()
-    @objc dynamic var overview: String? = nil
-    @objc dynamic var posterPath: String? = nil
-    var genres: [Genre]? = nil
+    let id = RealmOptional<Int>()
+    @objc dynamic var title: String?
+    @objc dynamic var releaseDate: String?
+    let runTime = RealmOptional<Int>()
+    let voteAverage = RealmOptional<Double>()
+    @objc dynamic var overview: String?
+    @objc dynamic var posterPath: String?
+    var genresList = List<Genre>()
     
     //custom fields
     @objc dynamic var isFavourite = false
@@ -40,49 +37,27 @@ class DetailMovie: Object, Decodable {
         return "id"
     }
     
-    convenience init(id: RealmOptional<Int>, title: String, releaseDate: String, runTime: RealmOptional<Int>, voteAverage: RealmOptional<Double>, overview: String, posterPath: String) {
-        self.init()
-        self.id = id
-        self.title = title
-        self.releaseDate = releaseDate
-        self.runTime = runTime
-        self.voteAverage = voteAverage
-        self.overview = overview
-        self.posterPath = posterPath
-    }
-    
     convenience required init(from decoder: Decoder) throws {
+        self.init()
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        let id = try container.decode(RealmOptional<Int>.self, forKey: .id)
-        let title = try container.decode(String.self, forKey: .title)
-        let releaseDate = try container.decode(String.self, forKey: .releaseDate)
-        let runTime = try container.decode(RealmOptional<Int>.self, forKey: .runTime)
-        let voteAverage = try container.decode(RealmOptional<Double>.self, forKey: .voteAverage)
-        let overview = try container.decode(String.self, forKey: .overview)
-        let posterPath = try container.decode(String.self, forKey: .posterPath)
-        self.init(id: id, title: title, releaseDate: releaseDate, runTime: runTime, voteAverage: voteAverage, overview: overview, posterPath: posterPath)
+        id.value = try container.decodeIfPresent(Int.self, forKey: .id)
+        title = try container.decodeIfPresent(String.self, forKey: .title)
+        releaseDate = try container.decodeIfPresent(String.self, forKey: .releaseDate)
+        runTime.value = try container.decodeIfPresent(Int.self, forKey: .runTime)
+        voteAverage.value = try container.decodeIfPresent(Double.self, forKey: .voteAverage)
+        overview = try container.decodeIfPresent(String.self, forKey: .overview)
+        posterPath = try container.decodeIfPresent(String.self, forKey: .posterPath)
+        let genres = try container.decodeIfPresent([Genre].self, forKey: .genres) ?? [Genre()]
+        genresList.append(objectsIn: genres)
     }
-    
-    
-//    required init() {
-//        super.init()
-//    }
-//
-//    required init(value: Any, schema: RLMSchema) {
-//        super.init(value: value, schema: schema)
-//    }
-//
-//    required init(realm: RLMRealm, schema: RLMObjectSchema) {
-//        super.init(realm: realm, schema: schema)
-//    }
     
     func getGenresAsString() -> String? {
-        guard let genres = genres else { return nil }
+        guard genresList.isEmpty == false else { return nil }
         var genresAsString = ""
-        for index in genres.indices {
-            guard let genreName = genres[index].genreName else { return nil }
+        for index in genresList.indices {
+            guard let genreName = genresList[index].genreName else { return nil }
             genresAsString += genreName.capitalized
-            if index != genres.count - 1 {
+            if index != genresList.count - 1 {
                 genresAsString += ", "
             }
         }

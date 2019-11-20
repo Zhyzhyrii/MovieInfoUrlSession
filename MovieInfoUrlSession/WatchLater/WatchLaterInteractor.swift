@@ -10,10 +10,12 @@ import RealmSwift
 
 protocol WatchLaterBusinessLogic {
     func getMovies(request: WatchLaterModels.GetMovies.Request)
+    func selectMovie(request: WatchLaterModels.SelectMovie.Request)
 }
 
 protocol WatchLaterDataStore {
     var movies: Results<DetailMovie>! { get }
+    var selectedMovieId: Int! { get }
 }
 
 class WatchLaterInteractor: WatchLaterBusinessLogic, WatchLaterDataStore {
@@ -22,6 +24,7 @@ class WatchLaterInteractor: WatchLaterBusinessLogic, WatchLaterDataStore {
     var worker: WatchLaterDBWorker?
     
     var movies: Results<DetailMovie>!
+    var selectedMovieId: Int!
     
     // MARK: Get movies
     
@@ -32,5 +35,11 @@ class WatchLaterInteractor: WatchLaterBusinessLogic, WatchLaterDataStore {
         
         let response = WatchLaterModels.GetMovies.Response(movies: movies)
         presenter?.presentMovies(response: response)
+    }
+    
+    // MARK: Select movies
+    
+    func selectMovie(request: WatchLaterModels.SelectMovie.Request) {
+        selectedMovieId = request.movieId
     }
 }

@@ -36,4 +36,10 @@ enum FavouriteModels {
             }
         }
     }
+    
+    enum SelectMovie {
+        struct Request {
+            let movieId: Int!
+        }
+    }
 }

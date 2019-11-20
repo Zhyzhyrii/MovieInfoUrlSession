@@ -79,3 +79,18 @@ extension WatchLaterViewController {
     }
     
 }
+
+extension WatchLaterViewController {
+    
+    //MARK: - Table view delegate
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if let indexPathForSelectedRow = tableView.indexPathForSelectedRow {
+            let movieId = movies[indexPathForSelectedRow.row].movieId
+            let request = WatchLaterModels.SelectMovie.Request(movieId: movieId)
+            interactor?.selectMovie(request: request)
+            performSegue(withIdentifier: "DetailMovie", sender: nil)
+        }
+    }
+    
+}

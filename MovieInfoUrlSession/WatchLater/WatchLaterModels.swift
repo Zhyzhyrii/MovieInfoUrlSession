@@ -36,4 +36,10 @@ enum WatchLaterModels {
             }
         }
     }
+    
+    enum SelectMovie {
+        struct Request {
+            let movieId: Int!
+        }
+    }
 }

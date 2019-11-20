@@ -91,7 +91,7 @@ class CategoriesTableViewController: UITableViewController {
     
 }
 
-// MARK: - Extension
+// MARK: - Extensions
 
 extension CategoriesTableViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {

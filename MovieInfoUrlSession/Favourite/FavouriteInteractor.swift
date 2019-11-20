@@ -15,10 +15,12 @@ import RealmSwift
 
 protocol FavouriteBusinessLogic {
     func getMovies(request: FavouriteModels.GetMovies.Request)
+    func selectMovie(request: FavouriteModels.SelectMovie.Request)
 }
 
 protocol FavouriteDataStore {
     var movies: Results<DetailMovie>! { get }
+    var selectedMovieId: Int! { get }
 }
 
 class FavouriteInteractor: FavouriteBusinessLogic, FavouriteDataStore {
@@ -26,6 +28,7 @@ class FavouriteInteractor: FavouriteBusinessLogic, FavouriteDataStore {
     var presenter: FavouritePresentationLogic?
     var worker: FavouriteDBWorker?
    
+    var selectedMovieId: Int!
     var movies: Results<DetailMovie>!
     
     // MARK: Get movies
@@ -37,5 +40,11 @@ class FavouriteInteractor: FavouriteBusinessLogic, FavouriteDataStore {
         
         let response = FavouriteModels.GetMovies.Response(movies: movies)
         presenter?.presentMovies(response: response)
+    }
+    
+    // MARK: Select movie
+    
+    func selectMovie(request: FavouriteModels.SelectMovie.Request) {
+        selectedMovieId = request.movieId
     }
 }

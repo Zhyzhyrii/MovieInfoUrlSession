@@ -11,7 +11,6 @@ import RealmSwift
 class DetailMovieDBWorker {
     
     func change(status: Status, for movie: DetailMovie) {
-        
         guard let movieId = movie.id.value else { fatalError() }
         let movies = RealmMovieManager.getMovies().filter("id = %@", movieId)
         
@@ -24,6 +23,18 @@ class DetailMovieDBWorker {
             RealmManager.addObject(object: movie)
         }
     }
+    
+    func change(status: Status, for movieId: Int) {
+          let movies = RealmMovieManager.getMovies().filter("id = %@", movieId)
+          
+          if let movie = movies.first {
+              RealmManager.updateObject {
+                  changeValue(status: status, for: movie)
+              }
+          } else {
+              print("Error during changing status for movie with movie id = \(movieId)")
+          }
+      }
     
     func has(movie: DetailMovie, status: Status) -> Bool {
         let movies = RealmMovieManager.getMovies(status: status)

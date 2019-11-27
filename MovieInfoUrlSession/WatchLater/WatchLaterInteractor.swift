@@ -11,6 +11,7 @@ import RealmSwift
 protocol WatchLaterBusinessLogic {
     func getMovies(request: WatchLaterModels.GetMovies.Request)
     func selectMovie(request: WatchLaterModels.SelectMovie.Request)
+    func removeMovie(request: WatchLaterModels.RemoveMovie.Request)
 }
 
 protocol WatchLaterDataStore {
@@ -22,6 +23,7 @@ class WatchLaterInteractor: WatchLaterBusinessLogic, WatchLaterDataStore {
     
     var presenter: WatchLaterPresentationLogic?
     var worker: WatchLaterDBWorker?
+    var dataBaseWorker: DetailMovieDBWorker?
     
     var movies: Results<DetailMovie>!
     var selectedMovieId: Int!
@@ -41,5 +43,17 @@ class WatchLaterInteractor: WatchLaterBusinessLogic, WatchLaterDataStore {
     
     func selectMovie(request: WatchLaterModels.SelectMovie.Request) {
         selectedMovieId = request.movieId
+    }
+    
+    //MARK: - Remove movie from list
+    
+    func removeMovie(request: WatchLaterModels.RemoveMovie.Request) {
+        dataBaseWorker = DetailMovieDBWorker()
+        if let movieId = request.removedMovie.movieId {
+            dataBaseWorker?.change(status: .watchLater, for: movieId)
+            
+            let response = WatchLaterModels.GetMovies.Response(movies: movies)
+            presenter?.presentMovies(response: response)
+        }
     }
 }

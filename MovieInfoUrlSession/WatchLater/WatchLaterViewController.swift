@@ -14,6 +14,7 @@ import UIKit
 
 protocol WatchLaterDisplayLogic: class {
     func displayMovies(viewModel: WatchLaterModels.GetMovies.ViewModel)
+    func removeMovie(viewModel: WatchLaterModels.RemoveMovie.ViewModel)
 }
 
 class WatchLaterViewController: UITableViewController, WatchLaterDisplayLogic {
@@ -23,7 +24,7 @@ class WatchLaterViewController: UITableViewController, WatchLaterDisplayLogic {
     var interactor: WatchLaterBusinessLogic?
     var router: (NSObjectProtocol & WatchLaterRoutingLogic & WatchLaterDataPassing)?
     
-    private var movies: [WatchLaterModels.GetMovies.ViewModel.DisplayedDetails]!
+    private var movies: [DisplayedDetails]!
     
     // MARK: Object lifecycle
     
@@ -57,6 +58,11 @@ class WatchLaterViewController: UITableViewController, WatchLaterDisplayLogic {
         tableView.reloadData()
     }
     
+    func removeMovie(viewModel: WatchLaterModels.RemoveMovie.ViewModel) {
+        movies = viewModel.displayedDetails
+        tableView.reloadData()
+    }
+    
 }
 
 // MARK: - Extension
@@ -85,11 +91,18 @@ extension WatchLaterViewController {
     //MARK: - Table view delegate
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if let indexPathForSelectedRow = tableView.indexPathForSelectedRow {
-            let movieId = movies[indexPathForSelectedRow.row].movieId
-            let request = WatchLaterModels.SelectMovie.Request(movieId: movieId)
-            interactor?.selectMovie(request: request)
-            performSegue(withIdentifier: "DetailMovie", sender: nil)
+        let movieId = movies[indexPath.row].movieId
+        let request = WatchLaterModels.SelectMovie.Request(movieId: movieId)
+        interactor?.selectMovie(request: request)
+        performSegue(withIdentifier: "DetailMovie", sender: nil)
+    }
+    
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            let removedMovie = movies[indexPath.row]
+            let request = WatchLaterModels.RemoveMovie.Request(removedMovie: removedMovie)
+            interactor?.removeMovie(request: request)
+            tableView.reloadData()
         }
     }
     

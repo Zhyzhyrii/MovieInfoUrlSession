@@ -10,35 +10,36 @@
 //  see http://clean-swift.com
 //
 
-import UIKit
+import RealmSwift
 
 protocol WatchLaterPresentationLogic {
     func presentMovies(response: WatchLaterModels.GetMovies.Response)
+    func removeMovie(response: WatchLaterModels.RemoveMovie.Response)
 }
 
 class WatchLaterPresenter: WatchLaterPresentationLogic {
     
     weak var viewController: WatchLaterDisplayLogic?
+    var worker: ListWorker?
     
     // MARK: Present movies
     
     func presentMovies(response: WatchLaterModels.GetMovies.Response) {
+        worker = ListWorker()
         let movies = response.movies
-        var displayedMoviesDetails: [WatchLaterModels.GetMovies.ViewModel.DisplayedDetails] = []
-        movies.forEach { (detailMovie) in
-            let movieTitle = "Название: \(detailMovie.title ?? "")"
-           
-            var displayedVoteAverage = "---"
-            if let voteAverage = detailMovie.voteAverage.value {
-                displayedVoteAverage = "\(voteAverage)"
-            }
-            let rate = "Рейтинг: \(displayedVoteAverage)"
-            
-            let displayedMovieDetails = WatchLaterModels.GetMovies.ViewModel.DisplayedDetails(movieTitle: movieTitle, posterPath: detailMovie.posterPath, rate: rate, movieId: detailMovie.id.value)
-            displayedMoviesDetails.append(displayedMovieDetails)
+        if let displayedMovieDetails = worker?.prepareDisplayedMovies(movies) {
+            let viewModel = WatchLaterModels.GetMovies.ViewModel(displayedDetails: displayedMovieDetails)
+            viewController?.displayMovies(viewModel: viewModel)
         }
-        
-        let viewModel = WatchLaterModels.GetMovies.ViewModel(displayedDetails: displayedMoviesDetails)
-        viewController?.displayMovies(viewModel: viewModel)
+    }
+    
+    //MARK: - Remove movie
+    
+    func removeMovie(response: WatchLaterModels.RemoveMovie.Response) {
+        let movies = response.movies
+        if let displayedMovieDetails = worker?.prepareDisplayedMovies(movies) {
+            let viewModel = WatchLaterModels.RemoveMovie.ViewModel(displayedDetails: displayedMovieDetails)
+            viewController?.removeMovie(viewModel: viewModel)
+        }
     }
 }

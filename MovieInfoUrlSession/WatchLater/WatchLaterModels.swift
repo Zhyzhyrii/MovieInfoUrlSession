@@ -26,20 +26,26 @@ enum WatchLaterModels {
         
         struct ViewModel {
             let displayedDetails: [DisplayedDetails]
-            
-            struct DisplayedDetails: DetailMovieInList {
-                let movieTitle: String?
-                let posterPath: String?
-                let rate: String?
-                
-                let movieId: Int?
-            }
         }
     }
     
     enum SelectMovie {
         struct Request {
             let movieId: Int!
+        }
+    }
+    
+    enum RemoveMovie {
+        struct Request {
+            let removedMovie: DetailMovieInList
+        }
+        
+        struct Response {
+            var movies: Results<DetailMovie>
+        }
+        
+        struct ViewModel {
+            let displayedDetails: [DisplayedDetails]
         }
     }
 }

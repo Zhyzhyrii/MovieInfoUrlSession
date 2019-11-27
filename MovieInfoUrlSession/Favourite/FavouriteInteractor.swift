@@ -16,6 +16,7 @@ import RealmSwift
 protocol FavouriteBusinessLogic {
     func getMovies(request: FavouriteModels.GetMovies.Request)
     func selectMovie(request: FavouriteModels.SelectMovie.Request)
+    func removeMovie(request: FavouriteModels.RemoveMovie.Request)
 }
 
 protocol FavouriteDataStore {
@@ -27,6 +28,7 @@ class FavouriteInteractor: FavouriteBusinessLogic, FavouriteDataStore {
     
     var presenter: FavouritePresentationLogic?
     var worker: FavouriteDBWorker?
+    var dataBaseWorker: DetailMovieDBWorker?
    
     var selectedMovieId: Int!
     var movies: Results<DetailMovie>!
@@ -46,5 +48,17 @@ class FavouriteInteractor: FavouriteBusinessLogic, FavouriteDataStore {
     
     func selectMovie(request: FavouriteModels.SelectMovie.Request) {
         selectedMovieId = request.movieId
+    }
+    
+    //MARK: - Remove movie from list
+    
+    func removeMovie(request: FavouriteModels.RemoveMovie.Request) {
+        dataBaseWorker = DetailMovieDBWorker()
+        if let movieId = request.removedMovie.movieId {
+            dataBaseWorker?.change(status: .favourite, for: movieId)
+            
+            let response = FavouriteModels.GetMovies.Response(movies: movies)
+            presenter?.presentMovies(response: response)
+        }
     }
 }

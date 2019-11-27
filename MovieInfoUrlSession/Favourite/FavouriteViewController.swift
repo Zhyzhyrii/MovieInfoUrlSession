@@ -14,6 +14,7 @@ import UIKit
 
 protocol FavouriteDisplayLogic: class {
     func displayMovies(viewModel: FavouriteModels.GetMovies.ViewModel)
+    func removeMovie(viewModel: FavouriteModels.RemoveMovie.ViewModel)
 }
 
 class FavouriteViewController: UITableViewController, FavouriteDisplayLogic {
@@ -21,7 +22,7 @@ class FavouriteViewController: UITableViewController, FavouriteDisplayLogic {
     var interactor: FavouriteBusinessLogic?
     var router: (NSObjectProtocol & FavouriteRoutingLogic & FavouriteDataPassing)?
     
-    private var movies: [FavouriteModels.GetMovies.ViewModel.DisplayedDetails]!
+    private var movies: [DisplayedDetails]!
     
     // MARK: Object lifecycle
     
@@ -55,6 +56,10 @@ class FavouriteViewController: UITableViewController, FavouriteDisplayLogic {
         tableView.reloadData()
     }
     
+    func removeMovie(viewModel: FavouriteModels.RemoveMovie.ViewModel) {
+        movies = viewModel.displayedDetails
+        tableView.reloadData()
+    }
 }
 
 // MARK: - Extension
@@ -83,11 +88,18 @@ extension FavouriteViewController {
     //MARK: - Table view delegate
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if let indexPathForSelectedRow = tableView.indexPathForSelectedRow {
-            let movieId = movies[indexPathForSelectedRow.row].movieId
-            let request = FavouriteModels.SelectMovie.Request(movieId: movieId)
-            interactor?.selectMovie(request: request)
-            performSegue(withIdentifier: "DetailMovie", sender: nil)
+        let movieId = movies[indexPath.row].movieId
+        let request = FavouriteModels.SelectMovie.Request(movieId: movieId)
+        interactor?.selectMovie(request: request)
+        performSegue(withIdentifier: "DetailMovie", sender: nil)
+    }
+    
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            let removedMovie = movies[indexPath.row]
+            let request = FavouriteModels.RemoveMovie.Request(removedMovie: removedMovie)
+            interactor?.removeMovie(request: request)
+            tableView.reloadData()
         }
     }
     

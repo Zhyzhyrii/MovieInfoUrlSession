@@ -10,35 +10,36 @@
 //  see http://clean-swift.com
 //
 
-import UIKit
+import RealmSwift
 
 protocol FavouritePresentationLogic {
     func presentMovies(response: FavouriteModels.GetMovies.Response)
+    func removeMovie(response: FavouriteModels.RemoveMovie.Response)
 }
 
 class FavouritePresenter: FavouritePresentationLogic {
     
     weak var viewController: FavouriteDisplayLogic?
+    var worker: ListWorker?
     
     // MARK: Present movies
     
     func presentMovies(response: FavouriteModels.GetMovies.Response) {
+        worker = ListWorker()
         let movies = response.movies
-        var displayedMoviesDetails: [FavouriteModels.GetMovies.ViewModel.DisplayedDetails] = []
-        movies.forEach { (detailMovie) in
-            let movieTitle = "Название: \(detailMovie.title ?? "")"
-            
-            var displayedVoteAverage = "---"
-            if let voteAverage = detailMovie.voteAverage.value {
-                displayedVoteAverage = "\(voteAverage)"
-            }
-            let rate = "Рейтинг: \(displayedVoteAverage)"
-            
-            let displayedMovieDetails = FavouriteModels.GetMovies.ViewModel.DisplayedDetails(movieTitle: movieTitle, posterPath: detailMovie.posterPath, rate: rate, movieId: detailMovie.id.value)
-            displayedMoviesDetails.append(displayedMovieDetails)
+        if let displayedMovieDetails = worker?.prepareDisplayedMovies(movies) {
+            let viewModel = FavouriteModels.GetMovies.ViewModel(displayedDetails: displayedMovieDetails)
+            viewController?.displayMovies(viewModel: viewModel)
         }
-        
-        let viewModel = FavouriteModels.GetMovies.ViewModel(displayedDetails: displayedMoviesDetails)
-        viewController?.displayMovies(viewModel: viewModel)
+    }
+    
+    //MARK: - Remove movie
+    
+    func removeMovie(response: FavouriteModels.RemoveMovie.Response) {
+        let movies = response.movies
+        if let displayedMovieDetails = worker?.prepareDisplayedMovies(movies) {
+            let viewModel = FavouriteModels.RemoveMovie.ViewModel(displayedDetails: displayedMovieDetails)
+            viewController?.removeMovie(viewModel: viewModel)
+        }
     }
 }

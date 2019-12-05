@@ -10,7 +10,7 @@ import RealmSwift
 
 class ListWorker {
     
-    func prepareDisplayedMovies(_ movies: Results<DetailMovie>) -> [DisplayedDetails] { //todo move to shared
+    func prepareDisplayedMovies(_ movies: Results<DetailMovie>) -> [DisplayedDetails] {
         var displayedMoviesDetails: [DisplayedDetails] = []
         movies.forEach { (detailMovie) in
             let movieTitle = "Название: \(detailMovie.title ?? "")"

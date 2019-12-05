@@ -11,7 +11,9 @@ final class APIManager {
     
     static func fetchGenericJSONData<T: Decodable>(urlString: String, completionHandler: @escaping (T?, APIResult, Error?) -> Void) {
         
-        guard let url = URL(string: urlString) else { return }
+        guard let urlString = urlString.addingPercentEncoding(withAllowedCharacters: NSCharacterSet.urlQueryAllowed) else { return }
+        guard let url = URL(string: urlString) else {
+            return }
         
         URLSession.shared.dataTask(with: url) { (data, response, error) in
             guard let data = data, error == nil else {

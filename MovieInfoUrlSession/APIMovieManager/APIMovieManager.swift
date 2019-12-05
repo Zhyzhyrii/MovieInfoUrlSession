@@ -31,6 +31,32 @@ final class APIMovieManager {
 
     }
     
+    static func searchMovie(queryString: String, completionHandler: @escaping ([MovieJson]?, APIResult, Error?) -> Void) {
+        
+//        if search string is empty
+        if queryString.isEmpty {
+            completionHandler([], .success, nil)
+            return
+        }
+        
+        let url = BaseApiData.baseURL + "/search/movie" + BaseApiData.apiKey + "&language=ru" + "&query=\(queryString)"
+        APIManager.fetchGenericJSONData(urlString: url) { (movieList: MovieList?, result, error) in
+            
+            guard let movieList = movieList else {
+                completionHandler(nil, .failure, error)
+                return
+            }
+            
+            guard let movies = MovieJson.getMovies(from: movieList) else {
+                completionHandler(nil, .failure, nil)
+                return
+            }
+
+            completionHandler(movies, .success, nil)
+        }
+
+    }
+    
     static func fetchMovieTrailer(movieId: Int, completionHandler: @escaping ([Trailer]?, APIResult, Error?) -> Void) {
         
         let url = BaseApiData.baseMovieURL + "/\(movieId)/videos" + BaseApiData.apiKey + "&language=ru"

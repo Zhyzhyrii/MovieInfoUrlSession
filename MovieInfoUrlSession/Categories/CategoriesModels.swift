@@ -10,8 +10,6 @@
 //  see http://clean-swift.com
 //
 
-import UIKit
-
 enum CategoriesModels {
     
     // MARK: Use cases

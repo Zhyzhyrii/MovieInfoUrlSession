@@ -92,17 +92,28 @@ class SearchViewController: UITableViewController, UISearchBarDelegate, SearchDi
 
 extension SearchViewController {
     
+    //MARK: - Table view data source
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return movies.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! MovieCell
-      
+        
         let movie = movies[indexPath.row]
         cell.configure(with: movie)
         
         return cell
     }
-
+    
+    //MARK: - Table view delegate
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let movieId = movies[indexPath.row].movieId
+        let request = SearchModels.SelectMovie.Request(movieId: movieId)
+        interactor?.selectMovie(request: request)
+        performSegue(withIdentifier: "DetailMovie", sender: nil)
+    }
+    
 }

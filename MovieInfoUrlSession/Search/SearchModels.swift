@@ -11,7 +11,7 @@
 //
 
 enum SearchModels {
-   
+    
     // MARK: Use cases
     
     enum Search {
@@ -27,6 +27,12 @@ enum SearchModels {
         struct ViewModel {
             let displayedDetails: [DisplayedDetails]?
             let errorMessage: String?
+        }
+    }
+    
+    enum SelectMovie {
+        struct Request {
+            let movieId: Int!
         }
     }
 }

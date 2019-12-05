@@ -726,6 +726,7 @@
                     <tabBarItem key="tabBarItem" title="Поиск" image="searchIcon" id="OGY-52-SWp"/>
                     <connections>
                         <outlet property="searchBar" destination="kSa-L5-84K" id="MDq-B9-Zud"/>
+                        <segue destination="5tu-Wv-Gr8" kind="show" identifier="DetailMovie" id="7f1-9H-iFu"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Dqn-pm-uFm" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -778,6 +779,6 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="o9t-Em-Iqo"/>
-        <segue reference="Pcq-Ki-4A9"/>
+        <segue reference="7f1-9H-iFu"/>
     </inferredMetricsTieBreakers>
 </document>

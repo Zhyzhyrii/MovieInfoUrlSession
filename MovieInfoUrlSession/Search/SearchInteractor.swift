@@ -14,10 +14,12 @@ import RealmSwift
 
 protocol SearchBusinessLogic {
     func searchMovie(request: SearchModels.Search.Request)
+    func selectMovie(request: SearchModels.SelectMovie.Request)
 }
 
 protocol SearchDataStore {
     var movies: [MovieJson]! { get }
+    var selectedMovieId: Int! { get }
 }
 
 class SearchInteractor: SearchBusinessLogic, SearchDataStore {
@@ -25,6 +27,7 @@ class SearchInteractor: SearchBusinessLogic, SearchDataStore {
     var presenter: SearchPresentationLogic?
     var worker: SearchWorker?
     var movies: [MovieJson]!
+    var selectedMovieId: Int!
     
     // MARK: Search movie
     
@@ -39,4 +42,11 @@ class SearchInteractor: SearchBusinessLogic, SearchDataStore {
                 self?.presenter?.presentMovies(response: response)
         })
     }
+    
+    // MARK: Select movie
+    
+    func selectMovie(request: SearchModels.SelectMovie.Request) {
+        selectedMovieId = request.movieId
+    }
+    
 }

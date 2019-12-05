@@ -13,7 +13,7 @@
 import UIKit
 
 @objc protocol SearchRoutingLogic {
-    //func routeToSomewhere(segue: UIStoryboardSegue?)
+    func routeToDetailMovie(segue: UIStoryboardSegue?)
 }
 
 protocol SearchDataPassing {
@@ -27,29 +27,29 @@ class SearchRouter: NSObject, SearchRoutingLogic, SearchDataPassing {
     
     // MARK: Routing
     
-    //func routeToSomewhere(segue: UIStoryboardSegue?) {
-    //  if let segue = segue {
-    //    let destinationVC = segue.destination as! SomewhereViewController
-    //    var destinationDS = destinationVC.router!.dataStore!
-    //    passDataToSomewhere(source: dataStore!, destination: &destinationDS)
-    //  } else {
-    //    let storyboard = UIStoryboard(name: "Main", bundle: nil)
-    //    let destinationVC = storyboard.instantiateViewController(withIdentifier: "SomewhereViewController") as! SomewhereViewController
-    //    var destinationDS = destinationVC.router!.dataStore!
-    //    passDataToSomewhere(source: dataStore!, destination: &destinationDS)
-    //    navigateToSomewhere(source: viewController!, destination: destinationVC)
-    //  }
-    //}
+    func routeToDetailMovie(segue: UIStoryboardSegue?) {
+      if let segue = segue {
+        let destinationVC = segue.destination as! DetailMovieViewController
+        var destinationDS = destinationVC.router!.dataStore!
+        passDataToDetailMovie(source: dataStore!, destination: &destinationDS)
+      } else {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let destinationVC = storyboard.instantiateViewController(withIdentifier: "DetailMovieViewController") as! DetailMovieViewController
+        var destinationDS = destinationVC.router!.dataStore!
+        passDataToDetailMovie(source: dataStore!, destination: &destinationDS)
+        navigateToDetailMovie(source: viewController!, destination: destinationVC)
+      }
+    }
     
     // MARK: Navigation
     
-    //func navigateToSomewhere(source: SearchViewController, destination: SomewhereViewController) {
-    //  source.show(destination, sender: nil)
-    //}
+    func navigateToDetailMovie(source: SearchViewController, destination: DetailMovieViewController) {
+      source.show(destination, sender: nil)
+    }
     
     // MARK: Passing data
     
-    //func passDataToSomewhere(source: SearchDataStore, destination: inout SomewhereDataStore) {
-    //  destination.name = source.name
-    //}
+    func passDataToDetailMovie(source: SearchDataStore, destination: inout DetailMovieDataStore) {
+        destination.movieId = source.selectedMovieId
+    }
 }
